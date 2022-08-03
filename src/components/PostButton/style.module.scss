@@ -1,0 +1,13 @@
+.PostButton {
+  position: fixed;
+  right: 12px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50px !important;
+
+  > img {
+    margin: 0 auto;
+    vertical-align: middle;
+  }
+}

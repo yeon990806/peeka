@@ -1,0 +1,38 @@
+.Clipping {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  
+  .PageHeader {
+    position: sticky;
+    top: 0;
+    padding: 16px 16px 24px;
+    display: flex;
+    align-items: center;
+
+    h1 {
+      padding-left: 8px;
+      color: $light;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .PostContainer {
+    flex: 1;
+    overflow-y: auto;
+
+    > div + div {
+      margin-top: 16px;
+    }
+  }
+}
+
+.NullContent {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $light;
+}

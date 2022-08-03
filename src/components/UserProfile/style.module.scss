@@ -1,0 +1,89 @@
+.UserProfileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-gap: 8px;
+}
+
+.UserProfile {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid $background-gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  &.xxs {
+    width: 32px;
+    height: 32px;
+    padding: 1px;
+  }
+
+  &.xs {
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+  }
+
+  &.sm {
+    width: 48px;
+    height: 48px;
+    padding: 2px;
+  }
+
+  &.lg {
+    width: 54px;
+    height: 54px;
+    padding: 3px;
+  }
+
+  &.xl {
+    width: 72px;
+    height: 72px;
+    padding: 2px;
+  }
+
+  &.UserMembership {
+    border-color: $primary;
+  }
+
+  &:hover .ChangeImage {
+    opacity: 1;
+  }
+
+  .ChangeImage {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($background, 0.8);
+    font-size: 12px;
+    z-index: 1;
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+}
+
+.ImageAction {
+  &.HideAction > button {
+    visibility: hidden;
+  } 
+}

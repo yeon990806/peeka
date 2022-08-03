@@ -1,0 +1,66 @@
+.SelectBox {
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  
+  &.ReadOnly {
+    pointer-events: none;
+
+    > .SelectDisplay {
+      color: $disabled-color;
+    }
+  }
+
+  &.Focus {
+    > .SelectDisplay {
+      border-color: $light-gray;
+    }
+  }
+
+  .SelectMore {
+    width: 22px;
+  }
+
+  > .SelectDisplay {
+    width: 100%;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    background: $content-background;
+    border: 1px solid $border-gray;
+    border-radius: 4px;
+    color: $light;
+
+    > div:first-child {
+      flex: 1;
+    }
+  }
+
+  > .SelectWrapper {
+    position: absolute;
+    top: 100%;
+    margin-top: 4px;
+    overflow-x: hidden;
+		overflow-y: auto;
+    max-height: 160px;
+		min-width: 100%;
+    width: auto;
+		border: 1px solid $border-gray;
+		border-radius: 4px;
+		background: $light-gray;
+		z-index: 2;
+
+    > div {
+      padding: 8px 12px;
+      color: $dark-gray;
+
+      &:hover {
+        background-color: rgba($light-gray, 0.4);
+      }
+
+      &.Selected {
+        color: $primary;
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+.CommentCard {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 8px;
+
+  & + .CommentCard {
+    margin-top: 12px;
+  }
+
+  .CommentCardContent {
+    .CommentCardInfoContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .CommentCardInfo {
+        display: inline-flex;
+        align-items: baseline;
+        grid-gap: 8px;
+      }
+
+      .CommentCardAuthor {
+        font-size: 13px;
+        font-weight: 500;
+        color: $light;
+      }
+
+      .CommentCardDate {
+        font-size: 12px;
+        color: $light-gray;
+      }
+
+    }
+
+    .CommentCardText {
+      padding-top: 4px;
+      font-size: 13px;
+      color: $light;
+    }
+
+    .CommentInput {
+      display: grid;
+      grid-template-columns: 1fr 64px;
+      grid-gap: 8px;
+
+      .CommentInputButton {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+    }
+
+    .CommentCardAction {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      grid-gap: 8px;
+    }
+
+    .InputReply {
+      padding: 8px;
+      border-radius: 4px;
+      background-color: $background-gray;
+    }
+  }
+}

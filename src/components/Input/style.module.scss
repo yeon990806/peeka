@@ -1,0 +1,121 @@
+.Input {
+  &.InputError {
+    .InputLine {
+      border: 1px solid $danger;
+      // background-color: rgba($danger, 0.1);
+      
+      .InputContainer input {
+        color: $danger;
+      }
+    }
+
+    .InputDescription {
+      color: $danger;
+    }
+  }
+
+  & + .Input {
+    margin-top: 12px;
+  }
+
+  .InputLine {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    width: 100%;
+
+    border: 1px solid $border-gray;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    &.ReadOnly {
+      > input {
+        color: transparentize($dark-gray, 0.5);
+      }
+    }
+
+    &.Focus {
+      border-color: $primary;
+    }
+
+    > .InputPrefix {
+      grid-column: 1;
+      
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: 16px;
+    }
+  
+    > .InputPostfix {
+      grid-column: 3;
+  
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-right: 16px;
+    }
+
+    &.SearchInput {
+      padding: 2px 6px;
+      background-color: $background-gray;
+      border-radius: 34px;
+
+      .InputContainer {
+        padding: 0 8px;
+      }
+
+      .InputPrefix {
+        margin: 0;
+      }
+
+      .InputPostfix {
+        margin: 0;
+      }
+    }
+  
+    .InputContainer {
+      position: relative;
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      overflow: hidden;
+  
+      > input {
+        font-size: 16px;
+        background: transparent;
+        color: $light;
+        border: 0;
+        outline: none;
+        min-width: 1px;
+        width: 100%;
+        height: 100%;
+  
+        &[readonly] {
+          color: $light-gray;
+        }
+      }
+    }
+  }
+
+  .InputDescription {
+    padding-top: 4px;
+    margin: 0;
+    font-size: 14px;
+    text-align: left;
+
+    &.normal {
+      color: $light;
+    }
+
+    &.error {
+      color: $danger;
+    }
+
+    &.success {
+      color: $success;
+    }
+  }
+}

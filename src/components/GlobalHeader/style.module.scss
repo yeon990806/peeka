@@ -1,0 +1,140 @@
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 12px 0;
+  background-color: $background;
+  z-index: 5;
+
+  @media screen and (min-width: 1024px) {
+    padding: 14px 40px;
+  }
+
+  .DeskHeader {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > .Container {
+      display: grid;
+      grid-template-columns: auto 1fr;
+    }
+  }
+
+  a {
+    color: $primary;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .tp {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .MobileSearchContainer {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-column-gap: 12px;
+
+    .CategoryButton {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      background-color: $primary;
+      border-radius: 100%;
+      z-index: 1;
+      
+      & + div {
+        height: 36px;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+
+    .SelectCategory {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($background, 0.8);
+      z-index: 10;
+    }
+  }
+
+  .category {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    > button {
+      padding: 8px 0 9px;
+      color: $light-gray;
+      text-align: center;
+    }
+
+    &.DeskCategory {
+      margin-left: 40px;
+      display: inline-flex;
+      grid-gap: 40px;
+      grid-template-columns: auto;
+
+      .FilterButton {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid $light;
+        border-radius: 8px;
+      } 
+    }
+  }
+}
+
+.CategoryPopup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 8px;
+  padding: 8px 12px;
+  background: rgba($background, 0.8);
+  z-index: 9;
+
+  > li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 8px;
+    align-items: center;
+
+    &:first-child {
+      margin-top: 44px;
+    }
+
+    > div:first-child {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: $primary;
+      color: $background;
+    }
+
+    > div:last-child {
+      color: $light;
+    }
+  }
+}

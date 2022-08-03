@@ -1,0 +1,56 @@
+.Comment {
+  display: flex;
+  grid-gap: 8px;
+
+  > img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .CommentContentContainer {
+    flex: 1;
+    padding: 4px 0;
+
+    h1 {
+      font-size: 14px;
+      font-weight: bold;
+      color: $light;
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: normal;
+      color: $light;
+      line-height: 1.4;
+    }
+  }
+
+  .CommentMenu {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    grid-gap: 15px;
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      color: $light-gray;
+      font-size: 12px;
+
+      img + span {
+        padding-left: 4px;
+      }
+    }
+  }
+
+  .CommentContainer {
+    margin-top: 12px;
+
+    > button {
+      display: inline-flex;
+      align-items: center;
+      color: $light-gray;
+      font-size: 12px;
+    }
+  }
+}

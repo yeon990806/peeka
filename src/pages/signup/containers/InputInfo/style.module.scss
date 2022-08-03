@@ -1,0 +1,23 @@
+.InputTitle {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: $light;
+}
+
+.Switch {
+  margin-top: 12px;
+  display: grid;
+  grid-column-gap: 8px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.CheckContainer {
+  > div {
+    height: 40px;
+
+    &:first-child {
+      border-bottom: 1px solid $border-gray;
+    }
+  }
+}

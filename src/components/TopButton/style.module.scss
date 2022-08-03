@@ -1,0 +1,12 @@
+.TopButton {
+  position: fixed;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $gray-hover;
+  border-radius: 100%;
+  z-index: 2;
+  cursor: pointer;
+}

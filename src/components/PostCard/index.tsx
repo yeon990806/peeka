@@ -1,0 +1,224 @@
+import style from "./style.module.scss"
+
+import classnames from "classnames"
+import Button from "../Button";
+import { IsDesktop } from "@/common/hooks/breakpoints";
+import UserProfile from "../UserProfile";
+import { PostType, StateType } from "@/common/defines/Store";
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import ImageSlide from "../ImageSlide";
+import MenuPopup from "../MenuPopup";
+import { PopupItemProps } from '@/components/MenuPopup';
+import ReportPopup from "./components/ReportPopup";
+import DeletePostPopup from "./components/DeletePostPopup";
+import { LIKE_POST_REQUEST, SCRAP_POST_REQUEST, UNLIKE_POST_REQUEST, UNSCRAP_POST_REQUEST } from "@/store/reducer/post";
+import { getLongDateFormat } from '@/common/defines/Format';
+import InputComment from "../InputComment";
+import CommentCard from "../CommentCard";
+import { FETCH_COMMENT_REQUEST } from '../../store/reducer/post';
+import { useRouter } from 'next/router'
+
+interface PostProps {
+  post: PostType
+}
+
+const PostCard = (props: PostProps) => {
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const userInfo = useSelector((state: StateType) => (state.user.userInfo))
+  const desktop = IsDesktop()
+
+  const [displayReportPopup, setDisplayReportPopup] = useState<boolean>(false)
+  const [displayDeletePopup, setDisplayDeletePopup] = useState<boolean>(false)
+  const [displayCommentContainer, setDisplayCommentContainer] = useState<boolean>(false)
+  const [postMenuList, setPostMenuList] = useState<PopupItemProps[]>()
+
+  const hashtagRegexp = new RegExp(/#[^\s#]+/g)
+
+  const toggleDisplayReportPopup = useCallback(() => {
+    setDisplayReportPopup(prev => !prev)
+  }, [displayReportPopup])
+
+  const toggleDisplayDeletePopup = useCallback(() => {
+    setDisplayDeletePopup(prev => !prev)
+  }, [displayDeletePopup])
+
+  const onClickSharePost = useCallback(() => {}, [])
+
+  const getUserPost = useCallback(() => {
+    router.push({
+      pathname: '/userpost/[id]',
+      query: {
+        id: props.post.member_id
+      }
+    })
+  }, [props.post.member_id])
+
+  const toggleDisplayComment = useCallback(() => {
+    setDisplayCommentContainer(prev => !prev)
+    
+    if(!displayCommentContainer && !props.post.comment_list) fetchPostComment()
+  }, [displayCommentContainer, props.post.comment_list])
+
+  const toggleLikePost = () => dispatch({
+      type: props.post.like_yn == 'Y' ? UNLIKE_POST_REQUEST : LIKE_POST_REQUEST,
+      data: {
+        type: 'post',
+        id: props.post.id
+      }
+    })
+  
+  const toggleClippingPost = () => dispatch({
+    type: props.post.scrap_yn == 'Y' ? UNSCRAP_POST_REQUEST : SCRAP_POST_REQUEST,
+    data: props.post.id,
+  })
+
+  const fetchPostComment = useCallback(() => dispatch({
+    type: FETCH_COMMENT_REQUEST,
+    data: {
+      postId: props.post.id,
+      id: props.post.comment_list && props.post.comment_list.length > 0
+        ? props.post.comment_list[props.post.comment_list.length - 1].id
+        : ""
+    }
+  }), [props.post.comment_list])
+
+  useEffect(() => {
+    if (props.post.member_id === (userInfo && userInfo.id))
+      setPostMenuList([
+        {
+          text: "링크 복사",
+          onClick: () => {}
+        },
+        {
+          text: "삭제",
+          onClick: () => toggleDisplayDeletePopup()
+        },
+      ])
+    else
+      setPostMenuList([
+        {
+          text: "신고",
+          onClick: () => toggleDisplayReportPopup()
+        },
+        {
+          text: "링크 복사",
+          onClick: () => {}
+        },
+      ])
+  }, [props.post.member_id])
+
+  return (
+    <>
+      <ReportPopup
+        postId={ props.post.id }
+        display={ displayReportPopup }
+        onPrev = { () => toggleDisplayReportPopup() }
+      />
+      <DeletePostPopup
+        postId={ props.post.id }
+        display={ displayDeletePopup }
+        onPrev={ () => toggleDisplayDeletePopup() }
+      />
+      <div className={ classnames(style.Post, desktop && style.DeskPost) }>
+        <div className={ style.PostContentContainer }>
+          <div className={ style.PostHeader }>
+            <div
+              className={ style.PostInfoContainer }
+              onClick={ () => getUserPost() }
+            >
+              <UserProfile
+                size="sm"
+              />
+              <div className={ style.PostInfo }>
+                <h1>
+                  { props.post.nickname }
+                </h1>
+                <p>
+                  <span className={ style.PostCategory }>
+                    { props.post.category }
+                  </span>
+                  <span className={ style.Bar } />
+                  <span className={ style.PostTimeDate }>
+                    { getLongDateFormat(props.post.created_at) }
+                  </span>
+                </p>
+              </div>
+            </div>
+            <MenuPopup
+              type="icon"
+              theme="gray"
+              menuList={ postMenuList }
+            >
+              <img role="presentation" src="/images/more.svg" alt="more" tabIndex={-1} />
+            </MenuPopup>
+          </div>
+          <article className={ style.PostContent }>
+            { props.post.contents }
+          </article>
+        </div>
+        <div className={ style.ImageContainer }>
+          <ImageSlide
+            slideHeight={ 300 }
+            imageArray={ props.post.images }
+            dots
+            infinite
+            speed={500}
+            slidesToShow={1}
+            slidesToScroll={1}
+            arrow
+          />
+        </div>
+        <div className={ style.PostAction }>
+          <div className={ style.PostReaction }>
+            <Button type="icon" onClick={ () => toggleLikePost() }>
+              <img src={ `/images/favorite${ props.post.like_yn === 'Y' ? '-primary' : '' }.svg` } />
+              <span>
+                { props.post.like_count }
+              </span>
+            </Button>
+            <Button type="icon" onClick={ () => toggleDisplayComment() }>
+              <img src="/images/comment.svg" />
+              <span>
+                { props.post.comment_count }
+              </span>
+            </Button>
+          </div>
+          <div className={ style.PostMenu }>
+            <Button type="icon" onClick={ () => onClickSharePost() }>
+              <img src="/images/share.svg" tabIndex={-1} />
+            </Button>
+            <Button type="icon" onClick={ () => toggleClippingPost() }>
+              <img src={`/images/bookmark${ props.post.scrap_yn === 'Y' ? '-fill' : '' }.svg`} tabIndex={-1} />
+            </Button>
+          </div>
+        </div>
+        { displayCommentContainer &&
+          <div className={ style.PostCommentContainer }>
+            <div className={ style.InputCommentContainer }>
+              <InputComment
+                postId={ props.post.id }
+                author={ props.post.member_id }
+                placeholder="댓글을 입력하세요."
+              />
+            </div>
+            { (props.post.comment_list && props.post.comment_list.length > 0) && <div className={ style.PostCommentList }>
+              { props.post.comment_list.map(comment => (
+                comment.id && <CommentCard
+                  data={ comment }
+                  key={ comment.id }
+                />
+              )) }
+              <Button type="text" theme="light-gray" onClick={ () => fetchPostComment() }>
+                댓글 더 불러오기
+              </Button>
+            </div> }
+          </div>
+        }
+      </div>
+    </>
+  )
+}
+
+export default PostCard

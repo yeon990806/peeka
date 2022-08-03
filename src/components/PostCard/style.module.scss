@@ -1,0 +1,100 @@
+.Post {
+  background-color: $dark-gray;
+  list-style: none;
+
+  &.DeskPost {
+    padding: 16px 24px;
+    border-radius: 10px;
+    background-color: $content-background;
+
+    .PostContentContainer {
+      padding: 0;
+    }
+
+    .ImageContainer {
+      margin-top: 12px;
+    }
+
+    .PostAction {
+      padding: 16px 0 8px;
+    }
+  }
+
+  .PostContentContainer {
+    padding: 14px 12px 8px;
+    
+    .PostHeader {
+      display: flex;
+      align-items: center;
+  
+      .PostInfoContainer {
+        display: flex;
+        flex: 1;
+  
+        .PostInfo {
+          padding-left: 8px;
+  
+          h1 {
+            font-size: 15px;
+            font-weight: 500;
+            color: $light;
+          }
+  
+          p {
+            display: inline-flex;
+            align-items: center;
+            grid-gap: 8px;
+            font-size: 13px;
+            color: $light-gray;
+  
+            .Bar {
+              display: inline-block;
+              width: 1px;
+              height: 6px;
+              background-color: $light-gray;
+            }
+          }
+        }
+      }
+    }
+
+    .PostContent {
+      margin-top: 16px;
+      color: $light;
+      font-size: 16px;
+    }
+    
+  }
+  
+  .PostAction {
+    padding: 8px 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    
+    .PostReaction {
+      display: flex;
+      grid-gap: 8px;
+      color: $light-gray;
+      font-size: 12px;
+    }
+  
+    .PostMenu {
+      display: flex;
+      grid-gap: 8px;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+
+  .PostCommentContainer {
+    .InputCommentContainer {
+      padding: 12px;
+      border-top: 1px solid $gray;
+    }
+
+    .PostCommentList {
+      padding: 12px;
+      border-top: 1px solid $gray;
+    }
+  }
+}

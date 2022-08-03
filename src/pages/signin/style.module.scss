@@ -1,0 +1,70 @@
+.SignInContainer {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 32px 32px 48px;
+}
+
+.SignIn {
+  text-align: center;
+
+  .Logo {
+    display: inline-block;
+    color: $primary;
+    font-size: 40px;
+    font-weight: bold;
+  }
+
+  .SignInForm {
+    margin-top: 48px;
+
+    .SignInButton {
+      margin-top: 32px;
+    }
+
+    .SignInOption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      color: $semi-light;
+      font-size: 12px;
+    }
+
+    .SignInText {
+      margin: 24px 0;
+      font-size: 12px;
+      color: $light;
+    }
+  }
+
+}
+
+.NewMember {
+  text-align: center;
+  font-size: 14px;
+  color: $semi-light;
+}
+
+@media screen and (min-width: 1024px) {
+  .SignInContainer {
+    width: 100%;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+
+    .SignIn {
+      width: 100%;
+    }
+  }
+
+  .NewMember {
+    margin-top: 100px;
+  }
+}

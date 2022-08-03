@@ -1,0 +1,102 @@
+@keyframes FadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes FadeOut {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+.FadeIn {
+	animation-name: FadeIn;
+	animation-duration: 133ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: both;
+}
+
+.FadeOut {
+	animation-name: FadeOut;
+	animation-duration: 133ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: both;
+}
+
+@keyframes SlideIn {
+	from {
+		transform: translateY(-10px);
+	}
+
+	to {
+		transform: translateY(0);
+	}
+}
+
+@keyframes SlideOut {
+	from {
+		transform: translateY(0);
+	}
+
+	to {
+		transform: translateY(10px);
+	}
+}
+
+.SlideIn {
+	animation-name: SlideIn;
+	animation-duration: 133ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: both;
+}
+
+.SlideOut {
+	animation-name: SlideOut;
+	animation-duration: 133ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: both;
+}
+
+@keyframes SlideLeftIn {
+	from {
+		transform: translateX(-10px);
+	}
+
+	to {
+		transform: translateX(0);
+	}
+}
+
+@keyframes SlideLeftOut {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-10px);
+	}
+}
+
+.SlideLeftIn {
+	animation-name: SlideLeftIn;
+	animation-duration: 133ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: both;
+}
+
+.SlideLeftOut {
+	animation-name: SlideLeftOut;
+	animation-duration: 133ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: both;
+}
+

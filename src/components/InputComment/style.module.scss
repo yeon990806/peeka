@@ -1,0 +1,12 @@
+.InputComment {
+  width: 100%;
+
+  .InputFormContainer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    textarea {
+      margin-top: 5px;
+    }
+  }
+}

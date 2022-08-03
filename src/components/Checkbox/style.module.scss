@@ -1,0 +1,28 @@
+.Checkbox {
+  display: inline-grid;
+  grid-template-columns: 1fr auto;
+
+  &.block {
+    width: 100%;
+    display: grid;
+  }
+
+  > label {
+    display: flex;
+    align-items: center;
+    grid-gap: 8px;
+    user-select: none;
+    color: $light;
+    font-size: 14px;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+  }
+
+  input {
+    display: none;
+  }
+}

@@ -1,0 +1,18 @@
+.ImageSlide {
+  position: relative;
+  
+  &.md {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .SlideMultiImage {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 5px;
+    border-radius: 100%;
+    background: rgba($background, 0.6);
+    z-index: 1;
+  }
+}

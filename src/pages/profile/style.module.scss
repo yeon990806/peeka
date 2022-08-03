@@ -1,0 +1,18 @@
+.Profile {
+  padding: 16px;
+
+  .ProfileImageContainer {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-gap: 8px;
+    margin-bottom: 16px;
+    
+    > * {
+      margin: 0 auto;
+      text-align: center;
+      color: $light;
+      font-size: 16px;
+    }
+
+  }
+}

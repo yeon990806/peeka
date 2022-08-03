@@ -1,0 +1,31 @@
+.TabHost {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid $gray;
+
+  > button {
+    color: $light-gray;
+
+    > div {
+      display: inline-block;
+      padding: 16px 0;
+      
+      &.Selected {
+        box-sizing: content-box;
+        border-bottom: 1px solid $primary;
+        color: $primary;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .TabHost {
+    border-top: 1px solid $gray;
+    border-bottom: 0;
+
+    button {
+      background-color: $dark-gray;
+    }
+  }
+}

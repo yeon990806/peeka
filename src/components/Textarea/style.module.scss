@@ -1,0 +1,35 @@
+.Textarea {
+  &.Block {
+    display: block;
+    width: 100%;
+  }
+
+  &.Borderless {
+    .TextareaContainer {
+      border: 0;
+    }
+  }
+
+  &.Paddingless {
+    .TextareaContainer {
+      padding: 0;
+    }
+  }
+
+  .TextareaContainer {
+    position: relative;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: hidden;
+    border: 1px solid $border-gray;
+    border-radius: 4px;
+    
+    textarea {
+      width: 100%;
+      color: $light;
+      padding: 0;
+    }
+  }
+}
