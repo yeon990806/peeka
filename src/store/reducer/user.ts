@@ -35,6 +35,7 @@ export const initialState: UserType = {
     id: null,
     nickname: '',
     alertList: [],
+    alertDetail: null,
   },
   userPost: [],
   clippingPost: []
@@ -82,8 +83,8 @@ export const FETCH_ALERT_SUCCESS = 'FETCH_ALERT_SUCCESS'
 export const FETCH_ALERT_FAILURE = 'FETCH_ALERT_FAILURE'
 
 export const READ_ALERT_REQUEST = 'READ_ALERT_REQUEST'
-export const READ_ALERT_SUCCESS = 'FETCH_ALERT_SUCCESS'
-export const READ_ALERT_FAILURE = 'FETCH_ALERT_FAILURE'
+export const READ_ALERT_SUCCESS = 'READ_ALERT_SUCCESS'
+export const READ_ALERT_FAILURE = 'READ_ALERT_FAILURE'
 
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME'
 export const DELETE_POST_TO_ME = 'DELETE_POST_TO_ME'
@@ -201,6 +202,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         nickname: action.data.nickname,
         grant_type: action.data.grant_type,
         alertList: [],
+        alertDetail: null,
       }
 
       break
@@ -214,20 +216,25 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.signOutSuccess = false
       draft.signOutError = null
 
-      draft.userInfo = {
-        id: null,
-        nickname: '',
-        alertList: [],
-      }
-
-      removeCookie('accessToken')
-      removeCookie('refreshToken')
-
       break
     case SIGN_OUT_SUCCESS:
       draft.signOutLoading = false
       draft.signOutSuccess = true
-      draft.userInfo = null
+      draft.userInfo = {
+        id: null,
+        image: {
+          uploadedFileURL: '',
+          uploadedFileKey: '',
+        },
+        nickname: '',
+
+        alertList: [],
+        alertDetail: null,
+      }
+
+      removeCookie('accessToken')
+      removeCookie('refreshToken')
+      removeCookie('userInfo')
 
       break
     case SIGN_OUT_FAILURE:
@@ -261,12 +268,54 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case FETCH_ALERT_SUCCESS:
       draft.fetchAlertLoading = false
       draft.fetchAlertSuccess = true
-      draft.userInfo.alertList = action.data
-
+      
+      if (draft.userInfo.alertList && draft.userInfo.alertList.length > 0)
+        draft.userInfo.alertList = action.data.concat(draft.userInfo.alertList)
+      else 
+        draft.userInfo.alertList = action.data
+      
       break
     case FETCH_ALERT_FAILURE:
       draft.fetchAlertLoading = false
       draft.fetchAlertError = action.error
+
+      break
+    case READ_ALERT_REQUEST:
+      draft.readAlertLoading = true
+      draft.readAlertSuccess = false
+      draft.readAlertError = null
+
+      break
+    case READ_ALERT_SUCCESS: {
+      const post = action.data.post.post
+      
+      draft.readAlertLoading = false
+      draft.readAlertSuccess = true
+
+      draft.userInfo.alertDetail = post
+      draft.userInfo.alertDetail.comment_list = action.data.post.comments
+
+      if (action.data.post.replies)
+        action.data.post.replies.map((r) => {
+          const reply = draft.userInfo.alertDetail.comment_list.find(v => v.id === r.comment_id)
+
+          if (reply) {
+            if ('reply_list' in reply) reply.reply_list.push(r)
+            else {
+              reply.reply_list = []
+
+              reply.reply_list.push(r)
+            }
+          }
+        })
+      
+      if (action.data.onSuccess) action.data.onSuccess()
+      
+      break
+    }
+    case READ_ALERT_FAILURE:
+      draft.readAlertLoading = false
+      draft.readAlertError = action.error
 
       break
     default:

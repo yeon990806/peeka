@@ -27,7 +27,7 @@ import {
 } from "../reducer/post";
 
 function fetchPostAPI (param) {
-  return axios.get(`/api/public/board/post?id=${ param.id }&paging_number=${ param.paging_number }&paging_size=${ param.paging_size }&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
+  return axios.get(`/api/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
 }
 
 function addPostAPI (param) {
@@ -220,6 +220,8 @@ function* LikePost (action) {
         data: action.data,
       })
   } catch (err) {
+    const _err = err
+
     yield put({
       type: LIKE_POST_FAILURE,
       data: err.response.data,

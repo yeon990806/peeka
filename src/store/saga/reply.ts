@@ -100,9 +100,6 @@ function* AddReply (action) {
       }
     })
   } catch (err) {
-    const _err = err
-
-    debugger;
     yield put({
       type: ADD_REPLY_FAILURE,
       error: err

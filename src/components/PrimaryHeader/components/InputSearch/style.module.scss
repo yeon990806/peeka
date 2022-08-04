@@ -1,0 +1,86 @@
+.MobileSearch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 8px 12px 0;
+  margin: 0;
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: 1fr auto;
+  background-color: $background;
+  z-index: 1;
+
+  .CategoryButton {
+    position: absolute;
+    top: 7px;
+    left: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: $primary;
+    z-index: 2;
+    cursor: pointer;
+  }
+}
+
+.CategoryPopup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  grid-gap: 8px;
+  padding: 8px 12px;
+  background: rgba($background, 0.8);
+  z-index: 9;
+
+  > li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 8px;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+
+    &:first-child {
+      margin-top: 44px;
+    }
+
+    > div:first-child {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: $primary;
+      color: $background;
+    }
+
+    > div:last-child {
+      color: $light;
+    }
+  }
+}
+
+.SearchCategoryList {
+  position: absolute;
+  display: grid;
+  margin-top: 2px;
+  padding: 8px;
+  background-color: $content-background;
+  border: 1px solid $border-gray;
+  border-radius: 10px;
+
+  > li {
+    position: relative;
+    padding: 4px 8px;
+    border-bottom: 1px solid $border-gray;
+    cursor: pointer;
+    color: $light;
+    z-index: 11;
+  }
+}

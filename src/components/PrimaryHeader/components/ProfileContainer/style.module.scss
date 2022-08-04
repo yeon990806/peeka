@@ -1,0 +1,86 @@
+.ProfileContainer {
+  .ButtonContainer, > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    grid-gap: 20px;
+  }
+
+  .Username {
+    color: $light;
+  }
+}
+
+.NullAlert {
+  margin-top: 80px;
+  font-size: 16px;
+  color: $light;
+  text-align: center;
+}
+
+.NotificationButton {
+  position: relative;
+}
+
+.AlertList {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  max-height: 500px;
+  overflow: auto;
+  margin-top: 4px;
+  padding: 8px;
+  background-color: $content-background;
+  border: 1px solid $border-gray;
+  border-radius: 10px;
+  z-index: 11;
+}
+
+.ScreenAlertList {
+  display: grid;
+}
+
+.Alert {
+  padding: 4px 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: 16px;
+  border-bottom: 1px solid $border-gray;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:last-child {
+    border: 0;
+  }
+
+  &:hover {
+    background-color: rgba($border-gray, 0.5);
+  }
+
+  .AlertCategory {
+    font-size: 10px;
+    color: $semi-light;
+  }
+
+  .AlertDescription {
+    color: $light;
+    font-size: 12px;
+    padding-top: 2px;
+  }
+
+  .NewAlert {
+    display: flex;
+    align-items: center;
+
+    &::after {
+      content: '';
+      position: relative;
+      display: inline-block;
+      width: 8px;
+      height:8px;
+      background-color: $primary;
+      border-radius: 50%;
+    }
+  }
+}

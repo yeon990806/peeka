@@ -1,0 +1,13 @@
+.VideoList {
+  position: fixed;
+  top: 50px;
+  right: calc(50% + 340px);
+  width: 320px;
+  height: calc(100% - 50px);
+
+  .VideoItemContainer {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-gap: 16px;
+  }
+}

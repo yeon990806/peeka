@@ -64,7 +64,8 @@ function* FetchComment (action) {
       type: FETCH_COMMENT_SUCCESS,
       data: {
         list: result.data,
-        id: action.data.postId
+        id: action.data.postId,
+        extraAction: action.data.extraAction
       }
     })
   } catch (err) { 

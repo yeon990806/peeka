@@ -135,6 +135,7 @@ const Input = React.memo((props: InputProps) => {
               if (props.onInput) props.onInput(inputValue)
             } }
             onKeyDown={ (e) => {
+
               if (e.key === 'Enter' && props.onEnter)
                 props.onEnter(inputValue)
             } }

@@ -1,27 +1,28 @@
 import Slider from "react-slick";
-import { memo, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 
 import style from "./style.module.scss"
 import Button from "../Button";
 import ImageView from "../ImageView";
 import { useDispatch, useSelector } from "react-redux";
-import { StateType } from "@/common/defines/Store";
+import { ImageType, StateType } from "@/common/defines/Store";
 import { TOGGLE_POPUP_DISPLAY } from "@/store/reducer/post";
 
 const ImagePopup = () => {
   const dispatch = useDispatch()
   const popupDisplay = useSelector((state: StateType) => state.post.displayImagePopup)
   const imageArray = useSelector((state: StateType) => state.post.popupIamgeArray)
-  const [currentImage, setCurrentImage] = useState<number>(0)
+  const imageIndex = useSelector((state: StateType) => state.post.popupImageCurrentIdx)
+  let slideRef = useRef(null)
 
   const settings = useMemo(() => ({
-    className: "",
     dots: true,
     infinite: true,
+    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    adaptiveHeight: true,
-    variableWidth: true,
+    prevArrow: <SlickPrevArrow />,
+    nextArrow: <SlickNextArrow />,
   }), [])
 
   const toggleImagePopup = () => {
@@ -29,6 +30,38 @@ const ImagePopup = () => {
       type: TOGGLE_POPUP_DISPLAY
     })
   }
+
+  function SlickPrevArrow (props) {
+    const { className, style, onClick } = props;
+  
+    return (
+      <Button
+        additionalClass={ className }
+        style={ { ...style } }
+        onClick={ onClick }
+      >
+        <img src="/images/prev.svg" tabIndex={ -1 } />
+      </Button>
+    );
+  }
+  
+  function SlickNextArrow (props) {
+    const { className, style, onClick } = props;
+  
+    return (
+      <Button
+        additionalClass={ className }
+        style={ { ...style } }
+        onClick={ onClick }
+      >
+        <img src="/images/next.svg" tabIndex={ -1 } />
+      </Button>
+    );
+  }
+
+  useEffect(() => {
+    if (slideRef.current) slideRef.current.slickGoTo(imageIndex || 0)
+  }, [slideRef])
 
   if (!popupDisplay) return null
 
@@ -42,13 +75,17 @@ const ImagePopup = () => {
         &times;
       </Button>
       <div className={ style.ImagePopupSlider }>
-        <Slider { ...settings }>
-          { imageArray && imageArray.map((img, idx) => (
+        <Slider
+          {...settings}
+          ref={ slideRef }
+        >
+          { imageArray.map((img: ImageType, idx) => (
             <ImageView
+              full
+              src={ img.uploadedFileURL }
               key={ idx }
-              src={ img.src }
             />
-          )) }
+          )) }  
         </Slider>
       </div>
     </div>

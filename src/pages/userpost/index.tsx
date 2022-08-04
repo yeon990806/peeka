@@ -1,10 +1,9 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType, StateType } from '@/common/defines/Store';
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { StateType } from '@/common/defines/Store';
+import { useEffect, useMemo, useState } from "react";
 import PostCard from "@/components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
-import { IsMobile } from "@/common/hooks/breakpoints";
 import Spinner from "@/components/Spinner";
 import { USER_POST_REQUEST } from "@/store/reducer/user";
 
@@ -14,13 +13,11 @@ interface userpostProps {
 
 const userpost = (props: userpostProps) => {
   const dispatch = useDispatch()
-  const isMobile = IsMobile()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
   const userPostData = useSelector((state: StateType) => state.user.userPost)
   const userPostLoading = useSelector((state: StateType) => state.user.userPostLoading)
 
   const [mounted, setMounted] = useState<boolean>(false)
-
 
   const ImageStyle = useMemo(() => ({
     transform: 'rotate(12deg)'

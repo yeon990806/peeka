@@ -46,14 +46,12 @@ const board = () => {
   return (
     <>
       <div className={ style.ProfileContainer }>
-        <UserProfile
+        {/* <UserProfile
           username={ userInfo.username }
           userImage={ userInfo.userImage }
-          followerCnt={ userInfo.followers.length }
-          followingCnt={ userInfo.followings.length }
           userComment={ userInfo.intro }
           userLink={ userLinkArr }
-        />
+        /> */}
         { IsDesktop && <TabHost tabArray={ tabArray } /> }
       </div>
       <div className={ style.PostContainer }>

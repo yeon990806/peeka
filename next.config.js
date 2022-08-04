@@ -28,7 +28,7 @@ const nextConfig = {
           destination: process.env.DESTINATION_URL,
         },
       ];
-    }
+    } else return []
   },
 };
 

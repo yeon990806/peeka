@@ -21,7 +21,6 @@ const CommentPopup = (props: CommentPopupProps) => {
       onCancel={ props.onChange }
       content={ <InputPost
         popup
-        comment
         postIdx={ props.postIdx }
         placeholder="댓글을 입력하세요"
         onSubmit={ props.onChange }

@@ -1,3 +1,4 @@
+import { number, string } from "prop-types";
 import { CategoryType } from "./Category";
 
 export type StateType = {
@@ -5,6 +6,18 @@ export type StateType = {
   post: PostStateType,
   signIn?: {},
   signUp?: {},
+  content: ContentStateType
+}
+
+export type ContentStateType = {
+  fetchCuratorLoading: boolean
+  fetchCuratorSuccess: boolean
+  fetchCuratorError: any
+  fetchVideoLoading: boolean
+  fetchVideoSuccess: boolean
+  fetchVideoError: any
+  curatorList: CuratorType[],
+  videoList: VideoType[],
 }
 
 export type UserType = {
@@ -53,7 +66,8 @@ export type UserInfoType = {
   birthday?: string;
   gender?: 'M' | 'F';
 
-  alertList: alertType[]
+  alertList: alertType[],
+  alertDetail: PostType,
 }
 
 export type ImageType = {
@@ -115,6 +129,7 @@ export type PostStateType = {
   postCategory: CategoryType
   displayImagePopup: boolean
   popupIamgeArray: []
+  popupImageCurrentIdx: number
 }
 
 export type PostType = {
@@ -149,6 +164,15 @@ export type CommentType = {
   reply_list: ReplyType[]
 }
 
+export type VideoType = {
+  id: number
+  banner_code: string
+  category_code: string
+  source: string
+  priority_order: number
+  created_at: Date
+}
+
 export type ReplyType = {
   id: number
   state_code: string
@@ -160,9 +184,21 @@ export type ReplyType = {
   like_count: number
 }
 
+export type CuratorType = {
+  id: number
+  member_id: number
+  nickname: string
+  profile_image: {
+    uploadedFileURL: string,
+    uploadedFileKey: string,
+  }
+  source: null,
+  created_at: Date,
+}
+
 export type alertType = {
   id: number
-  notice_code: string
+  notice_code: NoticeCode,
   check_yn: 'Y' | 'N'
   from_member_id: number
   from_nickname: string
@@ -172,4 +208,10 @@ export type alertType = {
     comment_id: number
     reply_id: number
   }
+}
+
+export enum NoticeCode {
+  REPLY = 'RP',
+  COMMENT = 'CM',
+  OP = 'OP'
 }

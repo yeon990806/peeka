@@ -8,8 +8,11 @@ interface GoogleButtonProps {
 
 const GoogleButton = memo((props: GoogleButtonProps) => {
   const onClickEventHandler = useCallback(() => {
+    if (props.type === 'signIn')
+      window.open(GoogleSignIn, 'auth')
+    else
     window.open(GooleTest, 'auth')
-  }, [])
+  }, [props.type])
  
   return (
     // <GoogleLogin

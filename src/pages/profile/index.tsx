@@ -25,7 +25,7 @@ const profile = () => {
   const toggleCngPwdDisplay = useCallback(() => setDisplayCngPwdPopup(prev => !prev), [displayCngPwdPopup])
 
   useEffect(() => {
-    if (!userInfo.image) Router.push('/community')
+    if (!userInfo.id) Router.push('/community')
 
     try {
       if (userInfo && userInfo.image) {

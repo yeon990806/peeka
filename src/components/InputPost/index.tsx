@@ -3,12 +3,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import style from "./style.module.scss"
 import Button from "../Button";
 import UserProfile from "../UserProfile";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "@/store/reducer/post";
 import { IsMobile } from '@/common/hooks/breakpoints';
 import SelectBox from "../SelectBox";
 import Textarea from "../Textarea";
 import { encodeFileToBase64 } from "@/common/defines/Format";
+import { StateType } from "@/common/defines/Store";
 
 interface InputPostProps {
   placeholder?: string;
@@ -21,6 +22,7 @@ interface InputPostProps {
 const InputPost = (props: InputPostProps) => {
   const mobile = IsMobile()
   const dispatch = useDispatch()
+  const userImage = useSelector((state: StateType) => state.user.userInfo.image)
   const [inputValue, setInputValue] = useState<string>('')
   const [fileList, setFileList] = useState<FileList>()
   const [uploadImage, setUploadImage] = useState<{ image: File, url: any, lastModified: number }[]>([])
@@ -92,6 +94,7 @@ const InputPost = (props: InputPostProps) => {
       <div className={ style.InputFormContainer }>
         <UserProfile
           size="xs"
+          profileImage={ userImage ? userImage.uploadedFileURL : '' }
         />
         <Textarea
           block

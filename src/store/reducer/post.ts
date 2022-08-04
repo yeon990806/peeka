@@ -56,6 +56,7 @@ export const initialState: PostStateType = {
   postCategory: CategoryType.전체,
   displayImagePopup: false,
   popupIamgeArray: [],
+  popupImageCurrentIdx: null,
 }
 
 export const FETCH_POST_REQUEST = 'FETCH_POST_REQUEST'
@@ -155,7 +156,11 @@ const reducer = (state = initialState, action) => {
       case FETCH_POST_SUCCESS:
         draft.fetchPostLoading = false
         draft.fetchPostSuccess = true
-        draft.mainPost = action.data.initPost ? action.data.post : action.data.post.concat(draft.mainPost)
+
+        if (action.data.post.length === 0) debugger
+
+        if (action.data.initPost) draft.mainPost = action.data.post
+        else draft.mainPost = action.data.post.concat(draft.mainPost)
         
         break
       case FETCH_POST_FAILURE:
@@ -209,7 +214,7 @@ const reducer = (state = initialState, action) => {
       case LIKE_POST_SUCCESS: {
         switch (action.data.type) {
           case "post": {
-            const post = draft.mainPost.find((v) => v.id === action.data)
+            const post = action.data.extraPost || draft.mainPost.find((v) => v.id === action.data)
 
             post.like_count += 1
             post.like_yn = 'Y'
@@ -217,7 +222,7 @@ const reducer = (state = initialState, action) => {
             break
           }
           case "comment": {
-            const post = draft.mainPost.find((v) => v.id === action.data.postId)
+            const post = action.data.extraPost || draft.mainPost.find((v) => v.id === action.data.postId)
             const comment = post.comment_list.find(v => v.id === action.data.id)
 
             comment.like_count += 1
@@ -256,7 +261,7 @@ const reducer = (state = initialState, action) => {
       case UNLIKE_POST_SUCCESS: {
         switch (action.data.contents_type) {
           case "post": {
-            const post = draft.mainPost.find((v) => v.id === action.data)
+            const post = action.data.extraPost || draft.mainPost.find((v) => v.id === action.data)
 
             post.like_count -= 1
             post.like_yn = 'N'
@@ -345,8 +350,11 @@ const reducer = (state = initialState, action) => {
         break
       case FETCH_COMMENT_SUCCESS: {
         const post = draft.mainPost.find(v => v.id === action.data.id)
+        if (post.comment_list) post.comment_list.push(action.data.list)
+        else post.comment_list = action.data.list
 
-        post.comment_list ? post.comment_list.push(action.data.list) : post.comment_list = action.data.list
+        action.data.extraAction()
+
         draft.fetchCommentLoading = false
         draft.fetchCommentSuccess = true
 
@@ -527,7 +535,10 @@ const reducer = (state = initialState, action) => {
         draft.postCategory = action.data
         break
       case CHANGE_POPUP_IMAGES:
-        draft.popupIamgeArray = action.data
+        draft.popupIamgeArray = action.data.images
+        draft.popupImageCurrentIdx = action.data.idx
+        draft.displayImagePopup = !draft.displayImagePopup
+
         break
       case TOGGLE_POPUP_DISPLAY:
         draft.displayImagePopup = !draft.displayImagePopup

@@ -2,11 +2,13 @@ import Button from "@/components/Button";
 import GoogleButton from "@/components/GoogleButton";
 import Input from "@/components/Input";
 import axios from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SignUpContainer from "../../components/SignUpContainer";
 import router from "next/router";
 
 import style from "../../style.module.scss";
+import { useSelector } from "react-redux";
+import { StateType } from "@/common/defines/Store";
 
 interface EmailAuthProps {
   userEmail: string;
@@ -21,6 +23,7 @@ interface EmailAuthProps {
 const EmailAuth = (props: EmailAuthProps) => {
   const [emailError, setEmailError] = useState<boolean>(false)
   const [duplicatedEmail, setDuplicatedEmail] = useState<boolean>(false)
+  const userInfo = useSelector((state: StateType) => state.user.userInfo)
 
   const onSetDuplicatedEmail = useCallback((v) => setDuplicatedEmail(v), [duplicatedEmail])
 
@@ -29,6 +32,11 @@ const EmailAuth = (props: EmailAuthProps) => {
 
     return onSetDuplicatedEmail(result.data.statement)
   }
+
+  // useEffect(() => {
+  //   if (userInfo)
+  //     router.push('/community')
+  // }, [userInfo])
 
   return (
     <SignUpContainer
@@ -63,7 +71,7 @@ const EmailAuth = (props: EmailAuthProps) => {
                       : { state: false, msg: "이메일을 다시 한번 확인해주세요." }
                 },
                ]}
-              onInput={ (v) => { props.setUserEmail(v); existenceEmail(v) } }
+              onChange={ (v) => { props.setUserEmail(v); existenceEmail(v) } }
               onError={ (v) => setEmailError(v) }
             />
             { duplicatedEmail && <div className={ style.EmailIssue }>
@@ -81,14 +89,7 @@ const EmailAuth = (props: EmailAuthProps) => {
               placeholder="인증코드 4자리"
               maxLength={4}
               onChange={ (v) => props.setAuthCode(v) }
-              description={ props.sentCode && "인증번호가 전송되었어요." }
-              validate={[
-                (v: string) => {
-                  return props.codeError && props.authCode.length === 4
-                    ? { state: false, msg: props.codeError }
-                    : { state: true, msg: "인증번호가 일치합니다." }
-                }
-              ]}
+              description={ props.codeError || (props.sentCode && "인증번호가 전송되었어요.") }
             /> }
           </div>
         </>

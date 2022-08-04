@@ -2,6 +2,10 @@
   background-color: $dark-gray;
   list-style: none;
 
+  & + .Post {
+    margin-top: 16px;
+  }
+
   &.DeskPost {
     padding: 16px 24px;
     border-radius: 10px;

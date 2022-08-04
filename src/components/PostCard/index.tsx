@@ -1,26 +1,26 @@
-import style from "./style.module.scss"
-
-import classnames from "classnames"
-import Button from "../Button";
-import { IsDesktop } from "@/common/hooks/breakpoints";
-import UserProfile from "../UserProfile";
+import { getLongDateFormat } from '@/common/defines/Format';
 import { PostType, StateType } from "@/common/defines/Store";
+import { PopupItemProps } from '@/components/MenuPopup';
+import { IsDesktop } from "@/common/hooks/breakpoints";
+import { LIKE_POST_REQUEST, SCRAP_POST_REQUEST, UNLIKE_POST_REQUEST, UNSCRAP_POST_REQUEST } from "@/store/reducer/post";
+import { FETCH_COMMENT_REQUEST } from '../../store/reducer/post';
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import ImageSlide from "../ImageSlide";
-import MenuPopup from "../MenuPopup";
-import { PopupItemProps } from '@/components/MenuPopup';
-import ReportPopup from "./components/ReportPopup";
-import DeletePostPopup from "./components/DeletePostPopup";
-import { LIKE_POST_REQUEST, SCRAP_POST_REQUEST, UNLIKE_POST_REQUEST, UNSCRAP_POST_REQUEST } from "@/store/reducer/post";
-import { getLongDateFormat } from '@/common/defines/Format';
-import InputComment from "../InputComment";
-import CommentCard from "../CommentCard";
-import { FETCH_COMMENT_REQUEST } from '../../store/reducer/post';
 import { useRouter } from 'next/router'
+import classnames from "classnames"
+import Button from "../Button";
+import CommentCard from "../CommentCard";
+import DeletePostPopup from "./components/DeletePostPopup";
+import ImageSlide from "../ImageSlide";
+import InputComment from "../InputComment";
+import UserProfile from "../UserProfile";
+import MenuPopup from "../MenuPopup";
+import ReportPopup from "./components/ReportPopup";
 
+import style from "./style.module.scss"
 interface PostProps {
-  post: PostType
+  post: PostType,
+  extraAction?: (post, list) => void,
 }
 
 const PostCard = (props: PostProps) => {
@@ -65,24 +65,27 @@ const PostCard = (props: PostProps) => {
       type: props.post.like_yn == 'Y' ? UNLIKE_POST_REQUEST : LIKE_POST_REQUEST,
       data: {
         type: 'post',
-        id: props.post.id
+        id: props.post.id,
+        extraAction: props.extraAction
       }
     })
   
   const toggleClippingPost = () => dispatch({
     type: props.post.scrap_yn == 'Y' ? UNSCRAP_POST_REQUEST : SCRAP_POST_REQUEST,
     data: props.post.id,
+    extraAction: props.extraAction
   })
 
-  const fetchPostComment = useCallback(() => dispatch({
+  const fetchPostComment = () => dispatch({
     type: FETCH_COMMENT_REQUEST,
     data: {
       postId: props.post.id,
       id: props.post.comment_list && props.post.comment_list.length > 0
         ? props.post.comment_list[props.post.comment_list.length - 1].id
-        : ""
+        : "",
+        extraAction: props.extraAction
     }
-  }), [props.post.comment_list])
+  })
 
   useEffect(() => {
     if (props.post.member_id === (userInfo && userInfo.id))

@@ -1,0 +1,27 @@
+.PostCategory {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  > button {
+    padding: 8px 0 9px;
+    color: $light-gray;
+    text-align: center;
+  }
+
+  &.DeskCategory {
+    margin-left: 40px;
+    display: inline-flex;
+    grid-gap: 40px;
+    grid-template-columns: auto;
+
+    .FilterButton {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $light;
+      border-radius: 8px;
+    } 
+  }
+}

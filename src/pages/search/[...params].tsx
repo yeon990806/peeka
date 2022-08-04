@@ -1,6 +1,6 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType } from '@/common/defines/Store';
+import { CommentType, PostType } from '@/common/defines/Store';
 import { useEffect, useState } from "react";
 import PostCard from "@/components/PostCard";
 import Spinner from "@/components/Spinner";
@@ -63,12 +63,13 @@ const search = () => {
       </div>
       <div className={ style.PostContainer }>
         { (searchContent && searchContent.length > 0)
-          ? searchContent.map((v) => (
+          ? searchContent.map((v) => {
+            return (
             <PostCard
               post={ v }
               key={ v.id }
             />
-          )) 
+          )}) 
           : <div className={ style.NullContent }>
             <h1>검색 결과가 없어요.</h1>
           </div>

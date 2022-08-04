@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { IsMobile } from "@/common/hooks/breakpoints";
 import Spinner from "@/components/Spinner";
 import { CLIPPING_POST_REQUEST } from "@/store/reducer/user";
+import produce from "immer";
 
 const clipping = () => {
   const dispatch = useDispatch()
-  const isMobile = IsMobile()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
   const clippingPost = useSelector((state: StateType) => state.user.clippingPost)
   const clippingPostLoading = useSelector((state: StateType) => state.user.clippingPostLoading)
@@ -29,7 +29,7 @@ const clipping = () => {
     if (mounted) dispatch({
       type: CLIPPING_POST_REQUEST,
       data: {
-        id: clippingPost.length > 0 ? clippingPost[0].id : ''
+        id: clippingPost.length > 0 ? clippingPost[clippingPost.length - 1].id : ''
       }
     })
   }, [mounted])
@@ -45,9 +45,10 @@ const clipping = () => {
       </div>
       <div className={ style.PostContainer }>
         { (clippingPost && clippingPost.length > 0)
-          ? clippingPost.map((v) => (
+          ? clippingPost.map(v => (
             <PostCard
               post={ v }
+              key={ v.id }
             />
           )) 
           : <div className={ style.NullContent }>

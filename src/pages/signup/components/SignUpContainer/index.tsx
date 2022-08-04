@@ -1,4 +1,6 @@
-import React from "react"
+import { SIGN_UP_REQUEST } from "@/store/reducer/user";
+import React, { useEffect } from "react"
+import { useDispatch } from "react-redux";
 import style from "./style.module.scss"
 
 interface SignUpContainerProps {

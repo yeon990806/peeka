@@ -90,7 +90,7 @@ function readAlertAPI (param) {
   const paramData = {
     id: param.id,
     check_yn: param.check,
-    contents_source: param.sontents
+    contents_source: param.source,
   }
   return axios.patch('/api/notice', paramData, {
     headers: {
@@ -229,12 +229,15 @@ function* ReadAlert (action) {
 
     yield put({
       type: READ_ALERT_SUCCESS,
-      data: result.data
+      data: {
+        post: result.data,
+        onSuccess: action.data.onSuccess
+      }
     })
   } catch (err) {
     yield put({
       type: READ_ALERT_FAILURE,
-      data: err
+      error: err
     })
   }
 }

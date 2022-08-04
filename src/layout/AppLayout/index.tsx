@@ -1,8 +1,13 @@
-import GlobalHeader, { HeaderType } from "@/components/GlobalHeader"
 
 import style from "./style.module.scss"
 import { useState, useEffect, useMemo } from 'react';
 import TopButton from "@/components/TopButton";
+import PrimaryHeader from "@/components/PrimaryHeader";
+import { useMediaQuery } from "react-responsive";
+import RealTimeRanking from "@/components/RealTimeRanking";
+import { useDispatch } from "react-redux";
+import { FETCH_CURATOR_REQUEST } from "@/store/reducer/content";
+import VideoList from "@/components/VideoList";
 
 interface AppLayoutProps {
   children: React.ReactNode,
@@ -11,6 +16,9 @@ interface AppLayoutProps {
 const AppLayout = (props: AppLayoutProps) => {
   const [isShowing, setIsShowing] = useState<boolean>(false)
   const [displayTopButton, setDisplayTopButton] = useState<boolean>(false)
+  const wideScreen = useMediaQuery({
+    query: '(min-width: 1400px)',
+  })
 
   const TopButtonStyle = useMemo(() => ({
     top: 80,
@@ -27,7 +35,7 @@ const AppLayout = (props: AppLayoutProps) => {
 
   return (
     <div className={ style.AppLayout }>
-      <GlobalHeader />
+      <PrimaryHeader />
       <div className="container">
         <div className="content-container">
           {
@@ -39,6 +47,8 @@ const AppLayout = (props: AppLayoutProps) => {
           }
           { props.children }
         </div>
+        { wideScreen && <RealTimeRanking /> }
+        { wideScreen && <VideoList /> }
       </div>
     </div>
   )

@@ -1,13 +1,15 @@
 import { ImageType } from '@/common/defines/Store';
 import { useCallback, useMemo, useState } from "react";
 import { IsDesktop } from '@/common/hooks/breakpoints'
+import classnames from "classnames"
+import Button from "../Button";
 import Slider from "react-slick";
 import ImageView from "../ImageView";
-import Button from "../Button";
 import ImagePopup from "../ImagePopup";
-import classnames from "classnames"
 
 import style from "./style.module.scss"
+import { useDispatch } from 'react-redux';
+import { CHANGE_POPUP_IMAGES } from '@/store/reducer/post';
 
 interface ImageSlideProps {
   slideHeight?: number
@@ -49,6 +51,7 @@ function SlickNextArrow (props) {
 }
 
 const ImageSlide = (props: ImageSlideProps) => {
+  const dispatch = useDispatch()
   const desktop = IsDesktop()
   const slickSetting = useMemo(() => ({
     dots: props.dots,
@@ -63,21 +66,21 @@ const ImageSlide = (props: ImageSlideProps) => {
     nextArrow: <SlickNextArrow />,
     className: "ImageSlider"
   }), [props])
-  const [showImageZoom, setShowImageZoom] = useState<boolean>(false)
 
-  const onZoom = useCallback(() => {
-    setShowImageZoom(true)
-  }, [])
-
-  const onClose = useCallback(() => {
-    setShowImageZoom(false)
+  const onZoom = useCallback((v: number) => {
+    dispatch({
+      type: CHANGE_POPUP_IMAGES,
+      data: {
+        images: props.imageArray,
+        currentIdx: v
+      }
+    })
   }, [])
 
   return (
     <div
       className={ classnames(style.ImageSlide, desktop && style.md ) }
     >
-      { showImageZoom && <ImagePopup /> }
       { (props.imageArray && props.imageArray.length > 1) && <div className={ style.SlideMultiImage }>
         <img src="/images/multi-image.svg" role="presentation" alt="multi images" />
       </div> }
@@ -90,7 +93,7 @@ const ImageSlide = (props: ImageSlideProps) => {
             src={ img.uploadedFileURL }
             // alt={ img.alt || "" }
             imageHeight={ props.slideHeight }
-            onClick={ () => onZoom() }
+            onClick={ () => onZoom(idx) }
           />
         )) }
       </Slider>

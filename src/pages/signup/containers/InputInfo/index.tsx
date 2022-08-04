@@ -34,14 +34,14 @@ interface InputInfoProps {
 
 const InputInfo = (props: InputInfoProps) => {
   const [displayPopup, setDisplayPopup] = useState<boolean>(false)
-  const [duplicatedUsername, setDuplicatedUsername] = useState<boolean>(false)
+  const [existencedUsername, setExistencedUsername] = useState<boolean>(false)
 
-  const onSetDuplicatedUsername = useCallback((v: boolean) => setDuplicatedUsername(v), [duplicatedUsername])
+  const onToggleExistenceUsername = useCallback((v) => setExistencedUsername(v), [existencedUsername])
 
   const existenceUsername = async (v: string) => {
     const result = await axios.get(`/api/public/auth/nickname/existence?nickname=${ v }`)
 
-    return onSetDuplicatedUsername(result.data.statement)
+    return onToggleExistenceUsername(result.data.statement)
   }
 
   return (
@@ -56,10 +56,16 @@ const InputInfo = (props: InputInfoProps) => {
           <Input
             value={ props.userName }
             placeholder="유저네임"
-            onInput={ (v) => {
+            onChange={ (v) => {
               props.setUserName(v)
               existenceUsername(v)
             } }
+            validate={[
+              (v: string) => {
+                if (!existencedUsername) return { state: true, msg: '사용할 수 있는 닉네임입니다!' }
+                else return { state: false, msg: '사용 중인 닉네임이에요.' }
+              }
+            ]}
           />
           <Input
             value={ props.password }

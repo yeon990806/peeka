@@ -1,41 +1,50 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import style from "./style.module.scss"
 import classnames from "classnames"
+import { useDispatch, useSelector } from "react-redux";
+import { FETCH_CURATOR_REQUEST } from "@/store/reducer/content";
+import { StateType } from "@/common/defines/Store";
+import { CategoryType } from "@/common/defines/Category";
 
 const RealTimeRanking = () => {
+  const dispatch = useDispatch()
+  const curatorList = useSelector((state: StateType) => state.content.curatorList)
+  const category = useSelector((state: StateType) => state.post.postCategory)
   const [page, setPage] = useState<number>(1);
-  const [rankingList, setRankingList] = useState<string[]>(["호랑이 형님", "신의 탑", "두번사는 랭커", "신도림", "외모지상주의", "갓오브하이스쿨", "나노머신", "투신전생기", "화산쉬환", "초인의 시대"]);
-
+  
   const nextButtonStyle = useMemo(() => ({ transform: 'rotate(180deg)' }), [])
+
+  useEffect(() => {
+    dispatch({
+      type: FETCH_CURATOR_REQUEST,
+      data: {
+        category: category === CategoryType.전체 ? '' : category,
+        id: curatorList.length > 0 ? curatorList[0].id : ''
+      }
+    })
+  }, [category])
 
   return (
     <div className={ style.RealTimeRanking }>
       <header className={ style.RealTimeRankingHeader }>
-        <button>
-          <img src="/images/prev.svg" />
-        </button>
         <h1>
           <span>
-            실시간 키워드 {page}
+            추천 큐레이터
           </span>
-          /2
         </h1>
-        <button>
-          <img src="/images/prev.svg" style={ nextButtonStyle } />
-        </button>
       </header>
       <ul className={ style.RealTimeRankingList }>
-        { rankingList.map((v, i) => (
+        { curatorList.map(curator => (
           <li 
             className={ style.RealTimeRankingItem }
-            key={ i }
+            key={ curator.id }
           >
-            <div className={ classnames(style.ItemRanking, i + 1 <= 3 ? style.TopRanking : "") }>
+            {/* <div className={ classnames(style.ItemRanking, i + 1 <= 3 ? style.TopRanking : "") }>
               { i + 1 }
-            </div>
-            <div className={ style.RankingContent }>
-              { v }
-            </div>
+            </div> */}
+            <a href={ curator.source } className={ style.RankingContent }>
+              { curator.nickname }
+            </a>
             {/* <div className={ style.TrendingChange }>
             </div> */}
           </li>
