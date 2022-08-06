@@ -1,3 +1,4 @@
+import { FETCH_USERPOST_COMMENT } from './../reducer/user';
 import axios from "axios"
 import { getCookie } from "@/common/libs/Cookie"
 import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects"
@@ -13,8 +14,10 @@ import {
   UPDATE_COMMENT_REQUEST,
   DELETE_COMMENT_REQUEST,
   DELETE_COMMENT_SUCCESS,
-  DELETE_COMMENT_FAILURE, 
-} from "../reducer/post"
+  DELETE_COMMENT_FAILURE,
+} from "../reducer/comment"
+import { UPDATE_USERPOST_COMMENT } from "../reducer/user"
+import { FETCH_POST_COMMENT } from "../reducer/post"
 
 function fetchCommentAPI (param) {
   return axios.get(`/api/public/board/comment?post_id=${ param.postId }&id=${ param.id }&paging_number=0&paging_size=10`, {
@@ -62,12 +65,33 @@ function* FetchComment (action) {
 
     yield put({
       type: FETCH_COMMENT_SUCCESS,
-      data: {
-        list: result.data,
-        id: action.data.postId,
-        extraAction: action.data.extraAction
-      }
     })
+
+    switch (action.data.postType) {
+      case 'mainPost':
+        yield put({
+          type: FETCH_POST_COMMENT,
+          data: {
+            list: result.data,
+            id: action.data.postId,
+          }
+        })
+
+        break
+      case 'userPost':
+        yield put({
+          type: FETCH_USERPOST_COMMENT,
+          data: {
+            list: result.data,
+            id: action.data.postId,
+          },
+        })
+        
+        break
+      case 'extraPost':
+        // yield put({})
+    }
+
   } catch (err) { 
     yield put({
       type: FETCH_COMMENT_FAILURE,

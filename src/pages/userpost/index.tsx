@@ -8,11 +8,7 @@ import Spinner from "@/components/Spinner";
 import { USER_POST_REQUEST } from "@/store/reducer/user";
 import PostContainer from "@/components/PostContainer";
 
-interface userpostProps {
-  userId?: number
-}
-
-const userpost = (props: userpostProps) => {
+const userpost = () => {
   const dispatch = useDispatch()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
   const userPostData = useSelector((state: StateType) => state.user.userPost)
@@ -22,16 +18,18 @@ const userpost = (props: userpostProps) => {
     transform: 'rotate(12deg)'
   }), [])
 
-  const fetchUserPost = () => dispatch({
-    type: USER_POST_REQUEST,
-    data: {
-      memberId: props.userId || userInfo.id,
-      postId: userPostData.length > 0 ? userPostData[userPostData.length - 1].id : ''
-    }
-  })
+  const fetchUserPost = () => {
+    dispatch({
+      type: USER_POST_REQUEST,
+      data: {
+        memberId: userInfo.id,
+        postId: userPostData.length > 0 ? userPostData[userPostData.length - 1].id : '',
+      }
+    })
+  }
 
   useEffect(() => {
-    if (userInfo.id) () => fetchUserPost()
+    if (userInfo.id) fetchUserPost()
   }, [userInfo])
   
   if (!userInfo) return null
@@ -48,6 +46,7 @@ const userpost = (props: userpostProps) => {
       <div className={ style.PostContainer }>
         { (userPostData && userPostData.length > 0)
           ? <PostContainer
+            postType={ 'userPost' }
             postList={ userPostData }
             fetchLoading={ userPostLoading }
             fetchList={ fetchUserPost }

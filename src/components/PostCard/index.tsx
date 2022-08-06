@@ -3,7 +3,7 @@ import { PostType, StateType } from "@/common/defines/Store";
 import { PopupItemProps } from '@/components/MenuPopup';
 import { IsDesktop } from "@/common/hooks/breakpoints";
 import { LIKE_POST_REQUEST, SCRAP_POST_REQUEST, UNLIKE_POST_REQUEST, UNSCRAP_POST_REQUEST } from "@/store/reducer/post";
-import { FETCH_COMMENT_REQUEST } from '../../store/reducer/post';
+import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router'
@@ -18,9 +18,10 @@ import MenuPopup from "../MenuPopup";
 import ReportPopup from "./components/ReportPopup";
 
 import style from "./style.module.scss"
+import { type } from 'os';
 interface PostProps {
   post: PostType,
-  extraAction?: (post, list) => void,
+  type: 'userPost' | 'mainPost' | 'extraPost'
 }
 
 const PostCard = (props: PostProps) => {
@@ -66,14 +67,16 @@ const PostCard = (props: PostProps) => {
       data: {
         type: 'post',
         id: props.post.id,
-        extraAction: props.extraAction
-      }
+      },
+      postType: props.type
     })
   
   const toggleClippingPost = () => dispatch({
     type: props.post.scrap_yn == 'Y' ? UNSCRAP_POST_REQUEST : SCRAP_POST_REQUEST,
-    data: props.post.id,
-    extraAction: props.extraAction
+    data: {
+      id: props.post.id,
+      postType: props.type,
+    }
   })
 
   const fetchPostComment = () => dispatch({
@@ -83,7 +86,7 @@ const PostCard = (props: PostProps) => {
       id: props.post.comment_list && props.post.comment_list.length > 0
         ? props.post.comment_list[props.post.comment_list.length - 1].id
         : "",
-        extraAction: props.extraAction
+      postType: props.type,
     }
   })
 

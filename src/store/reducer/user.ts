@@ -2,6 +2,7 @@ import produce from "immer"
 
 import { UserType } from "@/common/defines/Store"
 import { setCookie, removeCookie } from "@/common/libs/Cookie"
+import { fetchCommentAction } from "@/common/defines/Action"
 
 export const initialState: UserType = {
   alwaysSignIn: false,
@@ -71,6 +72,10 @@ export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE'
 export const USER_POST_REQUEST = 'USER_POST_REQUEST'
 export const USER_POST_SUCCESS = 'USER_POST_SUCCESS'
 export const USER_POST_FAILURE = 'USER_POST_FAILURE'
+
+export const FETCH_USERPOST_COMMENT = 'FETCH_USERPOST_COMMENT'
+export const UPDATE_USERPOST_COMMENT = 'UPDATE_USERPOST_COMMENT'
+
 export const RESET_USER_POST = 'RESET_USER_POST'
 
 export const CLIPPING_POST_REQUEST = 'CLIPPING_POST_REQUEST'
@@ -90,29 +95,6 @@ export const ADD_POST_TO_ME = 'ADD_POST_TO_ME'
 export const DELETE_POST_TO_ME = 'DELETE_POST_TO_ME'
 
 export const SET_SIGN_UP_PARAMETER = 'SET_SIGN_UP_PARAMETER'
-
-export const dispatchAlwaysSignIn = () => ({
-  type: TOGGLE_ALWAYS_SIGN_IN
-})
-
-export const dispatchSignIn = (data) => ({
-  type: SIGN_IN_REQUEST,
-  data,
-})
-
-export const dispatchSignUp = (data) => ({
-  type: SIGN_UP_REQUEST,
-  data,
-})
-
-export const dispatchSignOut = () => ({
-    type: SIGN_OUT_REQUEST,
-})
-
-export const dispatchSignUpParameter = (data) => ({
-  type: SET_SIGN_UP_PARAMETER,
-  data
-})
 
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -259,6 +241,13 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.userPostError = action.error
 
       break
+    case FETCH_USERPOST_COMMENT: {
+      fetchCommentAction({ ...action.data }, draft.userPost)
+  
+      break
+    }
+    case UPDATE_USERPOST_COMMENT: {
+    }
     case FETCH_ALERT_REQUEST:
       draft.fetchAlertLoading = true
       draft.fetchAlertSuccess = false

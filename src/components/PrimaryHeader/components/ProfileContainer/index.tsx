@@ -3,7 +3,7 @@ import { alertType, NoticeCode, StateType } from "@/common/defines/Store";
 import { Desktop, Mobile, IsMobile, IsDesktop } from "@/common/hooks/breakpoints";
 import Button from "@/components/Button";
 import MenuPopup, { PopupItemProps } from "@/components/MenuPopup";
-import { dispatchSignOut, FETCH_ALERT_REQUEST, READ_ALERT_REQUEST } from "@/store/reducer/user";
+import { FETCH_ALERT_REQUEST, READ_ALERT_REQUEST, SIGN_OUT_REQUEST } from "@/store/reducer/user";
 import Router, { useRouter } from "next/router";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,9 @@ const ProfileContainer = (props: ProfileContainerProps) => {
   const [popupDisplay, setPopupDisplay] = useState<boolean>(false)
   const [screenDisplay, setScreenDisplay] = useState<boolean>(false)
 
-  const signOut = useCallback(() => dispatch(dispatchSignOut()), [])
+  const signOut = useCallback(() => dispatch({
+    type: SIGN_OUT_REQUEST,
+  }), [])
 
   const onClickAlertButton = useCallback(() => {
     if (desktop) setPopupDisplay(prev => !prev)

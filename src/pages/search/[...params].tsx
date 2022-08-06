@@ -7,6 +7,7 @@ import Spinner from "@/components/Spinner";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { getCookie } from '@/common/libs/Cookie';
+import PostContainer from "@/components/PostContainer";
 
 const search = () => {
   const router = useRouter()
@@ -63,13 +64,11 @@ const search = () => {
       </div>
       <div className={ style.PostContainer }>
         { (searchContent && searchContent.length > 0)
-          ? searchContent.map((v) => {
-            return (
-            <PostCard
-              post={ v }
-              key={ v.id }
-            />
-          )}) 
+          ? <PostContainer
+            postList={ searchContent }
+            fetchLoading={ searchLoading }
+            fetchList={ () => fetchSearchContent(false) }
+          />
           : <div className={ style.NullContent }>
             <h1>검색 결과가 없어요.</h1>
           </div>

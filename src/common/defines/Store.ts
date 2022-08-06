@@ -6,7 +6,12 @@ export type StateType = {
   post: PostStateType,
   signIn?: {},
   signUp?: {},
-  content: ContentStateType
+  content: ContentStateType,
+  extra: ExtraStateType,
+}
+
+export type ExtraStateType = {
+  extraList: PostType[],
 }
 
 export type ContentStateType = {

@@ -8,7 +8,7 @@ import Input from '../../components/Input/index';
 import Button from '../../components/Button/index';
 import Checkbox from '@/components/Checkbox';
 import GoogleButton from '@/components/GoogleButton';
-import { dispatchAlwaysSignIn, dispatchSignIn } from '@/store/reducer/user';
+import { SIGN_IN_REQUEST, TOGGLE_ALWAYS_SIGN_IN } from '@/store/reducer/user';
 import { useCallback } from 'react';
 import { StateType } from '@/common/defines/Store';
 
@@ -22,16 +22,20 @@ const SignIn = () => {
 
 
   const requestSignIn = useCallback(() => {
-    if ((inputEmail.length > 0 && !validateError) && inputPassword.length > 0) {
-      dispatch(dispatchSignIn({
-        email: inputEmail, 
-        password: inputPassword
-      }))
-    }
+    if ((inputEmail.length > 0 && !validateError) && inputPassword.length > 0)
+      dispatch({
+        type: SIGN_IN_REQUEST,
+        data: {
+          email: inputEmail, 
+          password: inputPassword
+        }
+      })
   }, [inputEmail, inputPassword])
 
   const onToggleRememberUser = () => {
-    dispatch(dispatchAlwaysSignIn())
+    dispatch({
+      type: TOGGLE_ALWAYS_SIGN_IN,
+    })
   }
 
   return (

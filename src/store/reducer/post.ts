@@ -2,7 +2,7 @@ import produce from "immer";
 
 import { CategoryType } from "@/common/defines/Category";
 import { PostStateType } from "@/common/defines/Store";
-import PostCategory from "@/components/PrimaryHeader/components/PostCategory";
+import { fetchCommentAction } from "@/common/defines/Action"
 
 export const initialState: PostStateType = {
   mainPost: [],
@@ -76,6 +76,11 @@ export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST'
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS'
 export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE'
 
+export const FETCH_POST_COMMENT = 'FETCH_POST_COMMENT'
+export const ADD_POST_COMMENT = 'ADD_POST_COMMENT'
+export const UPDATE_POST_COMMENT = 'UPDATE_POST_COMMENT'
+export const DELETE_POST_COMMENT = 'DELETE_POST_COMMENT'
+
 export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST'
 export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS'
 export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE'
@@ -87,22 +92,6 @@ export const SCRAP_POST_FAILURE = 'SCRAP_POST_FAILURE'
 export const UNSCRAP_POST_REQUEST = 'UNSCRAP_POST_REQUEST'
 export const UNSCRAP_POST_SUCCESS = 'UNSCRAP_POST_SUCCESS'
 export const UNSCRAP_POST_FAILURE = 'UNSCRAP_POST_FAILURE'
-
-export const FETCH_COMMENT_REQUEST = 'FETCH_COMMENT_REQUEST'
-export const FETCH_COMMENT_SUCCESS = 'FETCH_COMMENT_SUCCESS'
-export const FETCH_COMMENT_FAILURE = 'FETCH_COMMNET_FAILURE'
-
-export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST'
-export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS'
-export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE'
-
-export const UPDATE_COMMENT_REQUEST = 'UPDATE_COMMENT_REQUEST'
-export const UPDATE_COMMENT_SUCCESS = 'UPDATE_COMMENT_SUCCESS'
-export const UPDATE_COMMENT_FAILURE = 'UPDATE_COMMENT_FAILURE'
-
-export const DELETE_COMMENT_REQUEST = 'DELETE_COMMENT_REQUEST'
-export const DELETE_COMMENT_SUCCESS = 'DELETE_COMMENT_SUCCESS'
-export const DELETE_COMMENT_FAILURE = 'DELETE_COMMENT_FAILURE'
 
 export const FETCH_REPLY_REQUEST = 'FETCH_REPLY_REQUEST'
 export const FETCH_REPLY_SUCCESS = 'FETCH_REPLY_SUCCESS'
@@ -345,108 +334,18 @@ const reducer = (state = initialState, action) => {
         draft.unscrapPostError = action.error
         
         break
-      case FETCH_COMMENT_REQUEST:
-        draft.fetchCommentLoading = true
-        draft.fetchCommentSuccess = false
-        draft.fetchCommentError = null
-
-        break
-      case FETCH_COMMENT_SUCCESS: {
-        const post = draft.mainPost.find(v => v.id === action.data.id)
-        if (post.comment_list) post.comment_list.push(action.data.list)
-        else post.comment_list = action.data.list
-
-        action.data.extraAction()
-
-        draft.fetchCommentLoading = false
-        draft.fetchCommentSuccess = true
-
-        break
-      }
-      case FETCH_COMMENT_FAILURE:
-        draft.addCommentLoading = false
-        draft.addCommentSuccess = false
-        draft.addCommentError = action.error
-        
-        break
-      case ADD_COMMENT_REQUEST:
-        draft.addCommentLoading = false
-        draft.addCommentSuccess = false
-        draft.addCommentError = action.error
-        
-        break
-      case ADD_COMMENT_SUCCESS:
-        const post = draft.mainPost.find(v => v.id === action.data.id)
-        
-        post.comment_list = action.data.list
-        post.comment_count += 1
-        
-        draft.addCommentLoading = false
-        draft.addCommentSuccess = true
-
-        if (action.data.onSuccess) action.data.onSuccess()
-
-        break
-      case ADD_COMMENT_FAILURE:
-        draft.addCommentLoading = false
-        draft.addCommentSuccess = false
-        draft.addCommentError = action.error
-
-        break
-      case UPDATE_COMMENT_REQUEST:
-        draft.updateCommentLoading = true
-        draft.updateCommentSuccess = false
-        draft.updateCommentError = null
-
-        break
-      case UPDATE_COMMENT_SUCCESS: {
-        const post = draft.mainPost.find((v) => v.id === action.data.postId)
-        const comment = post.comment_list.find((v) => v.id === action.data.id)
-
-        comment.contents = action.data.contents
-        
-        draft.updateCommentLoading = false
-        draft.updateCommentSuccess = true
-
-        break
-      }
-      case UPDATE_COMMENT_FAILURE:
-        draft.updateCommentLoading = false
-        draft.updateCommentSuccess = false
-        draft.updateCommentError = action.error
-
-        break
-      case DELETE_COMMENT_REQUEST:
-        draft.deleteCommentLoading = true
-        draft.deleteCommentSuccess = false
-        draft.deleteCommentError = null
-
-        break
-      case DELETE_COMMENT_SUCCESS: {
-        const post = draft.mainPost.find((v) => v.id === action.data.postId)
-
-        post.comment_list = post.comment_list.filter(item => item.id !== action.data.id)
-        post.comment_count -= 1
-
-        draft.deleteCommentLoading = false
-        draft.deleteCommentSuccess = true
-
-        if (action.data.onSuccess) action.data.onSuccess()
-
-        break
-      }
-      case DELETE_COMMENT_FAILURE:
-        draft.deletePostLoading = false
-        draft.deleteCommentSuccess = false
-        draft.deleteCommentError = action.error
-
-        break
       case FETCH_REPLY_REQUEST:
         draft.fetchReplyLoading = true
         draft.fetchReplySuccess = false
         draft.fetchReplyError = null
 
         break
+      case FETCH_POST_COMMENT: {
+        debugger
+        fetchCommentAction({ ...action.data }, draft.mainPost)
+
+        break
+      }
       case FETCH_REPLY_SUCCESS: {
         const post = draft.mainPost.find(v => v.id === action.data.postId)
         const comment = post.comment_list.find(v => v.id === action.data.commentId)

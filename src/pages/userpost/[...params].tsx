@@ -73,6 +73,7 @@ const userpost = () => {
             <PostCard
               post={ v }
               key={ v.id }
+              type={ 'userPost' }
             />
           )) 
           : <div className={ style.NullContent }>

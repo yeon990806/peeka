@@ -13,7 +13,7 @@ import { genderType } from '@/common/defines/Signup';
 
 import style from "./style.module.scss";
 import axios, { AxiosResponse } from "axios";
-import { dispatchSignUp } from "@/store/reducer/user";
+import { SIGN_UP_REQUEST } from "@/store/reducer/user";
 import { AxiosResponseType } from "@/common/api";
 import { StateType } from "@/common/defines/Store";
 
@@ -116,15 +116,18 @@ const SignUp = () => {
   const onClickNextHandler = () => {
     if (pageStep === SignupStepType.EmailAuth) return fetchValidateAuthCode()
 
-    dispatch(dispatchSignUp({
-      email: userEmail,
-      password,
-      nick_name: username,
-      birthday: birthDate,
-      gender: genderType[gender],
-      marketing_yn: receiveMarketing ? "Y" : "N",
-      signup_type: "GN"
-    }))
+    dispatch({
+      type: SIGN_UP_REQUEST,
+      data: {
+        email: userEmail,
+        password,
+        nick_name: username,
+        birthday: birthDate,
+        gender: genderType[gender],
+        marketing_yn: receiveMarketing ? "Y" : "N",
+        signup_type: "GN"
+      }
+    })
   }
 
   useEffect(() => {

@@ -65,6 +65,7 @@ const Community = () => {
         fetchList={() => fetchPost(false, postLoading)}
         fetchLoading={ postLoading }
         postList={postList}
+        postType={ 'mainPost' }
       /> }
       { mobile && isLogin && <PostButton
         onClick={ () => toggleDisplayInputPopup() }

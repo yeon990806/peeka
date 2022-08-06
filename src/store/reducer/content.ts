@@ -66,7 +66,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     default:
-      break
+      return state
   }
 })
 

@@ -5,6 +5,7 @@ import PostCard from '../PostCard';
 import { useState } from 'react';
 
 export interface PostContainerProps {
+  postType?: 'userPost' | 'mainPost' | 'extraPost',
   postList: PostType[],
   fetchLoading: boolean,
   fetchList: (initPost, loading, lastId?) => void,
@@ -34,6 +35,7 @@ const PostContainer = (props: PostContainerProps) => {
     <div className={ style.PostContainer }>
       { props.postList.map((post, i) => (
         <PostCard
+          type={ props.postType }
           post={ post }
           key={ post.id }
         />
