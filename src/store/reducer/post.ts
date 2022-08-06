@@ -2,6 +2,7 @@ import produce from "immer";
 
 import { CategoryType } from "@/common/defines/Category";
 import { PostStateType } from "@/common/defines/Store";
+import PostCategory from "@/components/PrimaryHeader/components/PostCategory";
 
 export const initialState: PostStateType = {
   mainPost: [],
@@ -150,17 +151,19 @@ const reducer = (state = initialState, action) => {
         draft.fetchPostSuccess = false
         draft.fetchPostError = null
 
-        draft.mainPost = []
-
         break
       case FETCH_POST_SUCCESS:
         draft.fetchPostLoading = false
         draft.fetchPostSuccess = true
 
-        if (action.data.post.length === 0) debugger
+        if (action.data.post.length > 0 && !action.data.initPost) {
+          const _post = draft.mainPost.findIndex(v => v.id === action.data.post[0].id)
 
+          if (_post >= 0) return
+        }
+        
         if (action.data.initPost) draft.mainPost = action.data.post
-        else draft.mainPost = action.data.post.concat(draft.mainPost)
+        else draft.mainPost = [ ...draft.mainPost, ...action.data.post ]
         
         break
       case FETCH_POST_FAILURE:
@@ -544,7 +547,7 @@ const reducer = (state = initialState, action) => {
         draft.displayImagePopup = !draft.displayImagePopup
         break
       default:
-        break
+        return state
     }
   })
 }

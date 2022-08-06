@@ -6,6 +6,7 @@ import PostCard from "@/components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "@/components/Spinner";
 import { USER_POST_REQUEST } from "@/store/reducer/user";
+import PostContainer from "@/components/PostContainer";
 
 interface userpostProps {
   userId?: number
@@ -17,29 +18,21 @@ const userpost = (props: userpostProps) => {
   const userPostData = useSelector((state: StateType) => state.user.userPost)
   const userPostLoading = useSelector((state: StateType) => state.user.userPostLoading)
 
-  const [mounted, setMounted] = useState<boolean>(false)
-
   const ImageStyle = useMemo(() => ({
     transform: 'rotate(12deg)'
   }), [])
 
-  useEffect(() => {
-    setMounted(true)
-
-    return () => {
-      setMounted(false)
+  const fetchUserPost = () => dispatch({
+    type: USER_POST_REQUEST,
+    data: {
+      memberId: props.userId || userInfo.id,
+      postId: userPostData.length > 0 ? userPostData[userPostData.length - 1].id : ''
     }
-  }, [])
+  })
 
   useEffect(() => {
-    if (userInfo && mounted) dispatch({
-      type: USER_POST_REQUEST,
-      data: {
-        memberId: props.userId || userInfo.id,
-        postId: userPostData.length > 0 ? userPostData[0].id : ''
-      }
-    })
-  }, [mounted, userInfo])
+    if (userInfo.id) () => fetchUserPost()
+  }, [userInfo])
   
   if (!userInfo) return null
   return (
@@ -54,12 +47,11 @@ const userpost = (props: userpostProps) => {
       </div>
       <div className={ style.PostContainer }>
         { (userPostData && userPostData.length > 0)
-          ? userPostData.map((v) => (
-            <PostCard
-              post={ v }
-              key={ v.id }
-            />
-          )) 
+          ? <PostContainer
+            postList={ userPostData }
+            fetchLoading={ userPostLoading }
+            fetchList={ fetchUserPost }
+          />
           : <div className={ style.NullContent }>
             <h1>작성한 포스트가 없어요.</h1>
             <p>포스트를 작성해보세요!</p>

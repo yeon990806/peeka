@@ -1,6 +1,7 @@
 .Post {
   background-color: $dark-gray;
   list-style: none;
+  max-width: 628px;
 
   & + .Post {
     margin-top: 16px;

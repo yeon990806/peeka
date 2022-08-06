@@ -1,19 +1,21 @@
 import { CategoryType } from "@/common/defines/Category"
+import { StateType } from "@/common/defines/Store"
 import { IsMobile } from "@/common/hooks/breakpoints"
 import Button from "@/components/Button"
-import { CHANGE_POST_CATEGORY } from "@/store/reducer/post"
+import { CHANGE_POST_CATEGORY, FETCH_POST_REQUEST } from "@/store/reducer/post"
 import classNames from "classnames"
 import { useRouter } from "next/router"
 import { useCallback, useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import style from './style.module.scss'
 
 const PostCategory = () => {
   const mobile = IsMobile()
-  const dispatch = useDispatch()
   const router = useRouter()
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(CategoryType.전체)
+  const dispatch = useDispatch()
+  const category = useSelector((state: StateType) => state.post.postCategory)
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(category || CategoryType.전체)
 
   const onClickCategoryButton = useCallback((v) => {
     setSelectedCategory(v)
@@ -23,12 +25,24 @@ const PostCategory = () => {
       data: v
     })
 
-    if (router.pathname.indexOf('community') > -1) router.push('/community')
-  }, [selectedCategory])
+    if (v !== selectedCategory)
+      dispatch({
+        type: FETCH_POST_REQUEST,
+        data: {
+          id: '',
+          paging_number: 0,
+          paging_size: 20,
+          category_code: v,
+          initPost: true,
+        }
+      })
+
+    if (router.pathname.indexOf('community') < 0) router.push('/community')
+  }, [selectedCategory, category])
 
   useEffect(() => {
     if (selectedCategory && router.pathname.indexOf('community') < 0) setSelectedCategory(null)
-    else onClickCategoryButton(CategoryType.전체)
+    else onClickCategoryButton(category)
   }, [router.pathname])
 
   return (

@@ -133,6 +133,7 @@ export type PostStateType = {
 }
 
 export type PostType = {
+  length: number;
   id: number;
   member_id: number;
   nickname: string;

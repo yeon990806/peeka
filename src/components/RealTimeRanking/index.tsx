@@ -10,9 +10,6 @@ const RealTimeRanking = () => {
   const dispatch = useDispatch()
   const curatorList = useSelector((state: StateType) => state.content.curatorList)
   const category = useSelector((state: StateType) => state.post.postCategory)
-  const [page, setPage] = useState<number>(1);
-  
-  const nextButtonStyle = useMemo(() => ({ transform: 'rotate(180deg)' }), [])
 
   useEffect(() => {
     dispatch({

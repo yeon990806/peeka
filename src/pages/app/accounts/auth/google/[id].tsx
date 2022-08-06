@@ -23,7 +23,6 @@ const auth = () => {
             email: result.data.email
           }
         })
-      debugger;
       window.close()
     } catch (err) {
       window.close()

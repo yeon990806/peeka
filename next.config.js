@@ -1,7 +1,8 @@
 const path = require('path');
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
+  assetPrefix: '.',
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "styles/_variables.scss";`, 

@@ -25,8 +25,6 @@ const alert = () => {
   useEffect(() => {
     if (!mounted && (!id || !alertPost)) router.push('/community')
   }, [mounted, id, alertPost])
-
-  useEffect(() => console.log(alertPost), [alertPost])
   
   return (
     <div className={ style.MyPost }>

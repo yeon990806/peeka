@@ -1,36 +1,44 @@
 import style from './style.module.scss'
-import { PostType, StateType } from '@/common/defines/Store';
-import { useState } from 'react';
+import { PostType } from '@/common/defines/Store';
+import { useCallback, useEffect, useRef } from 'react';
 import PostCard from '../PostCard';
-import { useSelector } from 'react-redux';
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useState } from 'react';
 
-interface PostContainerProps {
+export interface PostContainerProps {
   postList: PostType[],
-  direction: 'top' | 'bottom'
-  fetchList: (v: boolean) => void
+  fetchLoading: boolean,
+  fetchList: (initPost, loading, lastId?) => void,
 }
 
 const PostContainer = (props: PostContainerProps) => {
-  const [lastId, setLastId] = useState<number | null>(null)
-  const fetchLoading = useSelector((state: StateType) => state.post.fetchPostLoading)
+  const trigger = useRef<HTMLDivElement>(null);
+
+  const handleObserver = useCallback(entries => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      return props.fetchList(false, props.fetchLoading)
+    }
+  }, [props.postList]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0
+    });
+
+    if (trigger.current) observer.observe(trigger.current);
+  }, [handleObserver]);
 
   return (
-    <div className={ style.PostContainer } id="PostContainer">
-      <InfiniteScroll
-        dataLength={ props.postList.length }
-        next={ () => props.fetchList(false) }
-        hasMore={ true }
-        loader={ <div>Loading</div> }
-        scrollableTarget="PostContainer"
-      >
-        { props.postList.map(post => (
-          <PostCard
-            post={ post }
-            key={ post.id }
-          />
-        )) } 
-      </InfiniteScroll>
+    <div className={ style.PostContainer }>
+      { props.postList.map((post, i) => (
+        <PostCard
+          post={ post }
+          key={ post.id }
+        />
+      )) }
+      <div ref={ trigger } />
     </div>
   )
 }

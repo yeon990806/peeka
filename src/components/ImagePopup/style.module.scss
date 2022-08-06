@@ -36,6 +36,11 @@
     overflow: hidden;
     z-index: 10;
 
+    > div {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
     .slick-track {
       z-index: 11 !important;
     }

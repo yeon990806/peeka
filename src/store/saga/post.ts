@@ -280,7 +280,7 @@ function* UnscrapPost (action) {
 }
 
 function* watchFetchingPost () {
-  yield throttle(2000, FETCH_POST_REQUEST, FetchPost)
+  yield throttle(5000, FETCH_POST_REQUEST, FetchPost)
 }
 
 function* watchCreatePost () {
