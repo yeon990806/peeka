@@ -2,7 +2,7 @@ import produce from "immer";
 
 import { CategoryType } from "@/common/defines/Category";
 import { PostStateType } from "@/common/defines/Store";
-import { fetchCommentAction } from "@/common/defines/Action"
+import { addCommentAction, fetchCommentAction, updateCommentAction } from "@/common/defines/Action"
 
 export const initialState: PostStateType = {
   mainPost: [],
@@ -340,13 +340,21 @@ const reducer = (state = initialState, action) => {
         draft.fetchReplyError = null
 
         break
-      case FETCH_POST_COMMENT: {
-        debugger
+      case FETCH_POST_COMMENT:
         fetchCommentAction({ ...action.data }, draft.mainPost)
 
         break
-      }
-      case FETCH_REPLY_SUCCESS: {
+      case ADD_POST_COMMENT: 
+        addCommentAction({ ...action.data }, draft.mainPost, action.data.onSuccess)
+
+        break
+      case UPDATE_POST_COMMENT:
+        // updateCommentAction()
+        
+        break
+        case DELETE_POST_COMMENT:
+          break
+        case FETCH_REPLY_SUCCESS: {
         const post = draft.mainPost.find(v => v.id === action.data.postId)
         const comment = post.comment_list.find(v => v.id === action.data.commentId)
 

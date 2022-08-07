@@ -1,5 +1,5 @@
 import { getLongDateFormat } from '@/common/defines/Format';
-import { PostType, StateType } from "@/common/defines/Store";
+import { PostType, StateType, StorePostType } from "@/common/defines/Store";
 import { PopupItemProps } from '@/components/MenuPopup';
 import { IsDesktop } from "@/common/hooks/breakpoints";
 import { LIKE_POST_REQUEST, SCRAP_POST_REQUEST, UNLIKE_POST_REQUEST, UNSCRAP_POST_REQUEST } from "@/store/reducer/post";
@@ -21,7 +21,7 @@ import style from "./style.module.scss"
 import { type } from 'os';
 interface PostProps {
   post: PostType,
-  type: 'userPost' | 'mainPost' | 'extraPost'
+  type: StorePostType,
 }
 
 const PostCard = (props: PostProps) => {
@@ -206,6 +206,7 @@ const PostCard = (props: PostProps) => {
               <InputComment
                 postId={ props.post.id }
                 author={ props.post.member_id }
+                type={ props.type }
                 placeholder="댓글을 입력하세요."
               />
             </div>
@@ -214,6 +215,7 @@ const PostCard = (props: PostProps) => {
                 comment.id && <CommentCard
                   data={ comment }
                   key={ comment.id }
+                  type={ props.type }
                 />
               )) }
               <Button type="text" theme="light-gray" onClick={ () => fetchPostComment() }>

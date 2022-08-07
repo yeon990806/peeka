@@ -17,7 +17,9 @@ import {
   DELETE_COMMENT_FAILURE,
 } from "../reducer/comment"
 import { UPDATE_USERPOST_COMMENT } from "../reducer/user"
-import { FETCH_POST_COMMENT } from "../reducer/post"
+import { ADD_POST_COMMENT, FETCH_POST_COMMENT } from "../reducer/post"
+import { StorePostType } from '@/common/defines/Store';
+import { addCommentAction } from '@/common/defines/Action';
 
 function fetchCommentAPI (param) {
   return axios.get(`/api/public/board/comment?post_id=${ param.postId }&id=${ param.id }&paging_number=0&paging_size=10`, {
@@ -68,7 +70,7 @@ function* FetchComment (action) {
     })
 
     switch (action.data.postType) {
-      case 'mainPost':
+      case StorePostType.MainPost:
         yield put({
           type: FETCH_POST_COMMENT,
           data: {
@@ -78,7 +80,7 @@ function* FetchComment (action) {
         })
 
         break
-      case 'userPost':
+      case StorePostType.UserPost:
         yield put({
           type: FETCH_USERPOST_COMMENT,
           data: {
@@ -88,8 +90,11 @@ function* FetchComment (action) {
         })
         
         break
-      case 'extraPost':
+      case StorePostType.ExtraPost:
         // yield put({})
+        break
+      default:
+        break
     }
 
   } catch (err) { 
@@ -103,15 +108,33 @@ function* FetchComment (action) {
 function* AddComment (action) {
   try {
     const result = yield call(addCommentAPI, action.data)
+    const data = {
+      list: result.data,
+      id: action.data.postId,
+      onSuccess: action.data.onSuccess
+    }
 
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: {
-        list: result.data,
-        id: action.data.postId,
-        onSuccess: action.data.onSuccess || null,
-      },
     })
+
+    debugger
+
+    switch (action.data.postType) {
+      case StorePostType.MainPost:
+        yield put({
+          type: ADD_POST_COMMENT,
+          data,
+        })
+
+        break
+      case StorePostType.UserPost:
+        break
+      case StorePostType.ExtraPost:
+        break
+      default:
+        break
+    }
   } catch (err) {
     yield put({
       type: ADD_COMMENT_FAILURE,

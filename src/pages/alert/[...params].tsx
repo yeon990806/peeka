@@ -1,6 +1,6 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType, StateType } from '@/common/defines/Store';
+import { PostType, StateType, StorePostType } from '@/common/defines/Store';
 import { useEffect, useState } from "react";
 import PostCard from "@/components/PostCard";
 import Spinner from "@/components/Spinner";
@@ -39,6 +39,7 @@ const alert = () => {
           ? <PostCard
             post={ alertPost }
             key={ alertPost.id }
+            type={ StorePostType.ExtraPost }
           />
           : <div className={ style.NullContent }>
             <h1>상세 알림이 없어요.</h1>

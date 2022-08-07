@@ -1,6 +1,6 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { StateType } from '@/common/defines/Store';
+import { StateType, StorePostType } from '@/common/defines/Store';
 import { useEffect, useMemo, useState } from "react";
 import PostCard from "@/components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,7 +46,7 @@ const userpost = () => {
       <div className={ style.PostContainer }>
         { (userPostData && userPostData.length > 0)
           ? <PostContainer
-            postType={ 'userPost' }
+            postType={ StorePostType.UserPost }
             postList={ userPostData }
             fetchLoading={ userPostLoading }
             fetchList={ fetchUserPost }

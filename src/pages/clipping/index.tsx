@@ -1,6 +1,6 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType, StateType } from '@/common/defines/Store';
+import { PostType, StateType, StorePostType } from '@/common/defines/Store';
 import { useCallback, useEffect, useState } from "react";
 import PostCard from "@/components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,6 +49,7 @@ const clipping = () => {
             <PostCard
               post={ v }
               key={ v.id }
+              type={ StorePostType.ExtraPost }
             />
           )) 
           : <div className={ style.NullContent }>

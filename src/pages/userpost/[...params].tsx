@@ -1,6 +1,6 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType } from '@/common/defines/Store';
+import { PostType, StorePostType } from '@/common/defines/Store';
 import {  useEffect, useMemo, useState } from "react";
 import PostCard from "@/components/PostCard";
 import Spinner from "@/components/Spinner";
@@ -73,7 +73,7 @@ const userpost = () => {
             <PostCard
               post={ v }
               key={ v.id }
-              type={ 'userPost' }
+              type={ StorePostType.UserPost }
             />
           )) 
           : <div className={ style.NullContent }>

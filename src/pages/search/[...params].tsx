@@ -1,6 +1,6 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { CommentType, PostType } from '@/common/defines/Store';
+import { CommentType, PostType, StorePostType } from '@/common/defines/Store';
 import { useEffect, useState } from "react";
 import PostCard from "@/components/PostCard";
 import Spinner from "@/components/Spinner";
@@ -68,6 +68,7 @@ const search = () => {
             postList={ searchContent }
             fetchLoading={ searchLoading }
             fetchList={ () => fetchSearchContent(false) }
+            postType={ StorePostType.ExtraPost }
           />
           : <div className={ style.NullContent }>
             <h1>검색 결과가 없어요.</h1>

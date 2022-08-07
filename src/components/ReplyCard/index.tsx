@@ -1,4 +1,4 @@
-import { ReplyType } from '@/common/defines/Store'
+import { ReplyType, StorePostType } from '@/common/defines/Store'
 import Button from '../Button'
 import UserProfile from '../UserProfile'
 import style from './style.module.scss'
@@ -15,6 +15,7 @@ interface ReplyCardProps {
   postAuthor: number
   commentUser: string
   postId: number
+  type: StorePostType,
 }
 
 const ReplyCard = (props: ReplyCardProps) => {
@@ -176,6 +177,7 @@ const ReplyCard = (props: ReplyCardProps) => {
             author={ props.data.member_id }
             placeholder="답글을 입력해주세요."
             replyMode={ true }
+            type={ props.type }
           />
         </div> }
       </div>

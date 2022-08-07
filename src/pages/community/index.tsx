@@ -6,7 +6,7 @@ import Screen from '@/components/Screen';
 import { useCallback, useEffect, useState } from "react";
 import { LayoutType } from '../_app';
 import { useSelector } from 'react-redux';
-import { StateType } from '@/common/defines/Store'
+import { StateType, StorePostType } from '@/common/defines/Store'
 import { useDispatch } from 'react-redux';
 import { CHANGE_POST_CATEGORY, FETCH_POST_REQUEST } from '@/store/reducer/post';
 import { IsMobile } from '@/common/hooks/breakpoints';
@@ -65,7 +65,7 @@ const Community = () => {
         fetchList={() => fetchPost(false, postLoading)}
         fetchLoading={ postLoading }
         postList={postList}
-        postType={ 'mainPost' }
+        postType={ StorePostType.MainPost }
       /> }
       { mobile && isLogin && <PostButton
         onClick={ () => toggleDisplayInputPopup() }

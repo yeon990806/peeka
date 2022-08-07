@@ -221,3 +221,9 @@ export enum NoticeCode {
   COMMENT = 'CM',
   OP = 'OP'
 }
+
+export enum StorePostType {
+  MainPost = 0,
+  UserPost = 1,
+  ExtraPost = 2,
+}

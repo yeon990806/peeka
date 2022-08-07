@@ -1,4 +1,4 @@
-import { CommentType, StateType } from '@/common/defines/Store'
+import { CommentType, StateType, StorePostType } from '@/common/defines/Store'
 import Button from '../Button'
 import UserProfile from '../UserProfile'
 import style from './style.module.scss'
@@ -6,7 +6,8 @@ import { getLongDateFormat } from '@/common/defines/Format';
 import MenuPopup from '../MenuPopup';
 import { useCallback, useEffect, useState } from 'react';
 import Textarea from '../Textarea';
-import { UPDATE_COMMENT_REQUEST, DELETE_COMMENT_REQUEST, FETCH_REPLY_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '@/store/reducer/post';
+import { UPDATE_COMMENT_REQUEST, DELETE_COMMENT_REQUEST } from '@/store/reducer/comment';
+import { FETCH_REPLY_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '@/store/reducer/post';
 import { useDispatch } from 'react-redux';
 import Popup from '../Popup';
 import { useSelector } from 'react-redux';
@@ -14,7 +15,8 @@ import InputComment from '../InputComment';
 import ReplyCard from '../ReplyCard';
 
 interface CommentCardProps {
-  data: CommentType
+  data: CommentType,
+  type: StorePostType,
 }
 
 const CommentCard = (props: CommentCardProps) => {
@@ -197,6 +199,7 @@ const CommentCard = (props: CommentCardProps) => {
               placeholder="답글을 입력해주세요."
               replyMode={ true }
               commentId={ props.data.id }
+              type={ props.type }
             />
           </div> }
         { displayReplyList && <div className={ style.ReplyContainer }>
@@ -207,6 +210,7 @@ const CommentCard = (props: CommentCardProps) => {
               postAuthor={ props.data.member_id }
               commentUser={ props.data.nickname }
               key={ reply.id }
+              type={ props.type }
             />
           )) }
           <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>

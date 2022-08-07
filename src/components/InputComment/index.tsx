@@ -1,9 +1,11 @@
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ADD_COMMENT_REQUEST, ADD_REPLY_REQUEST } from '../../store/reducer/post';
+import { ADD_COMMENT_REQUEST } from '@/store/reducer/comment';
+import { ADD_REPLY_REQUEST } from '../../store/reducer/post';
 import Button from "../Button";
 import Textarea from "../Textarea";
 import style from "./style.module.scss"
+import { StorePostType } from "@/common/defines/Store";
 
 interface InputCommentProps {
   onSubmit?: () => void;
@@ -12,6 +14,7 @@ interface InputCommentProps {
   placeholder?: string;
   replyMode?: boolean;
   commentId?: number;
+  type: StorePostType;
 }
 
 const InputComment = (props: InputCommentProps) => {
@@ -28,6 +31,7 @@ const InputComment = (props: InputCommentProps) => {
           commentId: props.commentId,
           contents: inputValue,
           author: props.author,
+          postType: props.type,
           onSuccess: () => setInputValue('')
         }
       })
@@ -38,6 +42,7 @@ const InputComment = (props: InputCommentProps) => {
           postId: props.postId,
           contents: inputValue,
           author: props.author,
+          postType: props.type,
           onSuccess: () => setInputValue('')
         }
       })

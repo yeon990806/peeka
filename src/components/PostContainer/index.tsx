@@ -1,11 +1,11 @@
 import style from './style.module.scss'
-import { PostType } from '@/common/defines/Store';
+import { PostType, StorePostType } from '@/common/defines/Store';
 import { useCallback, useEffect, useRef } from 'react';
 import PostCard from '../PostCard';
 import { useState } from 'react';
 
 export interface PostContainerProps {
-  postType?: 'userPost' | 'mainPost' | 'extraPost',
+  postType: StorePostType,
   postList: PostType[],
   fetchLoading: boolean,
   fetchList: (initPost, loading, lastId?) => void,
