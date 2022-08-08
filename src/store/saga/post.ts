@@ -16,6 +16,8 @@ import {
 } from "../reducer/post";
 
 function fetchPostAPI (param) {
+  const url = `${ APIHost }/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`
+  console.log(process.env.NODE_ENV, url)
   return axios.get(`${ APIHost }/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
 }
 
