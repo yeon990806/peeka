@@ -3,24 +3,28 @@ import InputPost from '@/components/InputPost';
 import PostContainer from '@/components/PostContainer';
 import HashContainer from '@/components/HashContainer';
 import Screen from '@/components/Screen';
-import { useCallback, useEffect, useState } from "react";
-import { LayoutType } from '../_app';
-import { useSelector } from 'react-redux';
-import { StateType, StorePostType } from '@/common/defines/Store'
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { StateType, StorePostType } from '@/common/defines/Store'
 import { CHANGE_POST_CATEGORY, EMPTY_MAIN_POST, FETCH_POST_REQUEST } from '@/store/reducer/post';
+import { LayoutType } from '../_app';
+import { useCallback, useEffect, useState } from "react";
 import { IsMobile } from '@/common/hooks/breakpoints';
 
 import style from "./style.module.scss"
+import { debug } from 'console';
 
 const Community = () => {
   const mobile = IsMobile()
+  const router = useRouter()
   const dispatch = useDispatch()
   const postCategory = useSelector((state: StateType, ) => state.post.postCategory)
   const postLoading = useSelector((state: StateType) => state.post.fetchPostLoading)
   const postList = useSelector((state: StateType) => state.post.mainPost)
   const isLogin = useSelector((state: StateType) => state.user.userInfo)
-  
+  const id = router.query.id
+
   const [displayInputPopup, setDisplayInputPoup] = useState<boolean>(false)
   const [showing, setShowing] = useState<boolean>(false);
 

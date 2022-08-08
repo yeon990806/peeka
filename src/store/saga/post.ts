@@ -1,3 +1,4 @@
+import { APIHost } from '@/common/api';
 import { CategoryType } from "@/common/defines/Category";
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
@@ -15,7 +16,7 @@ import {
 } from "../reducer/post";
 
 function fetchPostAPI (param) {
-  return axios.get(`/api/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
+  return axios.get(`${ APIHost }/api/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
 }
 
 function addPostAPI (param) {

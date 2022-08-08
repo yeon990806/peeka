@@ -3,7 +3,7 @@ import { ActionContentType, PostType, StateType, StorePostType } from "@/common/
 import { PopupItemProps } from '@/components/MenuPopup';
 import { IsDesktop } from "@/common/hooks/breakpoints";
 import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router'
 import classnames from "classnames"
@@ -29,6 +29,7 @@ const PostCard = (props: PostProps) => {
   const router = useRouter()
   const userInfo = useSelector((state: StateType) => (state.user.userInfo))
   const desktop = IsDesktop()
+  const postLink = useRef(`${ location.origin }/community/${ props.post.id }`)
 
   const [displayReportPopup, setDisplayReportPopup] = useState<boolean>(false)
   const [displayDeletePopup, setDisplayDeletePopup] = useState<boolean>(false)
@@ -91,6 +92,19 @@ const PostCard = (props: PostProps) => {
     }
   })
 
+  const sharePost = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: props.post.contents,
+        url: postLink.current
+      })
+    } else {
+      navigator.clipboard.writeText(postLink.current).then((res) => {
+        alert('링크가 복사되었습니다.')
+      })
+    }
+  }
+
   useEffect(() => {
     if (props.post.member_id === (userInfo && userInfo.id))
       setPostMenuList([
@@ -111,7 +125,7 @@ const PostCard = (props: PostProps) => {
         },
         {
           text: "링크 복사",
-          onClick: () => {}
+          onClick: () => sharePost()
         },
       ])
   }, [props.post.member_id])

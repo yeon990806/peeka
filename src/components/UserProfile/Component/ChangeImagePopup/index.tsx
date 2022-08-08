@@ -1,3 +1,4 @@
+import { APIHost } from "@/common/api"
 import { encodeFileToBase64 } from "@/common/defines/Format"
 import { StateType } from "@/common/defines/Store"
 import { getCookie } from "@/common/libs/Cookie"
@@ -54,7 +55,7 @@ const ChangeImagePopup = (props: ChangeImagePopupProps) => {
     else return
 
     try {
-      const result = await axios.patch('/api/member/profile/image', f, {
+      const result = await axios.patch(`${ APIHost }/member/profile/image`, f, {
         headers: {
           Authorization: `Bearer ${ getCookie('accessToken') }`
         }

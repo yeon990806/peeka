@@ -29,7 +29,7 @@ import {
 const JWT_EXPIRY_TIME = 6 * 3600 * 1000 // 6hours
 
 function fetchUserInfoAPI () {
-  return axios.get(`api/member/profile`, {
+  return axios.get(`/api/member/profile`, {
     headers: {
       Authorization: `Bearer ${ getCookie('accessToken') }`,
     }
