@@ -4,7 +4,7 @@ import style from "./style.module.scss"
 import Button from "../Button";
 import UserProfile from "../UserProfile";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "@/store/reducer/post";
+import { ADD_POST_REQUEST } from "@/store/reducer/post";
 import { IsMobile } from '@/common/hooks/breakpoints';
 import SelectBox from "../SelectBox";
 import Textarea from "../Textarea";
@@ -53,13 +53,16 @@ const InputPost = (props: InputPostProps) => {
     setFileList(dataTransfer.files)
   }, [fileList])
 
-  const onSubmitPost = useCallback(() => dispatch(addPost({
-    contents: inputValue,
-    category_code: postCategory.value,
-    category: postCategory.display,
-    images: fileList,
-    submit: props.onSubmit
-  })), [uploadImage, inputValue, postCategory])
+  const onSubmitPost = useCallback(() => dispatch({
+    type: ADD_POST_REQUEST,
+    data: {
+      contents: inputValue,
+      category_code: postCategory.value,
+      category: postCategory.display,
+      images: fileList,
+      submit: props.onSubmit
+    },
+  }), [uploadImage, inputValue, postCategory])
 
   const removeImage = (clickedImage: File) => {
     const dataTransfer = new DataTransfer()

@@ -1,8 +1,7 @@
 import { getLongDateFormat } from '@/common/defines/Format';
-import { PostType, StateType, StorePostType } from "@/common/defines/Store";
+import { ActionContentType, PostType, StateType, StorePostType } from "@/common/defines/Store";
 import { PopupItemProps } from '@/components/MenuPopup';
 import { IsDesktop } from "@/common/hooks/breakpoints";
-import { LIKE_POST_REQUEST, SCRAP_POST_REQUEST, UNLIKE_POST_REQUEST, UNSCRAP_POST_REQUEST } from "@/store/reducer/post";
 import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +18,7 @@ import ReportPopup from "./components/ReportPopup";
 
 import style from "./style.module.scss"
 import { type } from 'os';
+import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
 interface PostProps {
   post: PostType,
   type: StorePostType,
@@ -48,12 +48,13 @@ const PostCard = (props: PostProps) => {
   const onClickSharePost = useCallback(() => {}, [])
 
   const getUserPost = useCallback(() => {
-    router.push({
-      pathname: '/userpost/[id]',
-      query: {
-        id: props.post.member_id
-      }
-    })
+    if (router.pathname.indexOf('userpost') < 0 && router.asPath.indexOf(props.post.member_id) < 0)
+      router.push({
+        pathname: '/userpost/[id]',
+        query: {
+          id: props.post.member_id
+        }
+      })
   }, [props.post.member_id])
 
   const toggleDisplayComment = useCallback(() => {
@@ -63,20 +64,20 @@ const PostCard = (props: PostProps) => {
   }, [displayCommentContainer, props.post.comment_list])
 
   const toggleLikePost = () => dispatch({
-      type: props.post.like_yn == 'Y' ? UNLIKE_POST_REQUEST : LIKE_POST_REQUEST,
+      type: props.post.like_yn == 'Y' ? UNLIKE_CONTENT_REQUEST : LIKE_CONTENT_REQUEST,
       data: {
         type: 'post',
-        id: props.post.id,
-      },
-      postType: props.type
+        postId: props.post.id,
+        postType: props.type
+      }
     })
   
   const toggleClippingPost = () => dispatch({
-    type: props.post.scrap_yn == 'Y' ? UNSCRAP_POST_REQUEST : SCRAP_POST_REQUEST,
+    type: props.post.scrap_yn == 'Y' ? UNSCRAP_CONTENT_REQUEST : SCRAP_CONTENT_REQUEST,
     data: {
       id: props.post.id,
       postType: props.type,
-    }
+    },
   })
 
   const fetchPostComment = () => dispatch({

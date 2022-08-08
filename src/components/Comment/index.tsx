@@ -37,12 +37,4 @@ const Comment = (props: CommentProps) => {
   )
 }
 
-Comment.defaultProps = {
-  userName: "피카123",
-  content: "그림체가 ..",
-  likeCnt: 11,
-  dateTime: "17시간 전",
-  commentCnt: 21
-}
-
 export default Comment

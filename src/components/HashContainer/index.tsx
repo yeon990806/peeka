@@ -13,13 +13,14 @@ const HashContainer = () => {
   const category = useSelector((state: StateType) => state.post.postCategory)
 
   useEffect(() => {
-    dispatch({
-      type: FETCH_CURATOR_REQUEST,
-      data: {
-        category: category === CategoryType.전체 ? '' : category,
-        id: curatorList.length > 0 ? curatorList[0].id : ''
-      }
-    })
+    if (category)
+      dispatch({
+        type: FETCH_CURATOR_REQUEST,
+        data: {
+          category: category === CategoryType.전체 ? '' : category,
+          id: curatorList.length > 0 ? curatorList[0].id : ''
+        }
+      })
   }, [category])
 
   return (

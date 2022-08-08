@@ -5,10 +5,11 @@ import style from './style.module.scss'
 import MenuPopup from '../MenuPopup';
 import { useCallback, useState } from 'react';
 import Textarea from '../Textarea';
-import { DELETE_REPLY_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, UPDATE_REPLY_REQUEST } from '@/store/reducer/post';
+import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '@/store/reducer/post';
 import { useDispatch } from 'react-redux';
 import Popup from '../Popup';
 import InputComment from '../InputComment';
+import { DELETE_REPLY_REQUEST, UPDATE_REPLY_REQUEST } from '@/store/reducer/reply';
 
 interface ReplyCardProps {
   data: ReplyType
@@ -58,7 +59,11 @@ const ReplyCard = (props: ReplyCardProps) => {
           commentId: props.data.comment_id,
           id: props.data.id,
           contents: inputValue,
-          onSuccess: () => setInputValue('')
+          postType: props.type,
+          onSuccess: (v) => {
+            setInputValue(v)
+            toggleActiveModify()
+          }
         }
       })   
     } else toggleDeleteReply()
@@ -70,6 +75,7 @@ const ReplyCard = (props: ReplyCardProps) => {
       id: props.data.id,
       postId: props.postId,
       commentId: props.data.comment_id,
+      postType: props.type,
       onSuccess: () => setDisplayDeleteReply(false)
     }
   }), [])

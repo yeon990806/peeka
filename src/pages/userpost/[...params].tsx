@@ -1,60 +1,52 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType, StorePostType } from '@/common/defines/Store';
+import { PostType, StateType, StorePostType } from '@/common/defines/Store';
 import {  useEffect, useMemo, useState } from "react";
 import PostCard from "@/components/PostCard";
 import Spinner from "@/components/Spinner";
 import { useRouter } from "next/router";
 import { getCookie } from '@/common/libs/Cookie';
 import axios from 'axios'
+import { useDispatch, useSelector } from "react-redux";
+import { FETCH_EXTRAPOST_REQUEST } from "@/store/reducer/extra";
+import PostContainer from "@/components/PostContainer";
 
 const userpost = () => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const [id] = router.query.params || []
 
-  const [mounted, setMounted] = useState<boolean>(false)
-  const [userPost, setUserPost] = useState<PostType[]>([])
-  const [userPostLoading, setUserPostLoading] = useState<boolean>(false)
+  const userPost = useSelector((state: StateType) => state.extra.extraList)
+  const userPostLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
 
   const ImageStyle = useMemo(() => ({
     transform: 'rotate(12deg)'
   }), [])
 
-  const fetchUserPost = async (init: boolean) => {
+  const fetchUserPost = () => {
     if (!id) return
 
-    setUserPostLoading(true)
-
-    try {
-      const result = await axios.get(`/api/public/board/post/member?member_id=${ id }&id=${ userPost.length > 0 ? userPost[userPost.length - 1].id : '' }&paging_number=0&paging_size=20`, {
-        headers: {
-          Authorization: `Bearer ${ getCookie('accessToken') }`
-        }
-      })
-
-      if (init) setUserPost(result.data)
-      else setUserPost([...userPost, ...result.data])
-    } catch (err) {
-      setUserPost([])
-    } finally {
-      setUserPostLoading(false)
-    }
+    dispatch({
+      type: FETCH_EXTRAPOST_REQUEST,
+      data: {
+        type: 'member',
+        id: userPost.length > 0 ? userPost[userPost.length - 1].id : '',
+        public: true,
+        memberId: id,
+      }
+    })
   }
 
   useEffect(() => {
-    setMounted(true)
+    fetchUserPost()
 
     return () => {
-      setMounted(false)
+      fetchUserPost()
     }
   }, [])
 
   useEffect(() => {
-    if (mounted) fetchUserPost(true)
-  }, [mounted])
-
-  useEffect(() => {
-    fetchUserPost(false)
+    fetchUserPost()
   }, [id])
   
   return (
@@ -69,13 +61,12 @@ const userpost = () => {
       </div>
       <div className={ style.PostContainer }>
         { (userPost && userPost.length > 0)
-          ? userPost.map((v) => (
-            <PostCard
-              post={ v }
-              key={ v.id }
-              type={ StorePostType.UserPost }
-            />
-          )) 
+          ? <PostContainer
+            postList={ userPost }
+            fetchLoading={ userPostLoading }
+            fetchList={ fetchUserPost }
+            postType={ StorePostType.ExtraPost }
+          /> 
           : <div className={ style.NullContent }>
             <h1>작성한 포스트가 없어요.</h1>
           </div>

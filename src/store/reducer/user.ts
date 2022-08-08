@@ -2,7 +2,7 @@ import produce from "immer"
 
 import { UserType } from "@/common/defines/Store"
 import { setCookie, removeCookie } from "@/common/libs/Cookie"
-import { fetchCommentAction } from "@/common/defines/Action"
+import { fetchCommentAction, addCommentAction, updateCommentAction, deleteCommentAction, fetchReplyAction, addReplyAction, updateReplyAction, deleteReplyAction, likeContentAction, unlikeContentAction, scrapContentAction, unscrapContentAction } from "@/common/defines/Action"
 
 export const initialState: UserType = {
   alwaysSignIn: false,
@@ -21,9 +21,6 @@ export const initialState: UserType = {
   userPostLoading: false,
   userPostSuccess: false,
   userPostError: false,
-  clippingPostLoading: false,
-  clippingPostSuccess: false,
-  clippingPostError: false,
   fetchAlertLoading: false,
   fetchAlertSuccess: false,
   fetchAlertError: false,
@@ -39,7 +36,6 @@ export const initialState: UserType = {
     alertDetail: null,
   },
   userPost: [],
-  clippingPost: []
 }
 
 export const TOGGLE_ALWAYS_SIGN_IN = 'ALWAYS_SIGN_IN_REQUEST'
@@ -74,14 +70,21 @@ export const USER_POST_SUCCESS = 'USER_POST_SUCCESS'
 export const USER_POST_FAILURE = 'USER_POST_FAILURE'
 
 export const FETCH_USERPOST_COMMENT = 'FETCH_USERPOST_COMMENT'
+export const ADD_USERPOST_COMMENT = 'ADD_USERPOST_COMMENT'
 export const UPDATE_USERPOST_COMMENT = 'UPDATE_USERPOST_COMMENT'
+export const DELETE_USERPOST_COMMENT = 'DELETE_USERPOST_COMMENT'
+
+export const FETCH_USERPOST_COMMENT_REPLY = 'FETCH_USERPOST_COMMENT_REPLY'
+export const ADD_USERPOST_COMMENT_REPLY = 'ADD_USERPOST_COMMENT_REPLY'
+export const UPDATE_USERPOST_COMMENT_REPLY = 'UPDATE_USERPOST_COMMENT_REPLY'
+export const DELETE_USERPOST_COMMENT_REPLY = 'DELETE_USERPOST_COMMENT_REPLY'
 
 export const RESET_USER_POST = 'RESET_USER_POST'
 
-export const CLIPPING_POST_REQUEST = 'CLIPPING_POST_REQUEST'
-export const CLIPPING_POST_SUCCESS = 'CLIPPING_POST_SUCCESS'
-export const CLIPPING_POST_FAILURE = 'CLIPPING_POST_FAILURE'
-export const RESET_CLIPPING_POST = 'RESET_CLIPPING_POST'
+export const LIKE_USERPOST_CONTENT = 'LIKE_USERPOST_CONTENT'
+export const UNLIKE_USERPOST_CONTENT = 'UNLIKE_USERPOST_CONTENT'
+export const SCRAP_USERPOST = 'SCRAP_USERPOST'
+export const UNSCRAP_USERPOST = 'UNSCRAP_USERPOST'
 
 export const FETCH_ALERT_REQUEST = 'FETCH_ALERT_REQUEST'
 export const FETCH_ALERT_SUCCESS = 'FETCH_ALERT_SUCCESS'
@@ -233,7 +236,14 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case USER_POST_SUCCESS:
       draft.userPostLoading = false
       draft.userPostSuccess = true
-      draft.userPost = action.data.concat(draft.userPost)
+
+      if (action.data.length > 0) {
+        const _post = draft.userPost.findIndex(v => v.id === action.data[0].id)
+
+        if (_post >= 0) return
+      }
+
+      draft.userPost = [ ...draft.userPost, ...action.data ]
 
       break
     case USER_POST_FAILURE:
@@ -241,13 +251,54 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.userPostError = action.error
 
       break
-    case FETCH_USERPOST_COMMENT: {
+    case FETCH_USERPOST_COMMENT:
       fetchCommentAction({ ...action.data }, draft.userPost)
   
       break
-    }
-    case UPDATE_USERPOST_COMMENT: {
-    }
+    case ADD_USERPOST_COMMENT:
+      addCommentAction({ ...action.data }, draft.userPost)
+
+      break
+    case UPDATE_USERPOST_COMMENT:
+      updateCommentAction({ ...action.data }, draft.userPost, action.data.onSuccess)
+      
+      break
+    case DELETE_USERPOST_COMMENT:
+      deleteCommentAction({ ...action.data }, draft.userPost, action.data.onSuccess)
+
+      break
+    case FETCH_USERPOST_COMMENT_REPLY:
+      fetchReplyAction({ ...action.data }, draft.userPost)
+
+      break
+    case ADD_USERPOST_COMMENT_REPLY:
+      addReplyAction({ ...action.data }, draft.userPost)
+
+      break
+    case UPDATE_USERPOST_COMMENT_REPLY:
+      updateReplyAction({ ...action.data }, draft.userPost, action.data.onSuccess)
+
+      break
+    case DELETE_USERPOST_COMMENT_REPLY:
+      deleteReplyAction({ ...action.data }, draft.userPost, action.data.onSuccess)
+
+      break
+    case LIKE_USERPOST_CONTENT:
+      likeContentAction({ ...action.data }, draft.userPost)
+
+      break
+    case UNLIKE_USERPOST_CONTENT:
+      unlikeContentAction({ ...action.data }, draft.userPost)
+      
+      break
+    case SCRAP_USERPOST:
+      scrapContentAction({ ...action.data }, draft.userPost)
+
+      break
+    case UNSCRAP_USERPOST:
+      unscrapContentAction({ ...action.data }, draft.userPost)
+
+      break
     case FETCH_ALERT_REQUEST:
       draft.fetchAlertLoading = true
       draft.fetchAlertSuccess = false

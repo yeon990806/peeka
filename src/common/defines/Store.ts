@@ -4,25 +4,12 @@ import { CategoryType } from "./Category";
 export type StateType = {
   user: UserType,
   post: PostStateType,
-  signIn?: {},
-  signUp?: {},
   content: ContentStateType,
   extra: ExtraStateType,
-}
-
-export type ExtraStateType = {
-  extraList: PostType[],
-}
-
-export type ContentStateType = {
-  fetchCuratorLoading: boolean
-  fetchCuratorSuccess: boolean
-  fetchCuratorError: any
-  fetchVideoLoading: boolean
-  fetchVideoSuccess: boolean
-  fetchVideoError: any
-  curatorList: CuratorType[],
-  videoList: VideoType[],
+  comment: CommentStateType,
+  reply: ReplyStateType,
+  signIn?: {},
+  signUp?: {},
 }
 
 export type UserType = {
@@ -42,9 +29,6 @@ export type UserType = {
   userPostLoading: boolean
   userPostSuccess: boolean
   userPostError: any
-  clippingPostLoading: boolean
-  clippingPostSuccess: boolean
-  clippingPostError: boolean
   fetchAlertLoading: boolean
   fetchAlertSuccess: boolean
   fetchAlertError: any
@@ -57,7 +41,88 @@ export type UserType = {
   }
   signinData: {}
   userPost: PostType[]
-  clippingPost: PostType[],
+}
+
+export type PostStateType = {
+  mainPost: PostType[]
+  imagePaths?: []
+  fetchedAllPost: boolean
+  fetchPostLoading: boolean
+  fetchPostSuccess: boolean
+  fetchPostError: boolean
+  addPostLoading: boolean
+  addPostSuccess: boolean
+  addPostError: boolean
+  deletePostLoading: boolean
+  deletePostSuccess: boolean
+  deletePostError: boolean
+  postCategory: CategoryType
+  displayImagePopup: boolean
+  popupIamgeArray: []
+  popupImageCurrentIdx: number
+}
+
+export type ContentStateType = {
+  fetchCuratorLoading: boolean
+  fetchCuratorSuccess: boolean
+  fetchCuratorError: any
+  fetchVideoLoading: boolean
+  fetchVideoSuccess: boolean
+  fetchVideoError: any
+  curatorList: CuratorType[],
+  videoList: VideoType[],
+}
+
+export type ExtraStateType = {
+  extraList: PostType[],
+  fetchExtraListRequest: boolean,
+  fetchExtraListSuccess: boolean,
+  fetchExtraListError: any,
+}
+
+export type CommentStateType = {
+  fetchCommentLoading: boolean,
+  fetchCommentSuccess: boolean,
+  fetchCommentError: any,
+  addCommentLoading: boolean,
+  addCommentSuccess: boolean,
+  addCommentError: any,
+  updateCommentLoading: boolean,
+  updateCommentSuccess: boolean,
+  updateCommentError: any,
+  deleteCommentLoading: boolean,
+  deleteCommentSuccess: boolean,
+  deleteCommentError: any
+}
+
+export type ReplyStateType = {
+  fetchReplyLoading: boolean,
+  fetchReplySuccess: boolean,
+  fetchReplyError: any,
+  addReplyLoading: boolean,
+  addReplySuccess: boolean,
+  addReplyError: any,
+  updateReplyLoading: boolean,
+  updateReplySuccess: boolean,
+  updateReplyError: any,
+  deleteReplyLoading: boolean,
+  deleteReplySuccess: boolean,
+  deleteReplyError: any
+}
+
+export type ReactionStateType = {
+  likeContentLoading: boolean,
+  likeContentSuccess: boolean,
+  likeContentError: any,
+  unlikeContentLoading: boolean,
+  unlikeContentSuccess: boolean,
+  unlikeContentError: any,
+  scrapContentLoading: boolean,
+  scrapContentSuccess: boolean,
+  scrapContentError: any,
+  unscrapContentLoading: boolean,
+  unscrapContentSuccess: boolean,
+  unscrapContentError: any,
 }
 
 export type UserInfoType = {
@@ -78,63 +143,6 @@ export type UserInfoType = {
 export type ImageType = {
   uploadedFileURL: string;
   uploadedFileKey: string;
-}
-
-export type PostStateType = {
-  mainPost: PostType[]
-  imagePaths?: []
-  fetchedAllPost: boolean
-  fetchPostLoading: boolean
-  fetchPostSuccess: boolean
-  fetchPostError: boolean
-  addPostLoading: boolean
-  addPostSuccess: boolean
-  addPostError: boolean
-  deletePostLoading: boolean
-  deletePostSuccess: boolean
-  deletePostError: boolean
-  likePostLoading: boolean
-  likePostSuccess: boolean
-  likePostError: boolean
-  unlikePostLoading: boolean
-  unlikePostSuccess: boolean
-  unlikePostError: boolean
-  scrapPostLoading: boolean
-  scrapPostSuccess: boolean
-  scrapPostError: boolean
-  unscrapPostLoading: boolean
-  unscrapPostSuccess: boolean
-  unscrapPostError: boolean
-  fetchCommentLoading: boolean
-  fetchCommentSuccess: boolean
-  fetchCommentError: any
-  addCommentLoading: boolean
-  addCommentSuccess: boolean
-  addCommentError: any
-  updateCommentLoading: boolean
-  updateCommentSuccess: boolean
-  updateCommentError: any
-  deleteCommentLoading: boolean
-  deleteCommentSuccess: boolean
-  deleteCommentError: boolean
-  fetchReplyLoading: boolean
-  fetchReplySuccess: boolean
-  fetchReplyError: boolean
-  addReplyLoading: boolean
-  addReplySuccess: boolean
-  addReplyError: boolean
-  updateReplyLoading: boolean
-  updateReplySuccess: boolean
-  updateReplyError: boolean
-  deleteReplyLoading: boolean
-  deleteReplySuccess: boolean
-  deleteReplyError: boolean
-  pagingSize: number
-  pagingNumber: number
-  postCategory: CategoryType
-  displayImagePopup: boolean
-  popupIamgeArray: []
-  popupImageCurrentIdx: number
 }
 
 export type PostType = {
@@ -226,4 +234,10 @@ export enum StorePostType {
   MainPost = 0,
   UserPost = 1,
   ExtraPost = 2,
+}
+
+export enum ActionContentType {
+  Post = 0,
+  Comment = 1,
+  Reply = 2,
 }

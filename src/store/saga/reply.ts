@@ -1,6 +1,11 @@
+import { UPDATE_USERPOST_COMMENT_REPLY, DELETE_USERPOST_COMMENT_REPLY } from './../reducer/user';
+import { ADD_POST_COMMENT_REPLY, UPDATE_POST_COMMENT_REPLY, DELETE_POST_COMMENT_REPLY } from './../reducer/post';
+import { StorePostType } from "@/common/defines/Store";
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
 import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects";
+import { ADD_EXTRAPOST_COMMENT_REPLY, DELETE_EXTRAPOST_COMMENT_REPLY, FETCH_EXTRAPOST_COMMENT_REPLY, UPDATE_EXTRAPOST_COMMENT_REPLY } from "../reducer/extra";
+import { FETCH_POST_COMMENT_REPLY } from "../reducer/post";
 import { 
   ADD_REPLY_REQUEST,
   ADD_REPLY_SUCCESS,
@@ -14,7 +19,8 @@ import {
   UPDATE_REPLY_SUCCESS,
   UPDATE_REPLY_FAILURE,
   UPDATE_REPLY_REQUEST
-} from "../reducer/post";
+} from "../reducer/reply";
+import { ADD_USERPOST_COMMENT_REPLY, FETCH_USERPOST_COMMENT_REPLY } from "../reducer/user";
 
 function fetchReplyAPI (param) {
   return axios.get(`/api/public/board/reply?comment_id=${ param.commentId }&id=${ param.id }&paging_number=0&paging_size=20`, {
@@ -69,15 +75,42 @@ function deleteReplyAPI (param) {
 function* FetchReply (action) {
   try {
     const result = yield call(fetchReplyAPI, action.data)
+    const data = {
+      list: result.data,
+      postId: action.data.postId,
+      commentId: action.data.commentId,
+      id: action.data.id,
+    }
 
     yield put({
       type: FETCH_REPLY_SUCCESS,
-      data: {
-        list: result.data,
-        postId: action.data.postId,
-        commentId: action.data.commentId
-      }
     })
+
+    switch (action.data.postType) {
+      case StorePostType.MainPost:
+        yield put({
+          type: FETCH_POST_COMMENT_REPLY,
+          data,
+        })
+
+        break
+      case StorePostType.UserPost:
+        yield put({
+          type: FETCH_USERPOST_COMMENT_REPLY,
+          data,
+        })
+
+        break
+      case StorePostType.ExtraPost:
+        yield put({
+          type: FETCH_EXTRAPOST_COMMENT_REPLY,
+          data,
+        })
+        
+        break
+      default:
+        return
+    }
   } catch (err) {
     yield put({
       type: FETCH_REPLY_FAILURE,
@@ -89,16 +122,38 @@ function* FetchReply (action) {
 function* AddReply (action) {
   try {
     const result = yield call(addReplyAPI, action.data)
+    const data = {
+      list: result.data,
+      postId: action.data.postId,
+      commentId: action.data.commentId,
+      onSuccess: action.data.onSuccess,
+    }
 
     yield put({
       type: ADD_REPLY_SUCCESS,
-      data: {
-        list: result.data,
-        postId: action.data.postId,
-        commentId: action.data.commentId,
-        onSuccess: action.data.onSuccess,
-      }
     })
+
+    switch (action.data.postType) {
+      case StorePostType.MainPost:
+        yield put({
+          type: ADD_POST_COMMENT_REPLY,
+          data,
+        })
+        
+        break
+      case StorePostType.UserPost:
+        yield put({
+          type: ADD_USERPOST_COMMENT_REPLY,
+          data,
+        })
+      case StorePostType.ExtraPost:
+        yield put({
+          type: ADD_EXTRAPOST_COMMENT_REPLY,
+          data,
+        })
+      default:
+        return
+    }
   } catch (err) {
     yield put({
       type: ADD_REPLY_FAILURE,
@@ -110,18 +165,44 @@ function* AddReply (action) {
 function* UpdateReply (action) {
   try {
     const result = yield call(updateReplyAPI, action.data)
+    const data = {
+      list: result.data,
+      id: action.data.id,
+      commentId: action.data.commentId,
+      postId: action.data.postId,
+      contents: action.data.contents,
+      onSuccess: action.data.onSuccess,
+    }
 
     yield put({
       type: UPDATE_REPLY_SUCCESS,
-      data: {
-        list: result.data,
-        id: action.data.id,
-        postId: action.data.postId,
-        commentId: action.data.commentId,
-        contents: action.data.contents,
-        onSuccess: action.data.onSuccess,
-      }
     })
+
+    switch (action.data.postType) {
+      case StorePostType.MainPost:
+        yield put({
+          type: UPDATE_POST_COMMENT_REPLY,
+          data,
+        })
+        
+        break
+      case StorePostType.UserPost:
+        yield put({
+          type: UPDATE_USERPOST_COMMENT_REPLY,
+          data,
+        })
+        
+        break
+      case StorePostType.ExtraPost:
+        yield put({
+          type: UPDATE_EXTRAPOST_COMMENT_REPLY,
+          data,
+        })
+        
+        break
+      default:
+        return
+    }
   } catch (err) {
     yield put({
       type: UPDATE_REPLY_FAILURE,
@@ -133,17 +214,43 @@ function* UpdateReply (action) {
 function* DeleteReply (action) {
   try {
     const result = yield call(deleteReplyAPI, action.data)
+    const data = {
+      list: result.data,
+      postId: action.data.postId,
+      commentId: action.data.commentId,
+      id: action.data.id,
+      onSuccess: action.data.onSuccess
+    }
 
     yield put({
       type: DELETE_REPLY_SUCCESS,
-      data: {
-        list: result.data,
-        postId: action.data.postId,
-        commentId: action.data.commentId,
-        id: action.data.id,
-        onSuccess: action.data.onSuccess
-      }
     })
+
+    switch (action.data.postType) {
+      case StorePostType.MainPost:
+        yield put({
+          type: DELETE_POST_COMMENT_REPLY,
+          data,
+        })
+
+        break
+      case StorePostType.UserPost:
+        yield put({
+          type: DELETE_USERPOST_COMMENT_REPLY,
+          data,
+        })
+
+        break
+      case StorePostType.ExtraPost:
+        yield put({
+          type: DELETE_EXTRAPOST_COMMENT_REPLY,
+          data,
+        })
+
+        break
+      default:
+        return
+    }
   } catch (err) {
     yield put({
       type: DELETE_REPLY_FAILURE,

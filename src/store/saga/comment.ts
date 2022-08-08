@@ -1,4 +1,4 @@
-import { FETCH_USERPOST_COMMENT } from './../reducer/user';
+import { DELETE_POST_COMMENT } from './../reducer/post';
 import axios from "axios"
 import { getCookie } from "@/common/libs/Cookie"
 import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects"
@@ -16,10 +16,10 @@ import {
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAILURE,
 } from "../reducer/comment"
-import { UPDATE_USERPOST_COMMENT } from "../reducer/user"
-import { ADD_POST_COMMENT, FETCH_POST_COMMENT } from "../reducer/post"
+import { ADD_USERPOST_COMMENT, DELETE_USERPOST_COMMENT, FETCH_USERPOST_COMMENT, UPDATE_USERPOST_COMMENT } from './../reducer/user';
+import { ADD_POST_COMMENT, FETCH_POST_COMMENT, UPDATE_POST_COMMENT } from "../reducer/post"
 import { StorePostType } from '@/common/defines/Store';
-import { addCommentAction } from '@/common/defines/Action';
+import { ADD_EXTRAPOST_COMMENT, DELETE_EXTRAPOST_COMMENT, FETCH_EXTRAPOST_COMMENT, UPDATE_EXTRAPOST_COMMENT } from '../reducer/extra';
 
 function fetchCommentAPI (param) {
   return axios.get(`/api/public/board/comment?post_id=${ param.postId }&id=${ param.id }&paging_number=0&paging_size=10`, {
@@ -64,6 +64,10 @@ function deleteCommentAPI (param) {
 function* FetchComment (action) {
   try {
     const result = yield call(fetchCommentAPI, action.data)
+    const data = {
+      list: result.data,
+      id: action.data.postId,
+    }
 
     yield put({
       type: FETCH_COMMENT_SUCCESS,
@@ -73,34 +77,32 @@ function* FetchComment (action) {
       case StorePostType.MainPost:
         yield put({
           type: FETCH_POST_COMMENT,
-          data: {
-            list: result.data,
-            id: action.data.postId,
-          }
+          data
         })
 
         break
       case StorePostType.UserPost:
         yield put({
           type: FETCH_USERPOST_COMMENT,
-          data: {
-            list: result.data,
-            id: action.data.postId,
-          },
+          data,
         })
         
         break
       case StorePostType.ExtraPost:
-        // yield put({})
+        yield put({
+          type: FETCH_EXTRAPOST_COMMENT,
+          data,
+        })
+
         break
       default:
         break
     }
 
-  } catch (err) { 
+  } catch (err) {
     yield put({
       type: FETCH_COMMENT_FAILURE,
-      data: err.response.data,
+      data: err,
     })
   }
 }
@@ -118,8 +120,6 @@ function* AddComment (action) {
       type: ADD_COMMENT_SUCCESS,
     })
 
-    debugger
-
     switch (action.data.postType) {
       case StorePostType.MainPost:
         yield put({
@@ -129,8 +129,18 @@ function* AddComment (action) {
 
         break
       case StorePostType.UserPost:
+        yield put({
+          type: ADD_USERPOST_COMMENT,
+          data,
+        })
+
         break
       case StorePostType.ExtraPost:
+        yield put({
+          type: ADD_EXTRAPOST_COMMENT,
+          data
+        })
+
         break
       default:
         break
@@ -147,14 +157,44 @@ function* UpdateComment (action) {
   try {
     const result = yield call(updateCommentAPI, action.data)
 
-    yield put({
-      type: UPDATE_COMMENT_SUCCESS,
-      data: {
+    if (result.status === 200) {
+      const data = {
         id: action.data.id,
         postId: action.data.postId,
-        contents: action.data.contents,
+        data: action.data.contents,
+        onSuccess: action.data.onSuccess,
       }
-    })
+  
+      yield put({
+        type: UPDATE_COMMENT_SUCCESS,
+      })
+  
+      switch (action.data.postType) {
+        case StorePostType.MainPost:
+          yield put({
+            type: UPDATE_POST_COMMENT,
+            data,
+          })
+  
+          break
+        case StorePostType.UserPost:
+          yield put({
+            type: UPDATE_USERPOST_COMMENT,
+            data,
+          })
+          break
+        case StorePostType.ExtraPost:
+          yield put({
+            type: UPDATE_EXTRAPOST_COMMENT,
+            data,
+          })
+
+          break
+        default:
+          break
+      }
+    } else {
+    }
   } catch (err) {
     yield put({
       type: UPDATE_COMMENT_FAILURE,
@@ -166,11 +206,41 @@ function* UpdateComment (action) {
 function* DeleteComment (action) {
   try {
     const result = yield call(deleteCommentAPI, { id: action.data.id })
+    const data = {
+      id: action.data.id,
+      postId: action.data.postId,
+      onSuccess: action.data.onSuccess,
+    }
 
     yield put({
       type: DELETE_COMMENT_SUCCESS,
-      data: action.data
     })
+
+    switch (action.data.postType) {
+      case StorePostType.MainPost:
+        yield put({
+          type: DELETE_POST_COMMENT,
+          data,
+        })
+
+        break
+      case StorePostType.UserPost:
+        yield put({
+          type: DELETE_USERPOST_COMMENT,
+          data,
+        })
+
+        break
+      case StorePostType.ExtraPost:
+        yield put({
+          type: DELETE_EXTRAPOST_COMMENT,
+          data,
+        })
+
+        break
+      default:
+        return
+    }
   } catch (err) {
     yield put({
       type: DELETE_COMMENT_FAILURE,

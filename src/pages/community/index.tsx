@@ -8,10 +8,11 @@ import { LayoutType } from '../_app';
 import { useSelector } from 'react-redux';
 import { StateType, StorePostType } from '@/common/defines/Store'
 import { useDispatch } from 'react-redux';
-import { CHANGE_POST_CATEGORY, FETCH_POST_REQUEST } from '@/store/reducer/post';
+import { CHANGE_POST_CATEGORY, EMPTY_MAIN_POST, FETCH_POST_REQUEST } from '@/store/reducer/post';
 import { IsMobile } from '@/common/hooks/breakpoints';
 
 import style from "./style.module.scss"
+import { getCookie } from '@/common/libs/Cookie';
 
 const Community = () => {
   const mobile = IsMobile()
@@ -45,16 +46,27 @@ const Community = () => {
 
   useEffect(() => {
     setShowing(true)
-
-    fetchPost(true, postLoading);
+    fetchPost(true, postLoading)
 
     return () => {
       dispatch({
         type: CHANGE_POST_CATEGORY,
         data: null,
       })
+
+      dispatch({
+        type: EMPTY_MAIN_POST
+      })
     }
   }, [])
+
+  useEffect(() => {
+    if (!postCategory)
+      dispatch({
+        type: CHANGE_POST_CATEGORY,
+        data: 'NULL'
+      })
+  }, [postCategory])
 
   if (!showing) return <></>
   return (

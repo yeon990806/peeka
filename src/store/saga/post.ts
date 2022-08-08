@@ -12,18 +12,6 @@ import {
   FETCH_POST_FAILURE,
   FETCH_POST_REQUEST,
   FETCH_POST_SUCCESS,
-  LIKE_POST_FAILURE,
-  LIKE_POST_REQUEST,
-  LIKE_POST_SUCCESS,
-  SCRAP_POST_FAILURE,
-  SCRAP_POST_REQUEST,
-  SCRAP_POST_SUCCESS,
-  UNLIKE_POST_FAILURE,
-  UNLIKE_POST_REQUEST,
-  UNLIKE_POST_SUCCESS,
-  UNSCRAP_POST_FAILURE,
-  UNSCRAP_POST_REQUEST,
-  UNSCRAP_POST_SUCCESS,
 } from "../reducer/post";
 
 function fetchPostAPI (param) {
@@ -66,94 +54,6 @@ function deletePostAPI (param) {
   }
   
   return axios.delete('/api/board/post', options)
-}
-
-function likePostAPI (param) {
-  const data: {
-    contents_type: string
-    post_id?: number
-    comment_id?: number
-    reply_id?: number
-  } = {
-    contents_type: param.type
-  }
-
-  switch (param.type) {
-    case 'post':
-      data.post_id = param.id
-      
-      break
-    case 'comment':
-      data.comment_id = param.id
-      
-      break
-    case 'reply':
-      data.reply_id = param.id
-
-      break
-  }
-
-  return axios.post('/api/board/contents/like', data , {
-    headers: {
-      Authorization: `Bearer ${ getCookie('accessToken') }`
-    }
-  })
-}
-
-function unlikePostAPI (param) {
-  const data: {
-      contents_type: string
-      post_id?: number
-      comment_id?: number
-      reply_id?: number
-    } = {
-      contents_type: param.type
-    }
-
-    switch (param.type) {
-      case 'post':
-        data.post_id = param.id
-        
-        break
-      case 'comment':
-        data.comment_id = param.id
-        
-        break
-      case 'reply':
-        data.reply_id = param.id
-
-        break
-    }
-
-  const options = {
-    data,
-    headers: {
-      Authorization: `Bearer ${ getCookie('accessToken') }`
-    }
-  }
-  
-  return axios.delete('/api/board/contents/like', options)
-}
-
-function scrapPostAPI (param) {
-  return axios.post('/api/board/post/scrap', {
-    post_id: param.id
-  }, {
-    headers: {
-      Authorization: `Bearer ${ getCookie('accessToken') }`
-    }
-  })
-}
-
-function unscrapPostAPI (parma) {
-  return axios.delete('/api/board/post/scrap', {
-    data: {
-      post_id: parma.id
-    },
-    headers: {
-      Authorization: `Bearer ${ getCookie('accessToken') }`
-    }
-  })
 }
 
 function* FetchPost (action) {
@@ -210,75 +110,6 @@ function* DeletePost (action) {
   }
 }
 
-function* LikePost (action) {
-  try {
-    const result = yield call(likePostAPI, action.data)
-
-    if (result.status === 200)
-      yield put({
-        type: LIKE_POST_SUCCESS,
-        data: action.data,
-      })
-  } catch (err) {
-    const _err = err
-
-    yield put({
-      type: LIKE_POST_FAILURE,
-      data: err.response.data,
-    })
-  }
-}
-
-function* UnlikePost (action) {
-  try {
-    const result = yield call(unlikePostAPI, action.data)
-
-    yield put({
-      type: UNLIKE_POST_SUCCESS,
-      data: action.data
-    })
-  } catch (err) {
-    yield put({
-      type: UNLIKE_POST_FAILURE,
-      data: err.response.data,
-    })
-  }
-}
-
-function* ScrapPost (action) {
-  try {
-    const result = yield call(scrapPostAPI, action.data)
-
-    if (result.status === 200)
-      yield put({
-        type: SCRAP_POST_SUCCESS,
-        data: action.data,
-      })
-  } catch (err) {
-    yield put({
-      type: SCRAP_POST_FAILURE,
-      data: err
-    })
-  }
-}
-
-function* UnscrapPost (action) {
-  try {
-    const result = yield call(unscrapPostAPI, action.data)
-
-    if (result.status === 200)
-      yield put({
-        type: UNSCRAP_POST_SUCCESS,
-        data: action.data,
-      })
-  } catch (err) {
-    yield put({
-      type: UNSCRAP_POST_FAILURE,
-      data: err
-    })
-  }
-}
-
 function* watchFetchingPost () {
   yield throttle(5000, FETCH_POST_REQUEST, FetchPost)
 }
@@ -291,30 +122,10 @@ function* watchDeletePost () {
   yield takeLatest(DELETE_POST_REQUEST, DeletePost)
 }
 
-function* watchLikePost () {
-  yield takeLatest(LIKE_POST_REQUEST, LikePost)
-}
-
-function* watchUnlikePost () {
-  yield takeLatest(UNLIKE_POST_REQUEST, UnlikePost)
-}
-
-function* watchScrapPost () {
-  yield takeLatest(SCRAP_POST_REQUEST, ScrapPost)
-}
-
-function* watchUnscrapPost () {
-  yield takeLatest(UNSCRAP_POST_REQUEST, UnscrapPost)
-}
-
 export default function* postSaga () {
   yield all([
     fork(watchFetchingPost),
     fork(watchCreatePost),
     fork(watchDeletePost),
-    fork(watchLikePost),
-    fork(watchUnlikePost),
-    fork(watchScrapPost),
-    fork(watchUnscrapPost)
   ])
 }

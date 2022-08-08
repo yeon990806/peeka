@@ -1,18 +1,20 @@
-import { CommentType, StateType, StorePostType } from '@/common/defines/Store'
-import Button from '../Button'
-import UserProfile from '../UserProfile'
-import style from './style.module.scss'
-import { getLongDateFormat } from '@/common/defines/Format';
-import MenuPopup from '../MenuPopup';
 import { useCallback, useEffect, useState } from 'react';
-import Textarea from '../Textarea';
-import { UPDATE_COMMENT_REQUEST, DELETE_COMMENT_REQUEST } from '@/store/reducer/comment';
-import { FETCH_REPLY_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '@/store/reducer/post';
 import { useDispatch } from 'react-redux';
-import Popup from '../Popup';
 import { useSelector } from 'react-redux';
+import { getLongDateFormat } from '@/common/defines/Format';
+import { CommentType, StateType, StorePostType } from '@/common/defines/Store'
+import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '@/store/reducer/post';
+import { UPDATE_COMMENT_REQUEST, DELETE_COMMENT_REQUEST } from '@/store/reducer/comment';
+import { FETCH_REPLY_REQUEST } from '@/store/reducer/reply';
+import Button from '../Button'
 import InputComment from '../InputComment';
+import UserProfile from '../UserProfile'
+import MenuPopup from '../MenuPopup';
+import Popup from '../Popup';
 import ReplyCard from '../ReplyCard';
+import Textarea from '../Textarea';
+
+import style from './style.module.scss'
 
 interface CommentCardProps {
   data: CommentType,
@@ -21,8 +23,8 @@ interface CommentCardProps {
 
 const CommentCard = (props: CommentCardProps) => {
   const dispatch = useDispatch()
-  const addSuccess = useSelector((state: StateType) => state.post.addCommentSuccess)
-  const modifySuccess = useSelector((state: StateType) => state.post.updateCommentSuccess)
+  const addSuccess = useSelector((state: StateType) => state.comment.addCommentLoading)
+  const modifySuccess = useSelector((state: StateType) => state.comment.updateCommentSuccess)
   const [activeModify, setActiveModify] = useState<boolean>(false)
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
@@ -46,6 +48,7 @@ const CommentCard = (props: CommentCardProps) => {
       postId: props.data.post_id,
       commentId: props.data.id,
       id: props.data.reply_list ? props.data.reply_list[props.data.reply_list.length - 1].id : '',
+      postType: props.type,
       onSuccess: () => onChangeInputValue('')
     }
   }), [props.data.reply_list])
@@ -76,6 +79,11 @@ const CommentCard = (props: CommentCardProps) => {
           postId: props.data.post_id,
           id: props.data.id,
           contents: inputValue,
+          postType: props.type,
+          onSuccess: (v: string) => {
+            onChangeInputValue(v)
+            toggleActiveModify()
+          }
         }
       })   
     } else {
@@ -88,6 +96,7 @@ const CommentCard = (props: CommentCardProps) => {
     data: {
       id: props.data.id,
       postId: props.data.post_id,
+      postType: props.type,
       onSuccess: () => setDisplayDeleteComment(false)
     }
   }), [])

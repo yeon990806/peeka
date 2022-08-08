@@ -18,9 +18,6 @@ import {
   USER_POST_REQUEST,
   USER_POST_SUCCESS,
   USER_POST_FAILURE,
-  CLIPPING_POST_SUCCESS,
-  CLIPPING_POST_FAILURE,
-  CLIPPING_POST_REQUEST,
   FETCH_ALERT_SUCCESS,
   FETCH_ALERT_FAILURE,
   FETCH_ALERT_REQUEST,
@@ -64,14 +61,6 @@ export function onSlientRefresh () {
 
 function fetchUserPostAPI (param) {
   return axios.get(`/api/public/board/post/member?member_id=${ param.memberId }&id=${ param.postId }&paging_number=0&paging_size=20`, {
-    headers: {
-      'Authorization': `Bearer ${ getCookie('accessToken') }`,
-    }
-  })
-}
-
-function fetchClippingPostAPI (param) {
-  return axios.get(`/api/board/post/scrap?id=${ param.id }&paging_number=0&paging_size=20`, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
@@ -191,22 +180,6 @@ function* FetchUserPost (action) {
   }
 }
 
-function* FetchClippingPost (action) {
-  try {
-    const result = yield call(fetchClippingPostAPI, action.data)
-
-    yield put({
-      type: CLIPPING_POST_SUCCESS,
-      data: result.data
-    })
-  } catch (err) {
-    yield put({
-      type: CLIPPING_POST_FAILURE,
-      data: err.response.data,
-    })
-  }
-}
-
 function* FetchAlert (action) {
   try {
     const result = yield call(fetchAlertAPI, action.data)
@@ -262,10 +235,6 @@ function* watchUserPost () {
   yield throttle(20000, USER_POST_REQUEST, FetchUserPost)
 }
 
-function* watchClippingPost () {
-  yield throttle(20000, CLIPPING_POST_REQUEST, FetchClippingPost)
-}
-
 function* watchFetchAlert () {
   yield throttle(20000, FETCH_ALERT_REQUEST, FetchAlert)
 }
@@ -281,7 +250,6 @@ export default function* userSaga () {
     fork(watchSignUp),
     fork(watchSignOut),
     fork(watchUserPost),
-    fork(watchClippingPost),
     fork(watchFetchAlert),
     fork(watchReadAlert)
   ])

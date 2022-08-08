@@ -4,6 +4,8 @@ import userSaga from "./user"
 import commentSaga from "./comment"
 import replySaga from "./reply"
 import contentSaga from "./content"
+import extraSaga from "./extra"
+import reactionSaga from "./reaction"
 
 export default function* rootSaga() {
   yield all([
@@ -11,6 +13,8 @@ export default function* rootSaga() {
     fork(postSaga),
     fork(commentSaga),
     fork(replySaga),
-    fork(contentSaga)
+    fork(contentSaga),
+    fork(extraSaga),
+    fork(reactionSaga),
   ])
 }

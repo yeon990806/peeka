@@ -1,57 +1,47 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { CommentType, PostType, StorePostType } from '@/common/defines/Store';
-import { useEffect, useState } from "react";
-import PostCard from "@/components/PostCard";
+import { useEffect } from "react";
 import Spinner from "@/components/Spinner";
-import axios from "axios";
 import { useRouter } from "next/router";
-import { getCookie } from '@/common/libs/Cookie';
 import PostContainer from "@/components/PostContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { EMPTY_EXTRA_LIST, FETCH_EXTRAPOST_REQUEST } from "@/store/reducer/extra";
+import { StateType, StorePostType } from "@/common/defines/Store";
 
 const search = () => {
   const router = useRouter()
+  const dispatch = useDispatch()
   const [category, text] = router.query.params || []
 
-  const [mounted, setMounted] = useState<boolean>(false)
-  const [searchContent, setSearchContent] = useState<PostType[]>([])
-  const [searchLoading, setSearchLoading] = useState<boolean>(false)
- 
-  const fetchSearchContent = async (init?: boolean) => {
-    if (!category && !text) return
-    
-    setSearchLoading(true)
-    
-    try {
-      const result = await axios.get(`/api/public/board/post/search?category_code=${ category !== 'ALL' ? category : '' }&search_contents=${ text }&id=${ searchContent.length > 0 ? searchContent[0].id : '' }&paging_number=0&paging_size=20`, {
-        headers: {
-          Authorization: `Bearer ${ getCookie('accessToken') }`
-        }
-      })
+  const searchContent = useSelector((state: StateType) => state.extra.extraList)
+  const searchLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
 
-      if (init) setSearchContent(result.data)
-      else setSearchContent([...searchContent, ...result.data])
-    } catch (err) {
-      setSearchContent([])
-    } finally {
-      setSearchLoading(false)
-    }
+  const fetchSearchContent = () => {
+    if (!category && !text) return
+    dispatch({
+      type: FETCH_EXTRAPOST_REQUEST,
+      data: {
+        type: 'search',
+        id: searchContent.length > 0 ? searchContent[searchContent.length - 1].id : '',
+        public: true,
+        category,
+        text,
+      }
+    })
   }
 
   useEffect(() => {
-    setMounted(true)
+    fetchSearchContent()
 
     return () => {
-      setMounted(false)
+      dispatch({
+        type: EMPTY_EXTRA_LIST
+      })
     }
   }, [])
 
   useEffect(() => {
-    if (mounted) fetchSearchContent(true)
-  }, [mounted])
-
-  useEffect(() => {
-    fetchSearchContent(false)
+    fetchSearchContent()
   }, [category, text])
   
   return (
@@ -67,7 +57,7 @@ const search = () => {
           ? <PostContainer
             postList={ searchContent }
             fetchLoading={ searchLoading }
-            fetchList={ () => fetchSearchContent(false) }
+            fetchList={ fetchSearchContent }
             postType={ StorePostType.ExtraPost }
           />
           : <div className={ style.NullContent }>

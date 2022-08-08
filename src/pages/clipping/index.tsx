@@ -1,38 +1,36 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType, StateType, StorePostType } from '@/common/defines/Store';
-import { useCallback, useEffect, useState } from "react";
+import { StateType, StorePostType } from '@/common/defines/Store';
+import { useEffect, useState } from "react";
 import PostCard from "@/components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
-import { IsMobile } from "@/common/hooks/breakpoints";
 import Spinner from "@/components/Spinner";
-import { CLIPPING_POST_REQUEST } from "@/store/reducer/user";
-import produce from "immer";
+import { EMPTY_EXTRA_LIST, FETCH_EXTRAPOST_REQUEST } from "@/store/reducer/extra";
+import PostContainer from "@/components/PostContainer";
 
 const clipping = () => {
   const dispatch = useDispatch()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
-  const clippingPost = useSelector((state: StateType) => state.user.clippingPost)
-  const clippingPostLoading = useSelector((state: StateType) => state.user.clippingPostLoading)
+  const clippingPost = useSelector((state: StateType) => state.extra.extraList)
+  const clippingPostLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
 
-  const [mounted, setMounted] = useState<boolean>(false)
+  const fetchClippingPost = () => dispatch({
+    type: FETCH_EXTRAPOST_REQUEST,
+    data: {
+      type: 'scrap',
+      id: clippingPost.length > 0 ? clippingPost[clippingPost.length - 1].id : ''
+    }
+  })
 
   useEffect(() => {
-    setMounted(true)
+    fetchClippingPost()
 
     return () => {
-      setMounted(false)
+      dispatch({
+        type: EMPTY_EXTRA_LIST
+      })
     }
   }, [])
-
-  useEffect(() => {
-    if (mounted) dispatch({
-      type: CLIPPING_POST_REQUEST,
-      data: {
-        id: clippingPost.length > 0 ? clippingPost[clippingPost.length - 1].id : ''
-      }
-    })
-  }, [mounted])
   
   if (!userInfo) return null
   return (
@@ -44,14 +42,15 @@ const clipping = () => {
         </h1>
       </div>
       <div className={ style.PostContainer }>
+        
         { (clippingPost && clippingPost.length > 0)
-          ? clippingPost.map(v => (
-            <PostCard
-              post={ v }
-              key={ v.id }
-              type={ StorePostType.ExtraPost }
-            />
-          )) 
+          ? 
+          <PostContainer
+            postList={ clippingPost }
+            fetchList={ fetchClippingPost }
+            fetchLoading={ clippingPostLoading }
+            postType={ StorePostType.ExtraPost }
+          />
           : <div className={ style.NullContent }>
             <h1>스크랩한 포스트가 없어요.</h1>
             <p>포스트를 스크랩해보세요!</p>

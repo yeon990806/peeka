@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ADD_COMMENT_REQUEST } from '@/store/reducer/comment';
-import { ADD_REPLY_REQUEST } from '../../store/reducer/post';
+import { ADD_REPLY_REQUEST } from '../../store/reducer/reply';
 import Button from "../Button";
 import Textarea from "../Textarea";
 import style from "./style.module.scss"

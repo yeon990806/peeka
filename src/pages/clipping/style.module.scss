@@ -9,6 +9,8 @@
     padding: 16px 16px 24px;
     display: flex;
     align-items: center;
+    background: $background;
+    z-index: 2;
 
     h1 {
       padding-left: 8px;

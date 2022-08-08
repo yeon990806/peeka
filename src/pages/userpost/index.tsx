@@ -2,7 +2,6 @@ import { LayoutType } from "../_app"
 import style from "./style.module.scss"
 import { StateType, StorePostType } from '@/common/defines/Store';
 import { useEffect, useMemo, useState } from "react";
-import PostCard from "@/components/PostCard";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "@/components/Spinner";
 import { USER_POST_REQUEST } from "@/store/reducer/user";

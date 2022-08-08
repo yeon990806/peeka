@@ -40,7 +40,7 @@ const PostContainer = (props: PostContainerProps) => {
           key={ post.id }
         />
       )) }
-      <div ref={ trigger } />
+      { props.postList.length >= 20 && <div ref={ trigger } /> }
     </div>
   )
 }
