@@ -14,7 +14,7 @@ import { genderType } from '@/common/defines/Signup';
 import style from "./style.module.scss";
 import axios, { AxiosResponse } from "axios";
 import { SIGN_UP_REQUEST } from "@/store/reducer/user";
-import { AxiosResponseType } from "@/common/api";
+import { APIHost, AxiosResponseType } from "@/common/api";
 import { StateType } from "@/common/defines/Store";
 
 const SignUp = () => {
@@ -79,7 +79,7 @@ const SignUp = () => {
   const fetchAuthCode = () => {
     setSentCode(true)
 
-    axios.post(`/api/public/auth/email/validation/code`, {
+    axios.post(`${ APIHost }/public/auth/email/validation/code`, {
       email: userEmail
     }).then((resp: AxiosResponseType<{
       id: number;
