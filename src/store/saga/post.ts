@@ -16,7 +16,7 @@ import {
 } from "../reducer/post";
 
 function fetchPostAPI (param) {
-  return axios.get(`${ APIHost }/api/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
+  return axios.get(`${ APIHost }/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
 }
 
 function addPostAPI (param) {
@@ -36,7 +36,7 @@ function addPostAPI (param) {
   }
   f.append('contents', new Blob([ JSON.stringify(dataset) ], { type: 'application/json' }))
 
-  return axios.post(`/api/board/post`, f, {
+  return axios.post(`${ APIHost }/board/post`, f, {
     headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
