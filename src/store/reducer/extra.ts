@@ -52,7 +52,6 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchExtraListSuccess = true
 
       if (action.data.length > 0) {
-        debugger
         const _post = draft.extraList.findIndex(v => v.id === action.data[0].id)
 
         if (_post >= 0) return

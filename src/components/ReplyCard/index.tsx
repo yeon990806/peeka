@@ -5,11 +5,11 @@ import style from './style.module.scss'
 import MenuPopup from '../MenuPopup';
 import { useCallback, useState } from 'react';
 import Textarea from '../Textarea';
-import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '@/store/reducer/post';
 import { useDispatch } from 'react-redux';
 import Popup from '../Popup';
 import InputComment from '../InputComment';
 import { DELETE_REPLY_REQUEST, UPDATE_REPLY_REQUEST } from '@/store/reducer/reply';
+import { LIKE_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST } from '@/store/reducer/reaction';
 
 interface ReplyCardProps {
   data: ReplyType
@@ -85,17 +85,18 @@ const ReplyCard = (props: ReplyCardProps) => {
       type: 'reply',
       postId: props.postId,
       commentId: props.data.comment_id,
-      id: props.data.id,
+      replyId: props.data.id,
+      postType: props.type,
     }
 
     if (props.data.like_yn === 'Y')
       dispatch({
-        type: UNLIKE_POST_REQUEST,
+        type: UNLIKE_CONTENT_REQUEST,
         data
       })
     else
       dispatch({
-        type: LIKE_POST_REQUEST,
+        type: LIKE_CONTENT_REQUEST,
         data
       }) 
   }, [props.data.like_yn, props.data.like_count])

@@ -49,7 +49,7 @@ const PostCard = (props: PostProps) => {
   const onClickSharePost = useCallback(() => {}, [])
 
   const getUserPost = useCallback(() => {
-    if (router.pathname.indexOf('userpost') < 0 && router.asPath.indexOf(props.post.member_id) < 0)
+    if (router.pathname.indexOf('userpost') < 0 && router.asPath.indexOf(props.post.member_id.toString()) < 0)
       router.push({
         pathname: '/userpost/[id]',
         query: {

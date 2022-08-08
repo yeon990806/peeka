@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { getLongDateFormat } from '@/common/defines/Format';
 import { CommentType, StateType, StorePostType } from '@/common/defines/Store'
-import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '@/store/reducer/post';
 import { UPDATE_COMMENT_REQUEST, DELETE_COMMENT_REQUEST } from '@/store/reducer/comment';
 import { FETCH_REPLY_REQUEST } from '@/store/reducer/reply';
 import Button from '../Button'
@@ -15,6 +14,7 @@ import ReplyCard from '../ReplyCard';
 import Textarea from '../Textarea';
 
 import style from './style.module.scss'
+import { LIKE_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST } from '@/store/reducer/reaction';
 
 interface CommentCardProps {
   data: CommentType,
@@ -105,17 +105,18 @@ const CommentCard = (props: CommentCardProps) => {
     const data = {
       type: 'comment',
       postId: props.data.post_id,
-      id: props.data.id,
+      commentId: props.data.id,
+      postType: props.type
     }
 
     if (props.data.like_yn === 'Y')
       dispatch({
-        type: UNLIKE_POST_REQUEST,
+        type: UNLIKE_CONTENT_REQUEST,
         data
       })
     else
       dispatch({
-        type: LIKE_POST_REQUEST,
+        type: LIKE_CONTENT_REQUEST,
         data
       }) 
   }, [props.data.like_yn, props.data.like_count])
