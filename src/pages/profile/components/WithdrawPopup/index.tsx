@@ -1,3 +1,4 @@
+import { APIHost } from "@/common/api";
 import { getCookie } from "@/common/libs/Cookie";
 import Input from "@/components/Input";
 import Popup from "@/components/Popup";
@@ -25,7 +26,7 @@ const WithDrawPopup = (props: WithDrawPopupProps) => {
 
   const onWithDraw = useCallback(async () => {
     try {
-      const result = await axios.delete('/api/member/withdrwal', {
+      const result = await axios.delete(`${ APIHost }/member/withdrwal`, {
         data: {
           // email: 
           password: inputPassword

@@ -91,7 +91,7 @@ const SignUp = () => {
   }
 
   const fetchValidateAuthCode = () => {
-    axios.get(`/api/public/auth/email/validation/code?id=${ userId }&code=${ authCode }`)
+    axios.get(`${ APIHost }/public/auth/email/validation/code?id=${ userId }&code=${ authCode }`)
       .then((resp: AxiosResponse<{
         id: number;
         code: number;

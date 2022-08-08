@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Input from "@/components/Input"
 import SignUpContainer from '../../components/SignUpContainer/index';
 import Button from '@/components/Button';
@@ -9,6 +9,7 @@ import Checkbox from '@/components/Checkbox';
 import { genderType } from '@/common/defines/Signup';
 import TermsPopup from '../../components/TermsPopup';
 import axios from 'axios';
+import { APIHost } from '@/common/api';
 
 interface InputInfoProps {
   userName: string;
@@ -34,15 +35,21 @@ interface InputInfoProps {
 
 const InputInfo = (props: InputInfoProps) => {
   const [displayPopup, setDisplayPopup] = useState<boolean>(false)
+  const [termsType, setTermsType] = useState<number | null>(null)
   const [existencedUsername, setExistencedUsername] = useState<boolean>(false)
 
   const onToggleExistenceUsername = useCallback((v) => setExistencedUsername(v), [existencedUsername])
+  const onToggleDisplayPopup = useCallback(() => setDisplayPopup(prev => !prev), [displayPopup, termsType])
 
   const existenceUsername = async (v: string) => {
-    const result = await axios.get(`/api/public/auth/nickname/existence?nickname=${ v }`)
+    const result = await axios.get(`${ APIHost }/public/auth/nickname/existence?nickname=${ v }`)
 
     return onToggleExistenceUsername(result.data.statement)
   }
+
+  useEffect(() => {
+    if (!displayPopup) setTermsType(null)
+  }, [displayPopup])
 
   return (
     <SignUpContainer
@@ -50,7 +57,8 @@ const InputInfo = (props: InputInfoProps) => {
         <>
           { displayPopup && <TermsPopup
             display={ displayPopup }
-            termstype={0}
+            termsType={ termsType }
+            onClose={ () => setDisplayPopup(false) }
           /> }
           
           <Input
@@ -148,6 +156,11 @@ const InputInfo = (props: InputInfoProps) => {
               <Button
                 type="text"
                 theme="light"
+                onClick={ () => {
+                    setTermsType(0)
+                    onToggleDisplayPopup()
+                  } 
+                }
               >
                 보기
               </Button>
@@ -163,6 +176,11 @@ const InputInfo = (props: InputInfoProps) => {
               <Button
                 type="text"
                 theme="light"
+                onClick={ () => {
+                    setTermsType(1)
+                    onToggleDisplayPopup()
+                  } 
+                }
               >
                 보기
               </Button>

@@ -21,9 +21,10 @@ import {
   UPDATE_REPLY_REQUEST
 } from "../reducer/reply";
 import { ADD_USERPOST_COMMENT_REPLY, FETCH_USERPOST_COMMENT_REPLY } from "../reducer/user";
+import { APIHost } from '@/common/api';
 
 function fetchReplyAPI (param) {
-  return axios.get(`/api/public/board/reply?comment_id=${ param.commentId }&id=${ param.id }&paging_number=0&paging_size=20`, {
+  return axios.get(`${ APIHost }/public/board/reply?comment_id=${ param.commentId }&id=${ param.id }&paging_number=0&paging_size=20`, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
@@ -38,7 +39,7 @@ function addReplyAPI (param) {
     to_member_id: param.author,
   }
   
-  return axios.post('/api/board/reply', paramData, {
+  return axios.post(`${ APIHost }/board/reply`, paramData, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
@@ -51,7 +52,7 @@ function updateReplyAPI (param) {
     contents: param.contents,
   }
 
-  return axios.patch('/api/board/reply', paramData, {
+  return axios.patch(`${ APIHost }/board/reply`, paramData, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
@@ -69,7 +70,7 @@ function deleteReplyAPI (param) {
     }
   }
 
-  return axios.delete('/api/board/reply', paramData)
+  return axios.delete(`${ APIHost }/board/reply`, paramData)
 }
 
 function* FetchReply (action) {

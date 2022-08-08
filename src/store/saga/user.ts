@@ -1,3 +1,4 @@
+import { APIHost } from '@/common/api';
 import axios from 'axios';
 import router from 'next/router';
 import { all, call, fork, put, throttle, delay, takeLatest } from 'redux-saga/effects'
@@ -29,7 +30,7 @@ import {
 const JWT_EXPIRY_TIME = 6 * 3600 * 1000 // 6hours
 
 function fetchUserInfoAPI () {
-  return axios.get(`/api/member/profile`, {
+  return axios.get(`${ APIHost }/member/profile`, {
     headers: {
       Authorization: `Bearer ${ getCookie('accessToken') }`,
     }
@@ -37,7 +38,7 @@ function fetchUserInfoAPI () {
 }
 
 function signInAPI (param) {
-  return axios.post(`/api/public/auth/login`, param, {
+  return axios.post(`${ APIHost }/public/auth/login`, param, {
     headers: {
       Authorization: "",
     }
@@ -45,7 +46,7 @@ function signInAPI (param) {
 }
 
 function signUpAPI (param) {
-  return axios.post('api/public/auth/signup', param, {
+  return axios.post(`${ APIHost }/public/auth/signup`, param, {
     headers: {
       Authorization: "",
     }
@@ -53,14 +54,14 @@ function signUpAPI (param) {
 }
 
 export function onSlientRefresh () {
-  return axios.post('/api/public/auth/reissue', {
+  return axios.post(`${ APIHost }/public/auth/reissue`, {
     access_token: getCookie('accessToken'),
     refresh_token: getCookie('refreshToken')
   })
 }
 
 function fetchUserPostAPI (param) {
-  return axios.get(`/api/public/board/post/member?member_id=${ param.memberId }&id=${ param.postId }&paging_number=0&paging_size=20`, {
+  return axios.get(`${ APIHost }/public/board/post/member?member_id=${ param.memberId }&id=${ param.postId }&paging_number=0&paging_size=20`, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
@@ -68,7 +69,7 @@ function fetchUserPostAPI (param) {
 }
 
 function fetchAlertAPI (param) {
-  return axios.get(`/api/notice?id=${ param.id }&paging_number=0&paging_size=5`, {
+  return axios.get(`${ APIHost }/notice?id=${ param.id }&paging_number=0&paging_size=5`, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
@@ -81,7 +82,7 @@ function readAlertAPI (param) {
     check_yn: param.check,
     contents_source: param.source,
   }
-  return axios.patch('/api/notice', paramData, {
+  return axios.patch(`${ APIHost }/notice`, paramData, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }

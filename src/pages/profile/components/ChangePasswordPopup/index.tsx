@@ -1,3 +1,4 @@
+import { APIHost } from "@/common/api"
 import { getCookie } from "@/common/libs/Cookie"
 import Input from "@/components/Input"
 import Popup from "@/components/Popup"
@@ -38,7 +39,7 @@ const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
     }
 
     try {
-      const result = await axios.patch('/api/member/password', formData, {
+      const result = await axios.patch(`${ APIHost }/member/password`, formData, {
         headers: {
           Authorization: `Bearer ${ getCookie('accessToken') }`
         }

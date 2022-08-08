@@ -1,10 +1,11 @@
+import { APIHost } from "@/common/api";
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
 import { all, call, fork, put, throttle } from "redux-saga/effects";
 import { FETCH_EXTRAPOST_FAILURE, FETCH_EXTRAPOST_REQUEST, FETCH_EXTRAPOST_SUCCESS } from "../reducer/extra";
 
 function fetchExtraPostAPI (param) {
-  let api = `/api/${ param.public ? 'public/' : '' }board/post`
+  let api = `${ APIHost }/${ param.public ? 'public/' : '' }board/post`
   const option = `id=${ param.id }&paging_number=0&paging_size=20`
   
   switch (param.type) {

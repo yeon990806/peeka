@@ -7,6 +7,7 @@ import { LIKE_MAINPOST_CONTENT, SCRAP_MAINPOST, UNLIKE_MAINPOST_CONTENT, UNSCRAP
 import { LIKE_USERPOST_CONTENT, SCRAP_USERPOST, UNLIKE_USERPOST_CONTENT, UNSCRAP_USERPOST } from '../reducer/user';
 import { LIKE_EXTRAPOST_CONTENT, SCRAP_EXTRAPOST, UNLIKE_EXTRAPOST_CONTENT, UNSCRAP_EXTRAPOST } from '../reducer/extra';
 import { getCookie } from '@/common/libs/Cookie';
+import { APIHost } from '@/common/api';
 
 function likePostAPI (param) {
   const data = {
@@ -16,7 +17,7 @@ function likePostAPI (param) {
     reply_id: param.replyId || null,
   }
 
-  return axios.post('/api/board/contents/like', data , {
+  return axios.post(`${ APIHost }/board/contents/like`, data , {
     headers: {
       Authorization: `Bearer ${ getCookie('accessToken') }`,
     }
@@ -37,7 +38,7 @@ function unlikePostAPI (param) {
     }
   }
   
-  return axios.delete('/api/board/contents/like', options)
+  return axios.delete(`${ APIHost }/board/contents/like`, options)
 }
 
 function scrapPostAPI (param) {
@@ -45,7 +46,7 @@ function scrapPostAPI (param) {
     post_id: param.id
   }
 
-  return axios.post('/api/board/post/scrap', data, {
+  return axios.post(`${ APIHost }/board/post/scrap`, data, {
     headers: {
       Authorization: `Bearer ${ getCookie('accessToken') }`,
     }
@@ -63,7 +64,7 @@ function unscrapPostAPI (param) {
     }
   }
 
-  return axios.delete('/api/board/post/scrap', options)
+  return axios.delete(`${ APIHost }/board/post/scrap`, options)
 }
 
 function* LikePost (action) {

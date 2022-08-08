@@ -56,7 +56,7 @@ function deletePostAPI (param) {
     }
   }
   
-  return axios.delete('/api/board/post', options)
+  return axios.delete(`${ APIHost }/board/post`, options)
 }
 
 function* FetchPost (action) {

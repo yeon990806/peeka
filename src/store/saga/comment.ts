@@ -20,9 +20,10 @@ import { ADD_USERPOST_COMMENT, DELETE_USERPOST_COMMENT, FETCH_USERPOST_COMMENT, 
 import { ADD_POST_COMMENT, FETCH_POST_COMMENT, UPDATE_POST_COMMENT } from "../reducer/post"
 import { StorePostType } from '@/common/defines/Store';
 import { ADD_EXTRAPOST_COMMENT, DELETE_EXTRAPOST_COMMENT, FETCH_EXTRAPOST_COMMENT, UPDATE_EXTRAPOST_COMMENT } from '../reducer/extra';
+import { APIHost } from '@/common/api';
 
 function fetchCommentAPI (param) {
-  return axios.get(`/api/public/board/comment?post_id=${ param.postId }&id=${ param.id }&paging_number=0&paging_size=10`, {
+  return axios.get(`${ APIHost }/public/board/comment?post_id=${ param.postId }&id=${ param.id }&paging_number=0&paging_size=10`, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
@@ -30,7 +31,7 @@ function fetchCommentAPI (param) {
 }
 
 function addCommentAPI (param) {
-  return axios.post('/api/board/comment', {
+  return axios.post(`${ APIHost }/board/comment`, {
     post_id: param.postId,
     contents: param.contents,
     to_member_id: param.author
@@ -42,7 +43,7 @@ function addCommentAPI (param) {
 }
 
 function updateCommentAPI (param) {
-  return axios.patch('/api/board/comment', {
+  return axios.patch(`${ APIHost }/board/comment`, {
     id: param.id,
     contents: param.contents
   }, {
@@ -53,7 +54,7 @@ function updateCommentAPI (param) {
 }
 
 function deleteCommentAPI (param) {
-  return axios.delete('/api/board/comment', {
+  return axios.delete(`${ APIHost }/board/comment`, {
     data: param,
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,

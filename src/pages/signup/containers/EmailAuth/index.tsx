@@ -9,6 +9,7 @@ import router from "next/router";
 import style from "../../style.module.scss";
 import { useSelector } from "react-redux";
 import { StateType } from "@/common/defines/Store";
+import { APIHost } from "@/common/api";
 
 interface EmailAuthProps {
   userEmail: string;
@@ -28,7 +29,7 @@ const EmailAuth = (props: EmailAuthProps) => {
   const onSetDuplicatedEmail = useCallback((v) => setDuplicatedEmail(v), [duplicatedEmail])
 
   const existenceEmail = async (email: string) => {
-    const result = await axios.get(`/api/public/auth/email/existence?email=${ email }`)
+    const result = await axios.get(`${ APIHost }/public/auth/email/existence?email=${ email }`)
 
     return onSetDuplicatedEmail(result.data.statement)
   }
