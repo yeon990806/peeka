@@ -29,7 +29,12 @@ const nextConfig = {
           destination: process.env.DESTINATION_URL,
         },
       ];
-    else return []
+    else return [
+      {
+        source: process.env.SERVICE_SOURCE_PATH,
+        destination: process.env.SERVICE_DESTINATION_URL,
+      }
+    ]
   },
 };
 
