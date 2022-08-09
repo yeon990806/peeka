@@ -1,4 +1,4 @@
-import { InputStepType, SignupStepType } from "@/common/defines/Signup";
+import { InputStepType, SignupStepType, userType } from "@/common/defines/Signup";
 import { Mobile, Desktop, IsDesktop } from "@/common/hooks/breakpoints";
 import Button from "@/components/Button";
 import Link from "next/link";
@@ -125,7 +125,7 @@ const SignUp = () => {
         birthday: birthDate,
         gender: genderType[gender],
         marketing_yn: receiveMarketing ? "Y" : "N",
-        signup_type: "GN"
+        signup_type: googleEmail.email ? userType.google : userType.normal,
       }
     })
   }

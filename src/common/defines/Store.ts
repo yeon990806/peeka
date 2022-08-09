@@ -1,5 +1,6 @@
 import { number, string } from "prop-types";
 import { CategoryType } from "./Category";
+import { PopupCode } from "./Popup";
 
 export type StateType = {
   user: UserType,
@@ -8,6 +9,7 @@ export type StateType = {
   extra: ExtraStateType,
   comment: CommentStateType,
   reply: ReplyStateType,
+  popup: PopupStateType,
   signIn?: {},
   signUp?: {},
 }
@@ -78,6 +80,9 @@ export type ExtraStateType = {
   fetchExtraListRequest: boolean,
   fetchExtraListSuccess: boolean,
   fetchExtraListError: any,
+  fetchLinkedPostRequest: boolean,
+  fetchLinkedPostSuccess: boolean,
+  fetchLinkedPostError: any,
 }
 
 export type CommentStateType = {
@@ -123,6 +128,11 @@ export type ReactionStateType = {
   unscrapContentLoading: boolean,
   unscrapContentSuccess: boolean,
   unscrapContentError: any,
+}
+
+export type PopupStateType = {
+  popupDisplay: boolean
+  popupCode: PopupCode | null
 }
 
 export type UserInfoType = {

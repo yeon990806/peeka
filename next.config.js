@@ -22,7 +22,7 @@ const nextConfig = {
     ]
   },
   async rewrites() {
-    if (process.env.NODE_ENV === 'production')
+    if (process.env.NODE_ENV !== 'production')
       return [
         {
           source: process.env.SOURCE_PATH,

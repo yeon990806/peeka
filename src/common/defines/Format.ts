@@ -14,11 +14,11 @@ export function convertStateBoolean (state: string | null | boolean) {
 export function getLongDateFormat (postDate: Date) {
   const date = new Date(postDate)
   const y = date.getFullYear()
-  const m = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth()
-  const d = date.getDate()
-  const h = date.getHours()
-  const min = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
-  const s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+  const m = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1).toString() : date.getMonth()
+  const d = date.getDate() < 10 ? '0' + date.getDate().toString() : date.getDate()
+  const h = date.getHours() < 10 ? '0' + date.getHours().toString() : date.getDate()
+  const min = date.getMinutes() < 10 ? '0' + date.getMinutes().toString() : date.getMinutes()
+  const s = date.getSeconds() < 10 ? '0' + date.getSeconds().toString() : date.getSeconds()
 
   return `${ y }-${ m }-${ d } ${ h }:${ min }:${ s }`
 }

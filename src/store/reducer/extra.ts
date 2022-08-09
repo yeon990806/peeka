@@ -9,6 +9,9 @@ export const initialState: ExtraStateType = {
   fetchExtraListRequest: false,
   fetchExtraListSuccess: false,
   fetchExtraListError: null,
+  fetchLinkedPostRequest: false,
+  fetchLinkedPostSuccess: false,
+  fetchLinkedPostError: null,
 }
 
 export const EMPTY_EXTRA_LIST = 'EMPTY_EXTRA_LIST'
@@ -16,6 +19,10 @@ export const EMPTY_EXTRA_LIST = 'EMPTY_EXTRA_LIST'
 export const FETCH_EXTRAPOST_REQUEST = 'FETCH_EXTRALIST_REQUEST'
 export const FETCH_EXTRAPOST_SUCCESS = 'FETCH_EXTRALIST_SUCCESS'
 export const FETCH_EXTRAPOST_FAILURE = 'FETCH_ETRALIST_FAILURE'
+
+export const FETCH_LINKEDPOST_REQUEST = 'FETCH_LINKEDPOST_REQUEST'
+export const FETCH_LINKEDPOST_SUCCESS = 'FETCH_LINKEDPOST_SUCCESS'
+export const FETCH_LINKEDPOST_FAILURE = 'FETCH_LINKEDPOST_FAILURE'
 
 export const FETCH_EXTRAPOST_COMMENT = 'FETCH_EXTRAPOST_COMMENT'
 export const ADD_EXTRAPOST_COMMENT = 'ADD_EXTRAPOST_COMMENT'
@@ -63,6 +70,24 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case FETCH_EXTRAPOST_FAILURE:
       draft.fetchExtraListRequest = false
       draft.fetchExtraListError = action.error
+
+      break
+    case FETCH_LINKEDPOST_REQUEST:
+      draft.fetchLinkedPostRequest = true
+      draft.fetchLinkedPostSuccess = false
+      draft.fetchLinkedPostError = null
+
+      break
+    case FETCH_LINKEDPOST_SUCCESS:
+      draft.fetchLinkedPostRequest = false
+      draft.fetchLinkedPostSuccess = true
+
+      draft.extraList = [action.data.post]
+
+      break
+    case FETCH_LINKEDPOST_FAILURE:
+      draft.fetchLinkedPostRequest = false
+      draft.fetchLinkedPostError = action.error
 
       break
     case FETCH_EXTRAPOST_COMMENT:

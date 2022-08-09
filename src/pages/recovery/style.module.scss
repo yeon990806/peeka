@@ -1,0 +1,40 @@
+.RecoverContainer {
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-gap: 24px;
+  padding: 32px;
+
+  .RecoverTitle {
+    margin-top: 24px;
+    color: $light;
+    font-size: 28px;
+  }
+
+  .RecoverContent {
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .SubmitButton {
+    margin-top: 8px;
+  }
+
+  .RecoverAction {
+    padding: 8px 0;
+    color: $semi-light;
+
+    .Action {
+      grid-template-columns: repeat(2, 1fr);
+      display: grid;
+      align-items: center;
+
+      .SignUp {
+        justify-content: flex-end;
+      }
+    }
+  }
+}

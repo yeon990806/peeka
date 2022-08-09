@@ -1,4 +1,5 @@
 import { APIHost } from '@/common/api';
+import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
 import router from 'next/router';
 import { all, call, fork, put, throttle, delay, takeLatest } from 'redux-saga/effects'
@@ -46,7 +47,7 @@ function signInAPI (param) {
 }
 
 function signUpAPI (param) {
-  return axios.post(`${ APIHost }/public/auth/signup`, param, {
+  return axios.post(`${ APIHost }/public/auth/signup${ param.data.signup_type === userType.google ? '/google' : '' }`, param, {
     headers: {
       Authorization: "",
     }

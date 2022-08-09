@@ -1,5 +1,7 @@
 .SignInContainer {
   width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
   height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;

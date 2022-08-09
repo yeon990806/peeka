@@ -1,19 +1,22 @@
-import Link from 'next/link'
-import { useDispatch, useSelector } from 'react-redux'
-import { LayoutType } from '../_app'
-
-import style from './style.module.scss'
 import { useState } from 'react';
-import Input from '../../components/Input/index';
-import Button from '../../components/Button/index';
-import Checkbox from '@/components/Checkbox';
-import GoogleButton from '@/components/GoogleButton';
+import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router';
+import { LayoutType } from '../_app'
 import { SIGN_IN_REQUEST, TOGGLE_ALWAYS_SIGN_IN } from '@/store/reducer/user';
 import { useCallback } from 'react';
 import { StateType } from '@/common/defines/Store';
 
+import Link from 'next/link'
+import Input from '../../components/Input/index';
+import Button from '../../components/Button/index';
+import Checkbox from '@/components/Checkbox';
+import GoogleButton from '@/components/GoogleButton';
+
+import style from './style.module.scss'
+
 const SignIn = () => {
   const dispatch = useDispatch()
+  const router = useRouter()
   const rememberUser = useSelector((state: StateType) => state.user.alwaysSignIn)
 
   const [inputEmail, setInputEmail] = useState<string>(''); // 이메일 주소
@@ -87,7 +90,9 @@ const SignIn = () => {
               label="로그인 유지"
             />
             <Button type="text" theme="light">
-              아이디/비밀번호 찾기
+              <Link href="/recovery">
+                <a>아이디/비밀번호 찾기</a>
+              </Link>
             </Button>
           </div>
           <p className={ style.SignInText }>

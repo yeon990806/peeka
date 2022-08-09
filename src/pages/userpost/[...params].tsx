@@ -1,12 +1,9 @@
 import { LayoutType } from "../_app"
 import style from "./style.module.scss"
-import { PostType, StateType, StorePostType } from '@/common/defines/Store';
-import {  useEffect, useMemo, useState } from "react";
-import PostCard from "@/components/PostCard";
+import { StateType, StorePostType } from '@/common/defines/Store';
+import {  useEffect, useMemo } from "react";
 import Spinner from "@/components/Spinner";
 import { useRouter } from "next/router";
-import { getCookie } from '@/common/libs/Cookie';
-import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { FETCH_EXTRAPOST_REQUEST } from "@/store/reducer/extra";
 import PostContainer from "@/components/PostContainer";

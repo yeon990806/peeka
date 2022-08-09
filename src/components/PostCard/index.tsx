@@ -17,7 +17,6 @@ import MenuPopup from "../MenuPopup";
 import ReportPopup from "./components/ReportPopup";
 
 import style from "./style.module.scss"
-import { type } from 'os';
 import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
 interface PostProps {
   post: PostType,

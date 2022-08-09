@@ -178,7 +178,13 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.signUpError = null
 
       break
-    case SIGN_UP_SUCCESS:
+    case SIGN_UP_SUCCESS: {
+      const userInfo = {
+        id: action.data.id,
+        nick_name: action.data.nick_name,
+        grant_type: action.data.grant_type,
+      }
+
       draft.signUpLoading = false
       draft.signUpSuccess = true
 
@@ -190,7 +196,22 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         alertDetail: null,
       }
 
+      setCookie('accessToken', action.data.access_token, {
+        path: '/',
+        secure: true,
+        expires: new Date(Date.now() + (6 * 3600 * 1000)),
+      })
+      setCookie('refreshToken', action.data.refresh_token, {
+        path: '/',
+        secure: true,
+      })
+      setCookie('userInfo', JSON.stringify(userInfo), {
+        path: '/',
+        secure: true,
+      })
+
       break
+    }
     case SIGN_UP_FAILURE:
       draft.signUpLoading = false
       draft.signUpError = action.error

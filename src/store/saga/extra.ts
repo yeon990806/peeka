@@ -1,10 +1,10 @@
 import { APIHost } from "@/common/api";
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
-import { all, call, fork, put, throttle } from "redux-saga/effects";
-import { FETCH_EXTRAPOST_FAILURE, FETCH_EXTRAPOST_REQUEST, FETCH_EXTRAPOST_SUCCESS } from "../reducer/extra";
+import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects";
+import { FETCH_EXTRAPOST_FAILURE, FETCH_EXTRAPOST_REQUEST, FETCH_EXTRAPOST_SUCCESS, FETCH_LINKEDPOST_FAILURE, FETCH_LINKEDPOST_REQUEST, FETCH_LINKEDPOST_SUCCESS } from "../reducer/extra";
 
-function fetchExtraPostAPI (param) {
+function FetchExtraPostAPI (param) {
   let api = `${ APIHost }/${ param.public ? 'public/' : '' }board/post`
   const option = `id=${ param.id }&paging_number=0&paging_size=20`
   
@@ -32,9 +32,18 @@ function fetchExtraPostAPI (param) {
   })
 }
 
+function FetchLinkedPostAPI (param) {
+  console.log(param)
+  return axios.get(`${ APIHost }/public/board/contents?post_id=${ param.id }&comment_id=&reply_id=`, {
+    headers: {
+      'Authorization': `Bearer ${ getCookie('accessToken') }`
+    }
+  })
+}
+
 function* FetchExtraPost (action) {
   try {
-    const result = yield call(fetchExtraPostAPI, action.data)
+    const result = yield call(FetchExtraPostAPI, action.data)
 
     yield put({
       type: FETCH_EXTRAPOST_SUCCESS,
@@ -48,15 +57,36 @@ function* FetchExtraPost (action) {
       data: err
     })
   }
+}
 
+function* FetchLinkedPost (action) {
+  try {
+    const result = yield call(FetchLinkedPostAPI, action.data)
+
+    yield put({
+      type: FETCH_LINKEDPOST_SUCCESS,
+      data: result.data,
+    })
+  } catch (err) {
+    yield put({
+      type: FETCH_LINKEDPOST_FAILURE,
+      data: err
+    })
+  }
 }
 
 function* watchFetchingExtraPost () {
   yield throttle(5000, FETCH_EXTRAPOST_REQUEST, FetchExtraPost)
 }
 
+function* watchFetchingLinkedPost () {
+  console.log('run')
+  yield takeLatest(FETCH_LINKEDPOST_REQUEST, FetchLinkedPost)
+}
+
 export default function* extraSaga () {
   yield all([
-    fork(watchFetchingExtraPost)
+    fork(watchFetchingExtraPost),
+    fork(watchFetchingLinkedPost),
   ])
 }

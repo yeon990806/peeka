@@ -8,6 +8,7 @@ import extra from './extra'
 import comment from './comment'
 import reply from './reply'
 import reaction from './reaction'
+import popup from './popup'
 
 const rootReducer = combineReducers({
   index: (state = {}, action) => {
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   comment,
   reply,
   reaction,
+  popup,
 })
 
 export default rootReducer
