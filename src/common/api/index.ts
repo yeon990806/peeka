@@ -1,4 +1,4 @@
-export const APIHost = process.env.NODE_ENV === 'production' ? 'https://api.peeka.ai/v1/community' : '/api'
+export const APIHost = process.env.NODE_ENV !== 'production' ? 'https://api.peeka.ai/v1/community' : '/api'
 import { AxiosRequestConfig, } from 'axios';
 
 export const GoogleSignIn = 'https://accounts.google.com/o/oauth2/v2/auth?scope=email&response_type=code&client_id=929609207739-ne52nm5h1dp6v3m7oaroj44rh6887h1d.apps.googleusercontent.com&redirect_uri=https://www.peeka.ai/login/oauth2/code/google&flowName=GeneralOAuthFlow'
