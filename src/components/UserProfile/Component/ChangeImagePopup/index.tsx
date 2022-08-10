@@ -57,7 +57,7 @@ const ChangeImagePopup = (props: ChangeImagePopupProps) => {
     try {
       const result = await axios.patch(`${ APIHost }/member/profile/image`, f, {
         headers: {
-          Authorization: `Bearer ${ getCookie('accessToken') }`
+          'Authorization': `Bearer ${ getCookie('accessToken') }`
         }
       })
   

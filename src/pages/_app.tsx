@@ -15,6 +15,7 @@ import { getCookie } from '@/common/libs/Cookie'
 import { FETCH_USERINFO_REQUEST, UPDATE_USERINFO } from '@/store/reducer/user'
 
 axios.defaults.withCredentials = true
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/' : 'https://www.peeka.ai';
 
 export enum LayoutType {
   App = 0,
