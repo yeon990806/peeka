@@ -13,7 +13,7 @@ import { genderType } from '@/common/defines/Signup';
 
 import style from "./style.module.scss";
 import axios, { AxiosResponse } from "axios";
-import { SIGN_UP_REQUEST } from "@/store/reducer/user";
+import { SET_SIGN_UP_PARAMETER, SIGN_UP_REQUEST } from "@/store/reducer/user";
 import { APIHost, AxiosResponseType } from "@/common/api";
 import { StateType } from "@/common/defines/Store";
 
@@ -38,6 +38,7 @@ const SignUp = () => {
   const [receiveMarketing, setReceiveMarketing] = useState<boolean>(false) // 마케팅 정보 수신 동의 여부
   
   const [showing, setShowing] = useState<boolean>(false)
+  const [inputError, setInputError] = useState<boolean>(false) // 비밀번호 에러
   const [pageStep, setPageStep] = useState<SignupStepType>(SignupStepType.EmailAuth) // 회원가입 절차
   const [enableClick, setEnableClick] = useState<boolean>(false) // 다음 버튼의 활성화 여부
   
@@ -53,6 +54,7 @@ const SignUp = () => {
   const onChangePassword = useCallback((data: string) => setPassword(data), [password])
   const onChangeBirthDate = useCallback((data: string) => setBirthDate(data), [birthDate])
   const onChangeGenderType = useCallback((data: genderType) => setGender(data), [gender])
+  const onChangeInputError = useCallback((data: boolean) => setInputError(data), [inputError])
   const onChangeOverYouth = useCallback(() => setOverYouth(prev => !prev), [overYouth])
   const onChangeServiceTerms = useCallback(() => setServiceTerms(prev => !prev), [serviceTerms])
   const onChangePrivacyPolicy = useCallback(() => setPrivacyPolicy(prev => !prev), [privacyPolicy])
@@ -132,10 +134,22 @@ const SignUp = () => {
 
   useEffect(() => {
     setShowing(true)
+
+    return () => {
+      dispatch({
+        type: SET_SIGN_UP_PARAMETER,
+        data: {
+          email: ''
+        }
+      })
+    }
   }, [])
 
   useEffect(() => {
-    if (googleEmail && googleEmail.email) onChangePageStep()
+    if (googleEmail && googleEmail.email) {
+      onChangePageStep()
+      onChangeUserEmail(googleEmail.email)
+    }
   }, [googleEmail])
 
   useEffect(() => {
@@ -144,8 +158,14 @@ const SignUp = () => {
   }, [overYouth, serviceTerms, privacyPolicy, setReceiveMarketing])
 
   useEffect(() => {
-    if (userEmail && sentCode) setEnableClick(true)
-  }, [userEmail, sentCode, authCode])
+    if (pageStep === SignupStepType.EmailAuth) {
+      return setEnableClick( googleEmail.email ? true : (sentCode && authCode.length === 4))
+    } else {
+      return setEnableClick(userEmail && username && password && !inputError && birthDate && gender >= 0 && serviceTerms && privacyPolicy)
+    }
+
+    setEnableClick(false)
+  }, [pageStep, userEmail, sentCode, authCode, googleEmail, userEmail, username, password, birthDate, gender, serviceTerms, privacyPolicy, inputError])
 
   const pagecontent = () => {
     switch (pageStep) {
@@ -170,11 +190,13 @@ const SignUp = () => {
           serviceTerms={ serviceTerms }
           privacyPolicy={ privacyPolicy }
           receiveMarketing={ receiveMarketing }
+          passwordError={ inputError }
           setUserName={ (v) => onChangeUserName(v) }
           setPassword={ (v) => onChangePassword(v) }
           setBirthDate={ (v) => onChangeBirthDate(v) }
           setUserGender={ (v) => onChangeGenderType(v) }
           setAgreeAll={ () => onChangeAgreeAll() }
+          setPasswordError={ (v) => onChangeInputError(v) }
           setOverYouth={ () => onChangeOverYouth() }
           setServiceTerms={ () => onChangeServiceTerms() }
           setPrivacyPolicy={ () => onChangePrivacyPolicy() }

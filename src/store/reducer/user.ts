@@ -122,6 +122,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchUserInfoLoading = false
       draft.fetchUserInfoSuccess = true
       draft.userInfo = action.data
+
+      setCookie('userInfo', action.data)
       
       break
     case FETCH_USERINFO_FAILURE:
@@ -330,8 +332,15 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchAlertLoading = false
       draft.fetchAlertSuccess = true
       
-      if (draft.userInfo.alertList && draft.userInfo.alertList.length > 0)
+      if (draft.userInfo.alertList && draft.userInfo.alertList.length > 0) {
+        if (action.data.length > 0) {
+          const alert = draft.userInfo.alertList.findIndex(v => v.id === action.data[0].id)
+  
+          if (alert >= 0) return
+        }
+
         draft.userInfo.alertList = action.data.concat(draft.userInfo.alertList)
+      }
       else 
         draft.userInfo.alertList = action.data
       
@@ -349,6 +358,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       break
     case READ_ALERT_SUCCESS: {
       const post = action.data.post.post
+      const alert = draft.userInfo.alertList.find(v => v.id === action.data.alertId)
       
       draft.readAlertLoading = false
       draft.readAlertSuccess = true
@@ -371,6 +381,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         })
       
       if (action.data.onSuccess) action.data.onSuccess()
+      alert.check_yn = 'Y'
       
       break
     }

@@ -2,7 +2,7 @@ import { authEmail } from '@/common/api'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { SET_SIGN_UP_PARAMETER, SIGN_UP_REQUEST } from '@/store/reducer/user'
+import { SET_SIGN_UP_PARAMETER } from '@/store/reducer/user'
 
 const auth = () => {
   const dispatch = useDispatch()
@@ -11,19 +11,14 @@ const auth = () => {
     try {
       const result = await axios.get(`${authEmail}${authCode}`)
 
-      if (result.data.id)
-        dispatch({
-          type: SIGN_UP_REQUEST,
-          data: result.data,
-        })
-      else
-        dispatch({
-          type: SET_SIGN_UP_PARAMETER,
-          data: {
-            email: result.data.email
-          }
-        })
-      window.close()
+      if (result.data.id) {
+        if (window.opener.afterAction) window.opener.afterAction('signin', result.data)
+        window.close()
+      }
+      else {
+        if (window.opener.afterAction) window.opener.afterAction('signup', result.data)
+        window.close()
+      }
     } catch (err) {
       window.close()
     }

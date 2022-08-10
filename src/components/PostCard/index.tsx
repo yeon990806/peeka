@@ -206,9 +206,6 @@ const PostCard = (props: PostProps) => {
             </Button>
           </div>
           <div className={ style.PostMenu }>
-            <Button type="icon" onClick={ () => onClickSharePost() }>
-              <img src="/images/share.svg" tabIndex={-1} />
-            </Button>
             <Button type="icon" onClick={ () => toggleClippingPost() }>
               <img src={`/images/bookmark${ props.post.scrap_yn === 'Y' ? '-fill' : '' }.svg`} tabIndex={-1} />
             </Button>

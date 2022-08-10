@@ -1,5 +1,9 @@
 import { GoogleSignIn, GooleTest } from "@/common/api"
-import { memo, useCallback } from "react"
+import { getCookie, setCookie } from "@/common/libs/Cookie"
+import { FETCH_USERINFO_REQUEST, SET_SIGN_UP_PARAMETER, UPDATE_USERINFO } from "@/store/reducer/user"
+import { useRouter } from "next/router"
+import { memo, useCallback, useEffect } from "react"
+import { useDispatch } from "react-redux"
 import style from "./style.module.scss"
 
 interface GoogleButtonProps {
@@ -7,12 +11,49 @@ interface GoogleButtonProps {
 }
 
 const GoogleButton = memo((props: GoogleButtonProps) => {
+  const router = useRouter()
+  const dispatch = useDispatch()
   const onClickEventHandler = useCallback(() => {
-    if (props.type === 'signIn')
-      window.open(GoogleSignIn, 'auth')
-    else
     window.open(GooleTest, 'auth')
   }, [props.type])
+
+  useEffect(() => {
+    window.afterAction = (type, data) => {
+      switch (type) {
+        case 'signin':
+          setCookie('accessToken', data.access_token)
+          setCookie('refreshToken', data.refresh_token)
+          setCookie('userInfo', data)
+
+          if (data.access_token) {
+            dispatch({
+              type: UPDATE_USERINFO,
+              data,
+            })
+            dispatch({
+              type: FETCH_USERINFO_REQUEST,
+            })
+
+          }
+          router.replace('/community')
+
+          break
+        case 'signup':
+          dispatch({
+            type: SET_SIGN_UP_PARAMETER,
+            data: {
+              email: data.email
+            }
+          })
+
+          router.replace('/signup')
+          break
+      }
+    }
+    return () => {
+      window.afterAction = undefined
+    }
+  }, [])
  
   return (
     // <GoogleLogin

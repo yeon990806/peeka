@@ -1,9 +1,9 @@
 import { memo, useEffect, useState } from 'react'
+import { createRef } from 'react';
 import { DefaultProps } from '@/common/defines/Props';
 import classNames from "classnames"
 
 import style from "./style.module.scss"
-import { createRef } from 'react';
 
 interface TextareaProps extends DefaultProps {
   value: string;
@@ -74,13 +74,14 @@ const Textarea = memo((props: TextareaProps) => {
           } }
           onInput={ (e) => {
             e.preventDefault()
-            
+
             let value = (e.target as HTMLTextAreaElement).value
 
             setInput(true)
             setInputValue(value)
           } }
           onKeyUp={ (e) => {
+            e.stopPropagation()
             resizeTextarea()
           } }
           onKeyDown={ (e) => {

@@ -115,6 +115,10 @@ function* SignIn (action) {
       type: SIGN_IN_SUCCESS,
       data: result.data
     })
+
+    yield put({
+      type: FETCH_USERINFO_REQUEST
+    })
     
     return router.push('/community')
   } catch (err) {
@@ -206,6 +210,7 @@ function* ReadAlert (action) {
       type: READ_ALERT_SUCCESS,
       data: {
         post: result.data,
+        alertId:action.data.id,
         onSuccess: action.data.onSuccess
       }
     })

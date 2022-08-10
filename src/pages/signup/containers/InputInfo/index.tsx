@@ -16,6 +16,7 @@ interface InputInfoProps {
   password: string;
   birthDate: string;
   userGender: genderType;
+  passwordError: boolean;
   agreeAll: boolean;
   overYouth: boolean;
   serviceTerms: boolean;
@@ -26,6 +27,7 @@ interface InputInfoProps {
   setPassword: (v: string) => void;
   setBirthDate: (v: string) => void;
   setUserGender: (v: genderType) => void;
+  setPasswordError: (v: boolean) => void;
   setAgreeAll: () => void;
   setOverYouth: () => void;
   setServiceTerms: () => void;
@@ -70,8 +72,15 @@ const InputInfo = (props: InputInfoProps) => {
             } }
             validate={[
               (v: string) => {
-                if (!existencedUsername) return { state: true, msg: '사용할 수 있는 닉네임입니다!' }
-                else return { state: false, msg: '사용 중인 닉네임이에요.' }
+                if (!existencedUsername) {
+                  props.setPasswordError(false)
+
+                  return { state: true, msg: '사용할 수 있는 닉네임입니다!' }
+                } else {
+                  props.setPasswordError(true)
+
+                  return { state: false, msg: '사용 중인 닉네임이에요.' }
+                }
               }
             ]}
           />
@@ -85,9 +94,15 @@ const InputInfo = (props: InputInfoProps) => {
               (v: string) => {
                 const validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
 
-                return v.match(validPassword) !== null
-                  ? { state: true, msg: v }
-                  : { state: false, msg: "비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다." } 
+                if (v.match(validPassword) !== null) {
+                  props.setPasswordError(false)
+
+                  return { state: true, msg: v }
+                } else {
+                  props.setPasswordError(false)
+
+                  return { state: false, msg: "비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다." } 
+                }
               }
             ]}
             onInput={ (v) => props.setPassword(v) }
@@ -103,9 +118,15 @@ const InputInfo = (props: InputInfoProps) => {
               (v: string) => {
                 const validDate = /^\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$/
 
-                return v.match(validDate) !== null
-                  ? { state: true, msg: v }
-                  : { state: false, msg: "유효한 날짜 형식이 아닙니다." }
+                if (v.match(validDate) !== null) {
+                  props.setPasswordError(false)
+
+                  return { state: true, msg: v }
+                } else {
+                  props.setPasswordError(true)
+
+                  return { state: false, msg: "유효한 날짜 형식이 아닙니다." }
+                }
               }
             ]}
             onInput={ (v) => { props.setBirthDate(v) } }
