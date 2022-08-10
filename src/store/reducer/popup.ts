@@ -19,6 +19,14 @@ export const openPopup = (code: PopupCode) => ({
   }
 })
 
+export const closePopup = () => ({
+  type: UPDATE_POPUP,
+  data: {
+    display: false,
+    code: null
+  }
+})
+
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case UPDATE_POPUP:

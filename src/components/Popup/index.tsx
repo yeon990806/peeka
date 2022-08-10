@@ -25,22 +25,16 @@ const Popup = (props: PopupProps) => {
     <div className={ style.Popup }>
       <div className={ style.PopupModal }>
         <article>
-          {
-            props.type === "input"
-              ? <textarea
-                placeholder={ props.placeholder }
-              />
-              : props.content
-          }
+          { props.content }
         </article>
         <footer className={ props.buttonAlign && style[props.buttonAlign] }>
-          <Button
+          { props.type !== 'alert' && <Button
             type="text"
             theme="light"
             onClick={ () => props.onCancel() }
           >
             취소
-          </Button>
+          </Button> }
           { !props.confirmDisable && <Button
             type="text"
             theme="primary"

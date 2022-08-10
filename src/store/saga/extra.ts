@@ -33,7 +33,6 @@ function FetchExtraPostAPI (param) {
 }
 
 function FetchLinkedPostAPI (param) {
-  console.log(param)
   return axios.get(`${ APIHost }/public/board/contents?post_id=${ param.id }&comment_id=&reply_id=`, {
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`

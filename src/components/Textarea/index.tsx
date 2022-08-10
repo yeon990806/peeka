@@ -65,7 +65,6 @@ const Textarea = memo((props: TextareaProps) => {
           draggable={ props.draggable }
           style={ props.style }
           rows={ props.row || 5 }
-          value={ props.value }
           onFocus={ (e) => setFocus(true) }
           onBlur={ (e) => {
             setFocus(false)
