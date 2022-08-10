@@ -33,16 +33,15 @@ const JWT_EXPIRY_TIME = 6 * 3600 * 1000 // 6hours
 function fetchUserInfoAPI () {
   return axios.get(`${ APIHost }/member/profile`, {
     headers: {
-      Authorization: `Bearer ${ getCookie('accessToken') }`,
+      'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
   })
 }
 
 function signInAPI (param) {
-  console.log(`${ APIHost }/public/auth/login`)
   return axios.post(`${ APIHost }/public/auth/login`, param, {
     headers: {
-      Authorization: "",
+      'Authorization': '',
     }
   })
 }
@@ -50,7 +49,7 @@ function signInAPI (param) {
 function signUpAPI (param) {
   return axios.post(`${ APIHost }/public/auth/signup${ param.data.signup_type === userType.google ? '/google' : '' }`, param, {
     headers: {
-      Authorization: "",
+      'Authorization': '',
     }
   })
 }
