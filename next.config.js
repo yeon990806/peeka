@@ -7,19 +7,19 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "styles/_variables.scss";`, 
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: '*'
-          }
-        ],
-      }
-    ]
-  },
+  // async headers() {
+  //   return [
+  //     {
+  //       source: '/:path*',
+  //       headers: [
+  //         {
+  //           key: 'Access-Control-Allow-Origin',
+  //           value: '*'
+  //         }
+  //       ],
+  //     }
+  //   ]
+  // },
   async redirects() {
     return [
       {
