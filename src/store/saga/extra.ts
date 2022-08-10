@@ -80,7 +80,6 @@ function* watchFetchingExtraPost () {
 }
 
 function* watchFetchingLinkedPost () {
-  console.log('run')
   yield takeLatest(FETCH_LINKEDPOST_REQUEST, FetchLinkedPost)
 }
 
