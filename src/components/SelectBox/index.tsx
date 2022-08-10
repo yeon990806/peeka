@@ -16,7 +16,6 @@ interface SelectBoxProps extends DefaultProps {
 	onClick?: (value: any) => void
 }
 
-
 const SelectBox = (props: SelectBoxProps) => {
   const [visible, setVisible] = useState<boolean>(false)
   const [focus, setFocus] = useState<boolean>(false)
@@ -51,7 +50,7 @@ const SelectBox = (props: SelectBoxProps) => {
       onBlur={ (e) => {
         e.preventDefault()
         e.stopPropagation()
-        
+
         onBlurEvent()
       } }
     >
