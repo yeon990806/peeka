@@ -10,6 +10,8 @@ import SelectBox from "../SelectBox";
 import Textarea from "../Textarea";
 import { encodeFileToBase64 } from "@/common/defines/Format";
 import { StateType } from "@/common/defines/Store";
+import { openPopup } from "@/store/reducer/popup";
+import { PopupCode } from "@/common/defines/Popup";
 
 interface InputPostProps {
   placeholder?: string;
@@ -53,16 +55,26 @@ const InputPost = (props: InputPostProps) => {
     setFileList(dataTransfer.files)
   }, [fileList])
 
-  const onSubmitPost = useCallback(() => dispatch({
-    type: ADD_POST_REQUEST,
-    data: {
-      contents: inputValue,
-      category_code: postCategory.value,
-      category: postCategory.display,
-      images: fileList,
-      submit: props.onSubmit
-    },
-  }), [uploadImage, inputValue, postCategory])
+  const onSubmitPost = useCallback(() => {
+    if (!postCategory)
+      return dispatch(openPopup(PopupCode.CATEGORY_NULL))
+
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: {
+          contents: inputValue,
+          category_code: postCategory.value,
+          category: postCategory.display,
+          images: fileList,
+          onSuccess: () => {
+            setInputValue('')
+            if (props.onSubmit) props.onSubmit()
+          }
+        }
+      }
+    )
+  }, [uploadImage, inputValue, postCategory])
+    
 
   const removeImage = (clickedImage: File) => {
     const dataTransfer = new DataTransfer()

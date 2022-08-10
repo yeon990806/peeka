@@ -42,6 +42,8 @@ const Textarea = memo((props: TextareaProps) => {
     TextareaRef.current.style.height = (12 + TextareaRef.current.scrollHeight) + 'px'
   }
 
+  useEffect(() => setInputValue(props.value), [props.value])
+
   useEffect(() => {
     if (input && props.onInput) props.onInput(inputValue)
     if (!focus && props.onChange) props.onChange(inputValue)
@@ -56,6 +58,7 @@ const Textarea = memo((props: TextareaProps) => {
       <div className={ style.TextareaContainer }>
         <textarea
           className={ classNames(props.resizable && style.resizable) }
+          value={ inputValue }
           ref={ TextareaRef }
           id={ props.id && `Textarea-${props.id}` }
           name={ props.name }

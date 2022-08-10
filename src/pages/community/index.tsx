@@ -70,7 +70,7 @@ const Community = () => {
   if (!showing) return <></>
   return (
     <div className={ style.Community }>
-      {/* { fetchPostLoading && <Spinner리 /> } */}
+      {/* { fetchPostLoading && <Spinner /> } */}
       { mobile ? <HashContainer /> : <InputPost /> }
       { postList.length > 0 && <PostContainer
         fetchList={() => fetchPost(false, postLoading)}

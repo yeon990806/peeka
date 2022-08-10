@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import router from 'next/router'
 import { getCookie } from '@/common/libs/Cookie'
 import { FETCH_USERINFO_REQUEST, UPDATE_USERINFO } from '@/store/reducer/user'
+import AlertProvider from '@/components/AlertProvider'
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/' : 'https://www.peeka.ai';
@@ -70,6 +71,7 @@ const App = ({ Component, pageProps }) => {
     <div id="wrapper" className={Component.getLayout === LayoutType.Sign ? "sign" : "" }>
       { applyLayout() }
       <ImagePopup />
+      <AlertProvider />
     </div>
   )
 }

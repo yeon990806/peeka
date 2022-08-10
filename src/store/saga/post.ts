@@ -85,11 +85,12 @@ function* AddPost (action) {
       data: result.data,
     })
     
-    if (action.data.submit) action.data.submit()
+    if (action.data.onSuccess) action.data.onSuccess()
   } catch (err) {
+    const _err = err
     yield put({
       type: ADD_POST_FAILURE,
-      data: `${ err.response.status }: ${ err.response.statusText }`
+      error: err,
     })
   }
 }
