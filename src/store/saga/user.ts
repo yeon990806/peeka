@@ -39,6 +39,7 @@ function fetchUserInfoAPI () {
 }
 
 function signInAPI (param) {
+  console.log(`${ APIHost }/public/auth/login`)
   return axios.post(`${ APIHost }/public/auth/login`, param, {
     headers: {
       Authorization: "",
