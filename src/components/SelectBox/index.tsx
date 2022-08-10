@@ -36,9 +36,24 @@ const SelectBox = (props: SelectBoxProps) => {
       style={ { ...props.style, width: props.width } }
       ref={ selectRef }
       tabIndex={ -1 }
-      onClick={ () => setVisible(true) }
-      onFocus={ () => setFocus(true) }
-      onBlur={ () => onBlurEvent() }
+      onClick={ (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        setVisible(true)
+      } }
+      onFocus={ (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        setFocus(true)
+      } }
+      onBlur={ (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        
+        onBlurEvent()
+      } }
     >
       <div className={ style.SelectDisplay }>
         <div>{ selectedItem ? selectedItem.display : props.placeholder }</div>
