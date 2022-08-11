@@ -44,17 +44,13 @@ const TermsPopup = (props: TermsPopupProps) => {
         )
     }
   }
-  if (Mobile)
-    return <Screen
-      display
-      title={ renderHeader() }
-      content={ renderContent() }
-      onCancel={ props.onClose }
-    />
-
-  return (
-    <></>
-  )
+  
+  return <Screen
+    display
+    title={ renderHeader() }
+    content={ renderContent() }
+    onCancel={ props.onClose }
+  />
 }
 
 export default TermsPopup

@@ -17,10 +17,10 @@ interface SelectBoxProps extends DefaultProps {
 }
 
 const SelectBox = (props: SelectBoxProps) => {
+  const ref = createRef<HTMLDivElement>()
   const [visible, setVisible] = useState<boolean>(false)
   const [focus, setFocus] = useState<boolean>(false)
 
-  const selectRef = createRef<HTMLDivElement>()
   const selectedItem = props.items.find((item) => item.value === (props.value ? props.value.value : props.value))
 
   const onBlurEvent = useCallback(() => {
@@ -28,30 +28,35 @@ const SelectBox = (props: SelectBoxProps) => {
     setFocus(false)
   }, [visible, focus])
 
+  useEffect(() => {
+    const onClickOutside = e => {
+      if (visible && (ref.current && !ref.current.contains(e.target)))
+        onBlurEvent()
+    }
+
+    document.addEventListener('mousedown', onClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', onClickOutside)
+    }
+  }, [visible])
+
   return (
     <div
       id={ props.id && `Select-${ props.id }` }
-      className={ classNames(style.SelectBox, props.readonly && style.ReadOnly, !props.readonly && focus && style.Focus) }
+      className={ classNames(
+        style.SelectBox,
+        props.readonly && style.ReadOnly,
+        !props.readonly && focus && style.Focus
+      ) }
       style={ { ...props.style, width: props.width } }
-      ref={ selectRef }
+      ref={ ref }
       tabIndex={ -1 }
       onClick={ (e) => {
         e.preventDefault()
         e.stopPropagation()
 
         setVisible(true)
-      } }
-      onFocus={ (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-
-        setFocus(true)
-      } }
-      onBlur={ (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-
-        onBlurEvent()
       } }
     >
       <div className={ style.SelectDisplay }>

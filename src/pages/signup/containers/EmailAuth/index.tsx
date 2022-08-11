@@ -63,7 +63,7 @@ const EmailAuth = (props: EmailAuthProps) => {
               }
               validate={[
                 (v: string) => {
-                  const validEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+                  const validEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
   
                   return v.match(validEmail) !== null && !duplicatedEmail
                     ? { state: true, msg: "사용할 수 있는 이메일입니다." }

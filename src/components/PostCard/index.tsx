@@ -194,7 +194,7 @@ const PostCard = (props: PostProps) => {
           <div className={ style.PostReaction }>
             <Button type="icon" onClick={ () => toggleLikePost() }>
               <img src={ `/images/favorite${ props.post.like_yn === 'Y' ? '-primary' : '' }.svg` } />
-              <span>
+              <span className={ props.post.like_yn === 'Y' ? style.LikedPost : '' }>
                 { props.post.like_count }
               </span>
             </Button>

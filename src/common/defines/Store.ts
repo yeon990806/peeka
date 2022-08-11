@@ -137,11 +137,12 @@ export type PopupStateType = {
 
 export type UserInfoType = {
   id: number;
+  email?: string;
+  nickname: string;
   image?: {
     uploadedFileURL: string,
     uploadedFileKey: string
   }
-  nickname: string;
   grant_type?: string;
   birthday?: string;
   gender?: 'M' | 'F';

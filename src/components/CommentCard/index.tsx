@@ -186,7 +186,7 @@ const CommentCard = (props: CommentCardProps) => {
         }
         <div className={ style.CommentCardAction }>
           <Button type="text" theme="light-gray" onClick={ () => onClickLikeButton() }>
-            <img src={`/images/favorite-${ props.data.like_yn === 'Y' ? 'fill' : 'none' }.svg`} tabIndex={-1} />
+            <img src={`/images/favorite-${ props.data.like_yn === 'Y' ? 'primary' : 'none' }.svg`} tabIndex={-1} />
             <span>
               { props.data.like_count }
             </span>

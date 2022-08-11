@@ -26,26 +26,20 @@ export enum LayoutType {
 
 const App = ({ Component, pageProps }) => {
   const dispatch = useDispatch()
-  const [mounted, setMounted] = useState<boolean>(false)
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (mounted) {
-      const userInfo = getCookie('userInfo')
-      
-      if (userInfo)
-        dispatch({
-          type: UPDATE_USERINFO,
-          data: userInfo
-        })
+    const userInfo = getCookie('userInfo')
+    
+    if (userInfo) {
+      dispatch({
+        type: UPDATE_USERINFO,
+        data: userInfo
+      })
       dispatch({
         type: FETCH_USERINFO_REQUEST
       })
     }
-  }, [mounted])
+  }, [])
 
   const applyLayout = () => {
     const layout = Component.getLayout;

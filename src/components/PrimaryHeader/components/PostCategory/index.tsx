@@ -45,6 +45,10 @@ const PostCategory = () => {
     else onClickCategoryButton(category)
   }, [router.pathname])
 
+  useEffect(() => {
+    if (category !== selectedCategory) onClickCategoryButton(category)
+  }, [category])
+
   return (
     <nav className={ classNames(style.PostCategory, !mobile ? style.DeskCategory : '') }>
       { (Object.keys(CategoryType) as Array<keyof typeof CategoryType>).map((key) => (

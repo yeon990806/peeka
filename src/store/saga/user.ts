@@ -47,7 +47,15 @@ function signInAPI (param) {
 }
 
 function signUpAPI (param) {
-  return axios.post(`${ APIHost }/public/auth/signup${ param.data.signup_type === userType.google ? '/google' : '' }`, param, {
+  const parameter = {
+    email: param.email,
+    password: param.password,
+    nickname: param.nick_name,
+    birthday: param.birthday,
+    gender: param.gender,
+    marketing_yn: param.marketing_yn
+  }
+  return axios.post(`${ APIHost }/public/auth/signup${ param.signup_type === userType.google ? '/google' : '' }`, parameter, {
     headers: {
       'Authorization': '',
     }
@@ -147,11 +155,15 @@ function* SignUp (action) {
       data: result.data,
     })
 
+    yield put({
+      type: FETCH_USERINFO_REQUEST,
+    })
+
     return router.push('/community')
   } catch (err) {
     yield put({
       type: SIGN_UP_FAILURE,
-      data: err.response.data,
+      error: err,
     })
   }
 }

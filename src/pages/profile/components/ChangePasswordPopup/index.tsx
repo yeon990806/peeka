@@ -4,6 +4,8 @@ import Input from "@/components/Input"
 import Popup from "@/components/Popup"
 import axios from "axios"
 import { useCallback, useState } from "react"
+import { useSelector } from "react-redux"
+import { StateType } from "@/common/defines/Store";
 
 import style from "./style.module.scss"
 
@@ -13,6 +15,7 @@ interface ChangePasswordPopupProps {
 }
 
 const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
+  const userEmail = useSelector((state: StateType) => state.user.userInfo.email)
   const [legacyPassword, setLegacyPassword] = useState<string>('')
   const [inputPassword, setInputPassword] = useState<string>('')
   const [confirmLegacy, setConfirmLegacy] = useState<boolean>(false)
@@ -33,7 +36,7 @@ const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
   }
   const onConfirmChangePassword = useCallback(async () => {
     const formData = {
-      email: '',
+      email: userEmail,
       password: legacyPassword,
       new_password: inputPassword
     }

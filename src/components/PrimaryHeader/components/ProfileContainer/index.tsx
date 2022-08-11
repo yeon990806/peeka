@@ -22,23 +22,24 @@ const ProfileContainer = (props: ProfileContainerProps) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
+  const postCategory = useSelector((state: StateType) => state.post.postCategory)
   const [popupDisplay, setPopupDisplay] = useState<boolean>(false)
   const [screenDisplay, setScreenDisplay] = useState<boolean>(false)
 
   const signOut = useCallback(() => dispatch({
     type: SIGN_OUT_REQUEST,
   }), [])
-
+  const fetchAlertList = () => dispatch({
+    type: FETCH_ALERT_REQUEST,
+    data: {
+      id: (userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[0].id : ''
+    }
+  })
   const onClickAlertButton = useCallback(() => {
     if (desktop) setPopupDisplay(prev => !prev)
     else setScreenDisplay(prev => !prev)
 
-    dispatch({
-      type: FETCH_ALERT_REQUEST,
-      data: {
-        id: (userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[0].id : ''
-      }
-    })
+    fetchAlertList()
   }, [popupDisplay, screenDisplay, desktop])
   
   const onPrevEvent = useCallback(() => setScreenDisplay(prev => !prev), [screenDisplay]) 
@@ -165,6 +166,10 @@ const ProfileContainer = (props: ProfileContainerProps) => {
       setScreenDisplay(false)
     }
   }, [])
+
+  useEffect(() => {
+    fetchAlertList()
+  }, [postCategory])
 
   return (
     <>

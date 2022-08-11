@@ -55,7 +55,7 @@ const SignIn = () => {
             inputmode="email"
             validate={[
               (v: string) => {
-                const validEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+                const validEmail = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
 
                 return v.match(validEmail) !== null ? { state: true, msg: "" } : { state: false, msg: "올바른 이메일 형식이 아닙니다." }
               }

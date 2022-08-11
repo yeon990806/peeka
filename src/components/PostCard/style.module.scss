@@ -81,6 +81,10 @@
       grid-gap: 8px;
       color: $light-gray;
       font-size: 12px;
+
+      .LikedPost {
+        color: $primary;
+      }
     }
   
     .PostMenu {
