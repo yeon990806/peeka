@@ -49,10 +49,10 @@ const PostContainer = (props: PostContainerProps) => {
 
   return (
     <div className={ style.PostContainer } ref={ container }>
-      <TopButton
+      {/* <TopButton
         style={ TopButtonStyle }
         onClick={ () => {} }
-      />
+      /> */}
       { props.postList.map((post, i) => (
         <PostCard
           type={ props.postType }

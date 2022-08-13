@@ -76,7 +76,6 @@ const Community = () => {
         : <>
           { isLogin.id && <InputPost
             placeholder="현재 떠오르는 생각들을 적어주세요"
-            onSubmit={ () => toggleDisplayInputPopup() }
           /> } 
         </> 
       }
