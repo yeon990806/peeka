@@ -78,6 +78,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
         if (_post >= 0) return
       }
+
+      if (action.data.length === 0) draft.fetchDone = true
  
       draft.extraList = [...draft.extraList, ...action.data.list]
 

@@ -9,6 +9,7 @@ export const initialState: UserType = {
   fetchUserInfoLoading: false,
   fetchUserInfoSuccess: false,
   fetchUserInfoError: null,
+  fetchDone: false,
   signInLoading: false,
   signInSuccess: false,
   signInError: false,
@@ -291,6 +292,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
         if (_post >= 0) return
       }
+
+      if (action.data.length === 0) draft.fetchDone = true
 
       draft.userPost = [ ...draft.userPost, ...action.data ]
 
