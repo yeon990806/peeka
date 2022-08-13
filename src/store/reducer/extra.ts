@@ -96,6 +96,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.updateExtraListLoading = false
       draft.updateExtraListSuccess = true
       
+      updatePostAction(action.data, draft.extraList, action.data.onSuccess)
+      
       break
     case UPDATE_EXTRAPOST_FAILURE:
       draft.updateExtraListLoading = false
@@ -112,14 +114,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.updateExtraListLoading = false
       draft.updateExtraListSuccess = true
 
-      updatePostAction(action.data, draft.extraList, action.data.onSuccess)
+      deletePostAction(action.data, draft.extraList, action.data.onnSuccess)
       
       break
     case DELETE_EXTRAPOST_FAILURE:
       draft.updateExtraListLoading = false
       draft.deleteExtraListError = action.error
-
-      deletePostAction(action.data, draft.extraList, action.data.onnSuccess)
       
       break
     case FETCH_LINKEDPOST_REQUEST:

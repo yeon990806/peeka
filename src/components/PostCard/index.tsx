@@ -3,7 +3,7 @@ import { ActionContentType, PostType, StateType, StorePostType } from "@/common/
 import { PopupItemProps } from '@/components/MenuPopup';
 import { IsDesktop } from "@/common/hooks/breakpoints";
 import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Ref, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router'
 import classnames from "classnames"
@@ -34,7 +34,7 @@ const PostCard = (props: PostProps) => {
   const [displayReportPopup, setDisplayReportPopup] = useState<boolean>(false)
   const [displayUpdatePopup, setDisplayUpdatePopup] = useState<boolean>(false)
   const [displayDeletePopup, setDisplayDeletePopup] = useState<boolean>(false)
-  const [displayCommentContainer, setDisplayCommentContainer] = useState<boolean>(false)
+  const [displayCommentContainer, setDisplayCommentContainer] = useState<boolean>(props.type === StorePostType.Alert)
   const [postMenuList, setPostMenuList] = useState<PopupItemProps[]>()
 
   const hashtagRegexp = new RegExp(/#[^\s#]+/g)
@@ -231,6 +231,9 @@ const PostCard = (props: PostProps) => {
               />
             </div>
             { (props.post.comment_list && props.post.comment_list.length > 0) && <div className={ style.PostCommentList }>
+              <div className={ style.AlertComment }>
+                알림 댓글입니다.
+              </div>
               { props.post.comment_list.map(comment => (
                 comment.id && <CommentCard
                   data={ comment }

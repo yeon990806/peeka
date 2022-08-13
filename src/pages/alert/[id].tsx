@@ -24,6 +24,7 @@ const alert = () => {
         { alertPost
           ? <PostContainer
               fetchLoading
+              fetchDone
               postType={StorePostType.Alert}
               postList={ alertPost }
             />

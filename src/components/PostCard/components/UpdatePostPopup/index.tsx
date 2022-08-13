@@ -17,6 +17,7 @@ const UpdatePostPopup = (props: UpdatePostPopupProps) => {
       content={
         <>
           <InputPost
+            row={5}
             popup
             placeholder="현재 떠오르는 생각들을 적어주세요"
             post={ props.post }

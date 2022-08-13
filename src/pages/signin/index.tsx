@@ -13,12 +13,13 @@ import Checkbox from '@/components/Checkbox';
 import GoogleButton from '@/components/GoogleButton';
 
 import style from './style.module.scss'
+import Loader from '@/components/Loader';
 
 const SignIn = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const rememberUser = useSelector((state: StateType) => state.user.alwaysSignIn)
-
+  const signInLoading = useSelector((state: StateType) => state.user.signInLoading)
   const [inputEmail, setInputEmail] = useState<string>(''); // 이메일 주소
   const [inputPassword, setInputPassword] = useState<string>(''); // 비밀번호
   const [validateError, setValidateError] = useState<boolean>(false); // 유효성 체크 에러 여부
@@ -80,7 +81,7 @@ const SignIn = () => {
             additionalClass={ style.SignInButton }
             block
           >
-            로그인
+            { signInLoading ? <Loader small inline /> : '로그인' } 
           </Button>
           <div className={ style.SignInOption }>
             <Checkbox

@@ -10,6 +10,7 @@ export const initialState: PostStateType = {
   fetchPostLoading: false,
   fetchPostSuccess: false,
   fetchPostError: false,
+  fetchDone: false,
   addPostLoading: false,
   addPostSuccess: false,
   addPostError: false,
@@ -79,6 +80,8 @@ const reducer = (state = initialState, action) => {
 
           if (_post >= 0) return
         }
+
+        if (action.data.post.length === 0) draft.fetchDone = true
         
         if (action.data.initPost) draft.mainPost = action.data.post
         else draft.mainPost = [ ...draft.mainPost, ...action.data.post ]

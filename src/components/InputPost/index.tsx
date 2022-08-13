@@ -9,7 +9,7 @@ import { IsMobile } from '@/common/hooks/breakpoints';
 import SelectBox from "../SelectBox";
 import Textarea from "../Textarea";
 import { encodeFileToBase64 } from "@/common/defines/Format";
-import { PostType, StateType } from "@/common/defines/Store";
+import { ImageType, PostType, StateType } from "@/common/defines/Store";
 import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
 import axios from "axios";
@@ -19,8 +19,16 @@ interface InputPostProps {
   popup?: boolean;
   post?: PostType;
   postIdx?: number;
+  row?: number;
 
   onSubmit?: () => void;
+}
+
+interface PostImageType {
+  image: File,
+  url: any,
+  lastModified?: number,
+  idx?: number
 }
 
 const InputPost = (props: InputPostProps) => {
@@ -29,8 +37,10 @@ const InputPost = (props: InputPostProps) => {
   const userImage = useSelector((state: StateType) => state.user.userInfo.image)
   const [inputValue, setInputValue] = useState<string>('')
   const [fileList, setFileList] = useState<FileList>()
-  const [uploadImage, setUploadImage] = useState<{ image: File, url: any, lastModified: number }[]>([])
+  const [uploadImage, setUploadImage] = useState<PostImageType[]>([])
   const [postCategory, setPostCategory] = useState<{ display: string; value: string; } | null>()
+  const [postImage, setPostImage] = useState<PostImageType[]>([])
+  const [deletedImage, setDeletedImage] = useState<ImageType[]>([])
   const imageInput = useRef<HTMLInputElement>(null)
 
   const selectArray = [
@@ -52,7 +62,8 @@ const InputPost = (props: InputPostProps) => {
     let fileData = fileList ? Array.from(fileList).concat(Array.from(e.target.files)) : Array.from(e.target.files)
     
     fileData.forEach((file: File) => {
-      dataTransfer.items.add(file)
+      if (dataTransfer.files.length < 6 - postImage.length)
+        dataTransfer.items.add(file)
     })
 
     setFileList(dataTransfer.files)
@@ -72,6 +83,8 @@ const InputPost = (props: InputPostProps) => {
           images: fileList,
           onSuccess: () => {
             setInputValue('')
+            setUploadImage([])
+            setFileList(null)
             if (props.onSubmit) props.onSubmit()
           }
         }
@@ -80,10 +93,12 @@ const InputPost = (props: InputPostProps) => {
       dispatch({
         type: UPDATE_POST_REQUEST,
         data: {
+          id: props.post.id,
           contents: inputValue,
           category_code: postCategory.value,
           category: postCategory.display,
           images: fileList,
+          deleted_images: deletedImage,
           onSuccess: () => {
             setInputValue('')
             setPostCategory(undefined)
@@ -94,16 +109,23 @@ const InputPost = (props: InputPostProps) => {
   }, [uploadImage, inputValue, postCategory])
     
 
-  const removeImage = (clickedImage: File) => {
-    const dataTransfer = new DataTransfer()
+  const removeImage = (clickedImage: PostImageType) => {
+    setUploadImage(uploadImage.filter((v) => v.url !== clickedImage.url))
 
-    Array.from(fileList)
-      .filter(file => file !== clickedImage)
-      .forEach(file => {
-        dataTransfer.items.add(file)
-      })
-
-    setFileList(dataTransfer.files)
+    if (clickedImage.image) {
+      const dataTransfer = new DataTransfer()
+  
+      Array.from(fileList)
+        .filter(file => file !== clickedImage.image)
+        .forEach(file => {
+          dataTransfer.items.add(file)
+        })
+  
+      setFileList(dataTransfer.files)
+    } else {
+      setPostImage(prev => prev.filter(v => v.url !== clickedImage.url))
+      setDeletedImage([ ...deletedImage, props.post.images[clickedImage.idx] ])
+    }
   }
 
   useEffect(() => {
@@ -112,6 +134,18 @@ const InputPost = (props: InputPostProps) => {
 
       onInputContent(props.post.contents)
       setPostCategory(category)
+
+      if (props.post.images) {
+        props.post.images.map((v, i) => {
+          const _img = {
+            image: null,
+            url: v.uploadedFileURL,
+            idx: i
+          }
+
+          setPostImage(prev => ([...prev, _img]))
+        })
+      }
     }
   }, [props.post])
 
@@ -120,7 +154,7 @@ const InputPost = (props: InputPostProps) => {
       setUploadImage([])
       Array.from(fileList).forEach(async (image) => {
         await encodeFileToBase64(image)
-          .then((data: File) => setUploadImage((prev) => [...prev, { image: image, url: data, lastModified: image.lastModified }].sort((a, b) => a.lastModified - b.lastModified)))
+          .then((data: File) => setUploadImage((prev) => [...prev, { image: image, url: data, lastModified: image.lastModified }].sort((a, b) => b.lastModified - a.lastModified)) )
       })
     }
   }, [fileList])
@@ -142,7 +176,7 @@ const InputPost = (props: InputPostProps) => {
           block
           borderless
           paddingless
-          row={ 1 }
+          row={ props.row || 1 }
           value={ inputValue }
           additionalClass={ style.InputForm }
           onInput={ (v: string) => onInputContent(v) }
@@ -176,9 +210,17 @@ const InputPost = (props: InputPostProps) => {
         </div>
       </div>
       <div className={ classNames( style.PostImageContainer, mobile && style.MobileGrid ) }>
+        { postImage.map((v, i) => (
+          <div className={ style.PostImage } key={ `post-${i}` }>
+            <div className={ style.RemovePostImage } onClick={ () => removeImage(v) }>
+              &times;
+            </div>
+            <img src={ v.url } />
+          </div>
+        )) }
         { uploadImage.map((v, i) => (
           <div className={ style.PostImage } key={ i }>
-            <div className={ style.RemovePostImage } onClick={ () => removeImage(v.image) }>
+            <div className={ style.RemovePostImage } onClick={ () => removeImage(v) }>
               &times;
             </div>
             <img src={ v.url } />
@@ -190,7 +232,7 @@ const InputPost = (props: InputPostProps) => {
         name="images"
         multiple
         hidden
-        accept='image/*' 
+        accept='image/*'
         ref={ imageInput }
         onChange={ (e) => onHandleUploadImage(e) }
       />

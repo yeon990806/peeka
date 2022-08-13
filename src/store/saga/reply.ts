@@ -37,7 +37,7 @@ function addReplyAPI (param) {
   const paramData = {
     post_id: param.postId,
     comment_id: param.commentId,
-    contents: param.contents,
+    contents: `${param.toUserName ? `@${param.toUserName}`: ''} ${param.contents}`,
     to_member_id: param.author,
   }
   
@@ -134,6 +134,7 @@ function* AddReply (action) {
     const result = yield call(addReplyAPI, action.data)
     const data = {
       list: result.data,
+      toUserName: action.data.toUserName,
       postId: action.data.postId,
       commentId: action.data.commentId,
       onSuccess: action.data.onSuccess,

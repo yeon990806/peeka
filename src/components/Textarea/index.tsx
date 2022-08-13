@@ -38,7 +38,7 @@ const Textarea = memo((props: TextareaProps) => {
   const disabledState = props.readonly || props.disabled
 
   const resizeTextarea = () => {
-    TextareaRef.current.style.height = '1px'
+    TextareaRef.current.style.height = '0px'
     TextareaRef.current.style.height = (12 + TextareaRef.current.scrollHeight) + 'px'
   }
 

@@ -11,6 +11,7 @@ interface InputCommentProps {
   onSubmit?: () => void;
   postId: number;
   author: number;
+  toUserName?: string;
   placeholder?: string;
   replyMode?: boolean;
   commentId?: number;
@@ -31,6 +32,7 @@ const InputComment = (props: InputCommentProps) => {
           commentId: props.commentId,
           contents: inputValue,
           author: props.author,
+          toUserName: props.toUserName ? props.toUserName : '',
           postType: props.type,
           onSuccess: () => setInputValue('')
         }
@@ -64,8 +66,8 @@ const InputComment = (props: InputCommentProps) => {
         additionalClass={ style.InputForm }
         onInput={ (v: string) => onInputContent(v) }
       />
-      <Button type="icon" onClick={ () => onSubmitComment() }>
-        <img src="/images/send.svg" tabIndex={-1} />
+      <Button type="text" theme="light" onClick={ () => onSubmitComment() }>
+        { props.commentId ? '답글' : '댓글' }
       </Button>
     </div>
   </form>

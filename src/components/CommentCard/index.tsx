@@ -29,7 +29,7 @@ const CommentCard = (props: CommentCardProps) => {
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
   const [displayDeleteComment, setDisplayDeleteComment] = useState<boolean>(false)
-  const [displayReplyList, setDisplayReplyList] = useState<boolean>(false)
+  const [displayReplyList, setDisplayReplyList] = useState<boolean>((props.data.reply_list && props.type) === StorePostType.Alert)
 
   const menuList = [
     {
@@ -204,10 +204,11 @@ const CommentCard = (props: CommentCardProps) => {
         </div>
         { activeReply && <div className={ style.InputReply }>
             <InputComment
+              toUserName={ props.data.nickname }
               postId={ props.data.post_id }
               author={ props.data.member_id }
               placeholder="답글을 입력해주세요."
-              replyMode={ true }
+              replyMode
               commentId={ props.data.id }
               type={ props.type }
             />

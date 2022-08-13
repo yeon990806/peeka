@@ -3,7 +3,7 @@ import Button from '../Button'
 import UserProfile from '../UserProfile'
 import style from './style.module.scss'
 import MenuPopup from '../MenuPopup';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Textarea from '../Textarea';
 import { useDispatch } from 'react-redux';
 import Popup from '../Popup';
@@ -26,6 +26,7 @@ const ReplyCard = (props: ReplyCardProps) => {
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
   const [displayDeleteReply, setDisplayDeleteReply] = useState<boolean>(false)
 
+  const atRegex = /@[^\s]+/g
   const menuList = [
     {
       text: '수정',
@@ -128,10 +129,10 @@ const ReplyCard = (props: ReplyCardProps) => {
         </div>
         { !activeModify
           ? <article className={ style.CommentCardText }>
-            { props.data.member_id !== props.postAuthor && <div className={ style.ReplyChip }>
-              { props.commentUser }
+            { props.data.contents.match(atRegex) && <div className={ style.ReplyChip }>
+              { atRegex.exec(props.data.contents)[0] }
             </div> }
-            { props.data.contents }
+            { props.data.contents.split(/@[^\s]+/g) }
           </article>
           : <div className={ style.CommentInput }>
             <Textarea
@@ -179,12 +180,13 @@ const ReplyCard = (props: ReplyCardProps) => {
         </div>
         { activeReply && <div className={ style.InputReply }>
           <InputComment
+            toUserName={ `${ props.data.nickname }` }
             postId={ props.postId }
             commentId={ props.data.comment_id }
             author={ props.data.member_id }
             placeholder="답글을 입력해주세요."
-            replyMode={ true }
             type={ props.type }
+            replyMode
           />
         </div> }
       </div>

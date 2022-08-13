@@ -6,11 +6,11 @@
   .PageHeader {
     position: sticky;
     top: 0;
-    padding: 16px 16px 24px;
+    padding: 4px 16px;
     display: flex;
     align-items: center;
     background: $background;
-    z-index: 2;
+    z-index: 8;
 
     h1 {
       padding-left: 8px;

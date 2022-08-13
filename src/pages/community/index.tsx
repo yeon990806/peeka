@@ -12,12 +12,14 @@ import { CHANGE_POST_CATEGORY, EMPTY_MAIN_POST, FETCH_POST_REQUEST } from '@/sto
 import { IsMobile } from '@/common/hooks/breakpoints';
 
 import style from "./style.module.scss"
+import Loader from '@/components/Loader';
 
 const Community = () => {
   const mobile = IsMobile()
   const dispatch = useDispatch()
   const postCategory = useSelector((state: StateType, ) => state.post.postCategory)
   const postLoading = useSelector((state: StateType) => state.post.fetchPostLoading)
+  const postDone = useSelector((state: StateType) => state.post.fetchDone)
   const postList = useSelector((state: StateType) => state.post.mainPost)
   const isLogin = useSelector((state: StateType) => state.user.userInfo)
   
@@ -70,7 +72,7 @@ const Community = () => {
   if (!showing) return <></>
   return (
     <div className={ style.Community }>
-      {/* { fetchPostLoading && <Spinner /> } */}
+      { postLoading && <Loader /> }
       { mobile
         ? <HashContainer />
         : <>
@@ -79,12 +81,15 @@ const Community = () => {
           /> } 
         </> 
       }
-      { postList.length > 0 && <PostContainer
-        fetchList={() => fetchPost(false, postLoading)}
-        fetchLoading={ postLoading }
-        postList={postList}
-        postType={ StorePostType.MainPost }
-      /> }
+      <div className={ style.CommunityPost }>
+        { postList.length > 0 && <PostContainer
+          fetchDone={ postDone }
+          fetchList={() => fetchPost(false, postLoading)}
+          fetchLoading={ postLoading }
+          postList={postList}
+          postType={ StorePostType.MainPost }
+        /> }
+      </div>
       { mobile && isLogin.id && <PostButton
         onClick={ () => toggleDisplayInputPopup() }
       /> }

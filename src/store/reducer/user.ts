@@ -473,25 +473,26 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.readAlertLoading = false
       draft.readAlertSuccess = true
 
-      draft.userInfo.alertDetail.push(post)
       post.comment_list = action.data.post.comments
 
       if (action.data.post.replies)
         action.data.post.replies.map((r) => {
-          const reply = post.comment_list.find(v => v.id === r.comment_id)
+          const comment = post.comment_list.find(v => v.id === r.comment_id)
 
-          if (reply) {
-            if ('reply_list' in reply) reply.reply_list.push(r)
+          if (comment) {
+            if ('reply_list' in comment) comment.reply_list.push(r)
             else {
-              reply.reply_list = []
+              comment.reply_list = []
 
-              reply.reply_list.push(r)
+              comment.reply_list.push(r)
             }
           }
         })
       
-      if (action.data.onSuccess) action.data.onSuccess()
       alert.check_yn = 'Y'
+      draft.userInfo.alertDetail.push(post)
+      
+      if (action.data.onSuccess) action.data.onSuccess()
       
       break
     }

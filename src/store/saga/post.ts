@@ -54,9 +54,11 @@ function updatePostAPI (param) {
   const f = new FormData()
   
   let dataset = {
+    id: param.id,
     category_code: param.category_code,
     category: param.category,
-    contents: param.contents
+    contents: param.contents,
+    deleted_images: param.deleted_images,
   }
 
   for (let key in param.images) {
@@ -67,16 +69,12 @@ function updatePostAPI (param) {
   }
   f.append('contents', new Blob([ JSON.stringify(dataset) ], { type: 'application/json' }))
 
-
-  const options = {
-    data: dataset,
+  return axios.patch(`${ APIHost }/board/post`, f, {
     headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
-  }
-
-  return axios.patch(`${ APIHost }/board/post`, f)
+  })
 }
 
 function deletePostAPI (param) {

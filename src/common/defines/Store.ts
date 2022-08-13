@@ -58,6 +58,7 @@ export type PostStateType = {
   fetchPostLoading: boolean
   fetchPostSuccess: boolean
   fetchPostError: boolean
+  fetchDone: boolean
   addPostLoading: boolean
   addPostSuccess: boolean
   addPostError: boolean
