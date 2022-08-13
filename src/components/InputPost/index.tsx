@@ -62,7 +62,7 @@ const InputPost = (props: InputPostProps) => {
     if (!postCategory)
       return dispatch(openPopup(PopupCode.CATEGORY_NULL))
 
-    if (props.post)
+    if (!props.post)
       dispatch({
         type: ADD_POST_REQUEST,
         data: {
@@ -146,6 +146,7 @@ const InputPost = (props: InputPostProps) => {
           value={ inputValue }
           additionalClass={ style.InputForm }
           onInput={ (v: string) => onInputContent(v) }
+          placeholder={ props.placeholder }
         />
       </div>
       <div className={ style.InputPostAction }>

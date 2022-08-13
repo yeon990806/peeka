@@ -71,14 +71,22 @@ const Community = () => {
   return (
     <div className={ style.Community }>
       {/* { fetchPostLoading && <Spinner /> } */}
-      { mobile ? <HashContainer /> : <InputPost /> }
+      { mobile
+        ? <HashContainer />
+        : <>
+          { isLogin.id && <InputPost
+            placeholder="현재 떠오르는 생각들을 적어주세요"
+            onSubmit={ () => toggleDisplayInputPopup() }
+          /> } 
+        </> 
+      }
       { postList.length > 0 && <PostContainer
         fetchList={() => fetchPost(false, postLoading)}
         fetchLoading={ postLoading }
         postList={postList}
         postType={ StorePostType.MainPost }
       /> }
-      { mobile && isLogin && <PostButton
+      { mobile && isLogin.id && <PostButton
         onClick={ () => toggleDisplayInputPopup() }
       /> }
       <Screen

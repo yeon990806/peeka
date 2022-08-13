@@ -7,15 +7,17 @@ import { useDispatch } from 'react-redux';
 export const initialState: PopupStateType = {
   popupDisplay: false,
   popupCode: null,
+  callback: null,
 }
 
 export const UPDATE_POPUP = 'UPDATE_POPUP'
 
-export const openPopup = (code: PopupCode) => ({
+export const openPopup = (code: PopupCode, callback?) => ({
   type: UPDATE_POPUP,
   data: {
     display: true,
     code,
+    callback
   }
 })
 
@@ -23,7 +25,7 @@ export const closePopup = () => ({
   type: UPDATE_POPUP,
   data: {
     display: false,
-    code: null
+    code: null,
   }
 })
 
@@ -32,6 +34,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case UPDATE_POPUP:
       draft.popupDisplay = action.data.display
       draft.popupCode = action.data.code
+
+      if (action.data.display && action.data.callback) draft.callback = action.data.callback
+      else if (!action.data.display && action.data.callback) draft.callback()
+
+
+      draft.callback = null
 
       break
     default:

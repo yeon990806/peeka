@@ -58,7 +58,6 @@ export function fetchReplyAction ({ id, commentId, postId, list }, target) {
 }
 
 export function addReplyAction ({ postId, commentId, list }, target, callback?) {
-  debugger
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
 
@@ -69,7 +68,6 @@ export function addReplyAction ({ postId, commentId, list }, target, callback?) 
 }
 
 export function updateReplyAction ({ postId, commentId, id, contents }, target, callback?) {
-  debugger
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
   const reply = comment.reply_list.find(v => v.id === id)
@@ -80,7 +78,6 @@ export function updateReplyAction ({ postId, commentId, id, contents }, target, 
 }
 
 export function deleteReplyAction ({ postId, commentId, id}, target, callback?) {
-  debugger
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
 

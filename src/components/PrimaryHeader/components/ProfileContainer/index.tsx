@@ -32,14 +32,14 @@ const ProfileContainer = (props: ProfileContainerProps) => {
   const fetchAlertList = () => dispatch({
     type: FETCH_ALERT_REQUEST,
     data: {
-      id: (userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[0].id : ''
+      id: (userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[userInfo.alertList.length - 1].id : ''
     }
   })
   const onClickAlertButton = useCallback(() => {
     if (desktop) setPopupDisplay(prev => !prev)
     else setScreenDisplay(prev => !prev)
 
-    fetchAlertList()
+    if (userInfo.id) fetchAlertList()
   }, [popupDisplay, screenDisplay, desktop])
   
   const onPrevEvent = useCallback(() => setScreenDisplay(prev => !prev), [screenDisplay]) 
@@ -168,7 +168,7 @@ const ProfileContainer = (props: ProfileContainerProps) => {
   }, [])
 
   useEffect(() => {
-    fetchAlertList()
+    if (userInfo.id) fetchAlertList()
   }, [postCategory])
 
   return (

@@ -10,8 +10,10 @@ import style from './style.module.scss'
 import { APIHost } from '@/common/api'
 import { openPopup } from '@/store/reducer/popup'
 import { PopupCode } from '@/common/defines/Popup'
+import { useDispatch } from 'react-redux'
 
 const Recover = () => {
+  const dispatch = useDispatch()
   const router = useRouter()
   const [inputEmail, setInputEmail] = useState<string>('')
   const [emailError, setEmailError] = useState<boolean>(false)
@@ -22,22 +24,22 @@ const Recover = () => {
   const onPrevClickHandler = () => { router.replace('/signin') }
   const onRecover = async () => {
     try {
-      const result = await axios.patch(`${ APIHost }/public/auth/password`, {
+      const data = {
+        email: inputEmail
+      }
+      const result = await axios.patch(`${ APIHost }/public/auth/password`, data, {
         headers: {
           Authorization: ''
-        },
-        data: {
-          email: inputEmail
         }
       })
 
       if (result.status === 200) {
-        openPopup(PopupCode.COMPLETE)
+        dispatch(openPopup(PopupCode.SEND_TEMP_PW_SUCCESS, router.push('/signin')))
       } else {
-        openPopup(PopupCode.NOT_FOUND)
+        dispatch(openPopup(PopupCode.NOT_FOUND))
       }
     } catch (err) {
-      openPopup(PopupCode.UNKNOWN)
+      dispatch(openPopup(PopupCode.UNKNOWN))
     }
   }
 

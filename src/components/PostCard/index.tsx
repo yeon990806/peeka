@@ -180,7 +180,11 @@ const PostCard = (props: PostProps) => {
             </MenuPopup>
           </div>
           <article className={ style.PostContent }>
-            { props.post.contents }
+            { props.post.contents.split("\n").map((line, idx) => (
+              <div key={ `${props.post.id}-${idx}` }>
+                {line}
+              </div>
+            )) }
           </article>
         </div>
         <div className={ style.ImageContainer }>

@@ -1,6 +1,5 @@
 import style from "./style.module.scss"
 import Button from '@/components/Button';
-import InputPost from "../InputPost";
 import { DefaultProps } from "@/common/defines/Props";
 
 interface ScreenProps extends DefaultProps {

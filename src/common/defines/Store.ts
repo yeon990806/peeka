@@ -148,6 +148,7 @@ export type ReactionStateType = {
 export type PopupStateType = {
   popupDisplay: boolean
   popupCode: PopupCode | null
+  callback?: () => void | null
 }
 
 export type UserInfoType = {

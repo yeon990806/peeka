@@ -1,19 +1,16 @@
-import PropTypes from 'prop-types'
-
 import wrapper from '@/store/index'
+import axios from 'axios'
+import AppLayout from '@/layout/AppLayout'
+import AlertProvider from '@/components/AlertProvider'
+import ImagePopup from '@/components/ImagePopup'
+import SignLayout from '@/layout/SignLayout'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
+import { getCookie } from '@/common/libs/Cookie'
+import { FETCH_USERINFO_REQUEST, UPDATE_USERINFO } from '@/store/reducer/user'
 
 import "@nextcss/reset"
 import "styles/common.scss"
-import AppLayout from '@/layout/AppLayout'
-import SignLayout from '@/layout/SignLayout'
-import axios from 'axios'
-import { useEffect, useState } from 'react';
-import ImagePopup from '@/components/ImagePopup'
-import { useDispatch } from 'react-redux'
-import router from 'next/router'
-import { getCookie } from '@/common/libs/Cookie'
-import { FETCH_USERINFO_REQUEST, UPDATE_USERINFO } from '@/store/reducer/user'
-import AlertProvider from '@/components/AlertProvider'
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/' : 'https://www.peeka.ai';
@@ -68,10 +65,6 @@ const App = ({ Component, pageProps }) => {
       <AlertProvider />
     </div>
   )
-}
-
-App.propTypes = {
-  Component: PropTypes.elementType.isRequired,
 }
 
 export default wrapper.withRedux(App)
