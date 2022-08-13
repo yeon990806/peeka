@@ -12,6 +12,7 @@ const userpost = () => {
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
   const userPostData = useSelector((state: StateType) => state.user.userPost)
   const userPostLoading = useSelector((state: StateType) => state.user.userPostLoading)
+  const userDone = useSelector((state: StateType) => state.user.fetchDone)
 
   const ImageStyle = useMemo(() => ({
     transform: 'rotate(12deg)'
@@ -47,6 +48,7 @@ const userpost = () => {
           ? <PostContainer
             postType={ StorePostType.UserPost }
             postList={ userPostData }
+            fetchDone={ userDone }
             fetchLoading={ userPostLoading }
             fetchList={ fetchUserPost }
           />

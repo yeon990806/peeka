@@ -15,6 +15,7 @@ const userpost = () => {
 
   const userPost = useSelector((state: StateType) => state.extra.extraList)
   const userPostLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
+  const userDone = useSelector((state: StateType) => state.extra.fetchDone)
 
   const ImageStyle = useMemo(() => ({
     transform: 'rotate(12deg)'
@@ -60,6 +61,7 @@ const userpost = () => {
         { (userPost && userPost.length > 0)
           ? <PostContainer
             postList={ userPost }
+            fetchDone={ userDone }
             fetchLoading={ userPostLoading }
             fetchList={ fetchUserPost }
             postType={ StorePostType.ExtraPost }

@@ -15,6 +15,7 @@ const search = () => {
 
   const searchContent = useSelector((state: StateType) => state.extra.extraList)
   const searchLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
+  const searchDone = useSelector((state: StateType) => state.extra.fetchDone)
 
   const fetchSearchContent = () => {
     if (!category && !text) return
@@ -56,6 +57,7 @@ const search = () => {
         { (searchContent && searchContent.length > 0)
           ? <PostContainer
             postList={ searchContent }
+            fetchDone={ searchDone }
             fetchLoading={ searchLoading }
             fetchList={ fetchSearchContent }
             postType={ StorePostType.ExtraPost }

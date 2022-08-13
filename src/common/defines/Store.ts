@@ -31,6 +31,7 @@ export type UserType = {
   userPostLoading: boolean
   userPostSuccess: boolean
   userPostError: any
+  fetchDone: boolean
   fetchAlertLoading: boolean
   fetchAlertSuccess: boolean
   fetchAlertError: any
@@ -90,6 +91,7 @@ export type ExtraStateType = {
   fetchExtraListRequest: boolean,
   fetchExtraListSuccess: boolean,
   fetchExtraListError: any,
+  fetchDone: boolean,
   updateExtraListLoading: boolean,
   updateExtraListSuccess: boolean,
   updateExtraListError: any,

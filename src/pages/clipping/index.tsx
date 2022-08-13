@@ -13,6 +13,7 @@ const clipping = () => {
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
   const clippingPost = useSelector((state: StateType) => state.extra.extraList)
   const clippingPostLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
+  const clippingDown = useSelector((state: StateType) => state.extra.fetchDone)
 
   const fetchClippingPost = () => dispatch({
     type: FETCH_EXTRAPOST_REQUEST,
@@ -48,6 +49,7 @@ const clipping = () => {
           <PostContainer
             postList={ clippingPost }
             fetchList={ fetchClippingPost }
+            fetchDone={ clippingDown }
             fetchLoading={ clippingPostLoading }
             postType={ StorePostType.ExtraPost }
           />
