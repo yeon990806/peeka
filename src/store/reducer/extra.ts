@@ -9,6 +9,7 @@ export const initialState: ExtraStateType = {
   fetchExtraListRequest: false,
   fetchExtraListSuccess: false,
   fetchExtraListError: null,
+  fetchDone: false,
   updateExtraListLoading: false,
   updateExtraListSuccess: false,
   updateExtraListError: null,
