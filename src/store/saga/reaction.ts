@@ -1,3 +1,4 @@
+import { LIKE_ALERT, SCRAP_ALERT, UNLIKE_ALERT, UNSCRAP_ALERT } from './../reducer/user';
 import { LIKE_CONTENT_SUCCESS, LIKE_CONTENT_FAILURE, UNLIKE_CONTENT_SUCCESS, UNLIKE_CONTENT_FAILURE, SCRAP_CONTENT_SUCCESS, SCRAP_CONTENT_FAILURE, UNSCRAP_CONTENT_SUCCESS, UNSCRAP_CONTENT_FAILURE } from './../reducer/reaction';
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
@@ -8,6 +9,8 @@ import { LIKE_USERPOST_CONTENT, SCRAP_USERPOST, UNLIKE_USERPOST_CONTENT, UNSCRAP
 import { LIKE_EXTRAPOST_CONTENT, SCRAP_EXTRAPOST, UNLIKE_EXTRAPOST_CONTENT, UNSCRAP_EXTRAPOST } from '../reducer/extra';
 import { getCookie } from '@/common/libs/Cookie';
 import { APIHost } from '@/common/api';
+import { UPDATE_POPUP } from '../reducer/popup';
+import { PopupCode } from '@/common/defines/Popup';
 
 function likePostAPI (param) {
   const data = {
@@ -98,6 +101,13 @@ function* LikePost (action) {
           })
 
           break
+        case StorePostType.Alert:
+          yield put({
+            type: LIKE_ALERT,
+            data: action.data,
+          })
+
+          break
         default:
           return
       }
@@ -108,6 +118,12 @@ function* LikePost (action) {
       type: LIKE_CONTENT_FAILURE,
       error: err,
     })
+
+    if (err.response.data.code === 'STATE_CONFLICT')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.STATE_CONFLICT
+      })
   }
 }
 
@@ -140,6 +156,15 @@ function* UnlikePost (action) {
           type: UNLIKE_EXTRAPOST_CONTENT,
           data: action.data
         })
+
+        break
+      case StorePostType.Alert:
+        yield put({
+          type: UNLIKE_ALERT,
+          data: action.data,
+        })
+
+        break
       default:
         return
     }
@@ -148,6 +173,12 @@ function* UnlikePost (action) {
       type: UNLIKE_CONTENT_FAILURE,
       error: err.response.data,
     })
+
+    if (err.response.data.code === 'STATE_CONFLICT')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.STATE_CONFLICT
+      })
   }
 }
 
@@ -183,6 +214,13 @@ function* ScrapPost (action) {
           })
 
           break
+        case StorePostType.Alert:
+          yield put({
+            type: SCRAP_ALERT,
+            data: action.data,
+          })
+  
+          break
         default:
           return
       }
@@ -191,6 +229,12 @@ function* ScrapPost (action) {
       type: SCRAP_CONTENT_FAILURE,
       error: err
     })
+
+    if (err.response.data.code === 'STATE_CONFLICT')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.STATE_CONFLICT
+      })
   }
 }
 
@@ -226,6 +270,13 @@ function* UnscrapPost (action) {
           })
 
           break
+        case StorePostType.Alert:
+        yield put({
+          type: UNSCRAP_ALERT,
+          data: action.data,
+        })
+
+        break
         default:
           return
       }
@@ -234,6 +285,12 @@ function* UnscrapPost (action) {
       type: UNSCRAP_CONTENT_FAILURE,
       error: err
     })
+
+    if (err.response.data.code === 'STATE_CONFLICT')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.STATE_CONFLICT
+      })
   }
 }
 

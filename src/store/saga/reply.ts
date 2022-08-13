@@ -1,4 +1,4 @@
-import { UPDATE_USERPOST_COMMENT_REPLY, DELETE_USERPOST_COMMENT_REPLY } from './../reducer/user';
+import { UPDATE_USERPOST_COMMENT_REPLY, DELETE_USERPOST_COMMENT_REPLY, FETCH_ALERT_COMMENT_REPLY, ADD_ALERT_COMMENT_REPLY, UPDATE_ALERT_COMMENT_REPLY, DELETE_ALERT_COMMENT_REPLY } from './../reducer/user';
 import { ADD_POST_COMMENT_REPLY, UPDATE_POST_COMMENT_REPLY, DELETE_POST_COMMENT_REPLY } from './../reducer/post';
 import { StorePostType } from "@/common/defines/Store";
 import { getCookie } from "@/common/libs/Cookie";
@@ -22,6 +22,8 @@ import {
 } from "../reducer/reply";
 import { ADD_USERPOST_COMMENT_REPLY, FETCH_USERPOST_COMMENT_REPLY } from "../reducer/user";
 import { APIHost } from '@/common/api';
+import { UPDATE_POPUP } from '../reducer/popup';
+import { PopupCode } from '@/common/defines/Popup';
 
 function fetchReplyAPI (param) {
   return axios.get(`${ APIHost }/public/board/reply?comment_id=${ param.commentId }&id=${ param.id }&paging_number=0&paging_size=20`, {
@@ -109,6 +111,13 @@ function* FetchReply (action) {
         })
         
         break
+      case StorePostType.Alert:
+        yield put({
+          type: FETCH_ALERT_COMMENT_REPLY,
+          data: action.data,
+        })
+
+        break
       default:
         return
     }
@@ -147,11 +156,22 @@ function* AddReply (action) {
           type: ADD_USERPOST_COMMENT_REPLY,
           data,
         })
+
+        break
       case StorePostType.ExtraPost:
         yield put({
           type: ADD_EXTRAPOST_COMMENT_REPLY,
           data,
         })
+        
+        break
+      case StorePostType.Alert:
+        yield put({
+          type: ADD_ALERT_COMMENT_REPLY,
+          data: action.data,
+        })
+
+        break
       default:
         return
     }
@@ -201,6 +221,13 @@ function* UpdateReply (action) {
         })
         
         break
+      case StorePostType.Alert:
+        yield put({
+          type: UPDATE_ALERT_COMMENT_REPLY,
+          data: action.data,
+        })
+
+        break
       default:
         return
     }
@@ -209,6 +236,12 @@ function* UpdateReply (action) {
       type: UPDATE_REPLY_FAILURE,
       error: err
     })
+
+    if (err.response.data.code === 'FORBIDDEN_ACCESS')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.FORBIDDEN_ACCESS
+      })
   }
 }
 
@@ -249,6 +282,13 @@ function* DeleteReply (action) {
         })
 
         break
+      case StorePostType.Alert:
+        yield put({
+          type: DELETE_ALERT_COMMENT_REPLY,
+          data: action.data,
+        })
+
+        break
       default:
         return
     }
@@ -257,6 +297,12 @@ function* DeleteReply (action) {
       type: DELETE_REPLY_FAILURE,
       error: err
     })
+
+    if (err.response.data.code === 'FORBIDDEN_ACCESS')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.FORBIDDEN_ACCESS
+      })
   }
 }
 

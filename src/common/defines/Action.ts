@@ -1,4 +1,19 @@
 import { ActionContentType } from './Store';
+
+export function updatePostAction (post, target, callback?) {
+  let _post = target.find(v => v.id === post.id)
+
+  _post = post
+
+  if (callback) callback()
+}
+
+export function deletePostAction (id, target, callback?) {
+  target = target.filter(v => v.id !== id)
+
+  if (callback) callback()
+}
+
 export function fetchCommentAction ({ id, list }, target) {
   const post = target.find(v => v.id === id)
   
@@ -43,6 +58,7 @@ export function fetchReplyAction ({ id, commentId, postId, list }, target) {
 }
 
 export function addReplyAction ({ postId, commentId, list }, target, callback?) {
+  debugger
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
 
@@ -53,6 +69,7 @@ export function addReplyAction ({ postId, commentId, list }, target, callback?) 
 }
 
 export function updateReplyAction ({ postId, commentId, id, contents }, target, callback?) {
+  debugger
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
   const reply = comment.reply_list.find(v => v.id === id)
@@ -63,6 +80,7 @@ export function updateReplyAction ({ postId, commentId, id, contents }, target, 
 }
 
 export function deleteReplyAction ({ postId, commentId, id}, target, callback?) {
+  debugger
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
 

@@ -1,9 +1,11 @@
 import { APIHost } from '@/common/api';
+import { PopupCode } from '@/common/defines/Popup';
 import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
 import router from 'next/router';
 import { all, call, fork, put, throttle, delay, takeLatest } from 'redux-saga/effects'
 import { getCookie, setCookie } from '../../common/libs/Cookie';
+import { openPopup, UPDATE_POPUP } from '../reducer/popup';
 import { 
   FETCH_USERINFO_REQUEST,
   FETCH_USERINFO_FAILURE,
@@ -118,22 +120,43 @@ function* SignIn (action) {
   try {
     const result = yield call(signInAPI, action.data)
 
-    if (action.alwaysSignIn) setTimeout(onSlientRefresh, JWT_EXPIRY_TIME - 60000)
-    yield put({
-      type: SIGN_IN_SUCCESS,
-      data: result.data
-    })
+    if (result.status === 200) {
+      if (action.alwaysSignIn) setTimeout(onSlientRefresh, JWT_EXPIRY_TIME - 60000)
+      yield put({
+        type: SIGN_IN_SUCCESS,
+        data: result.data
+      })
+  
+      yield put({
+        type: FETCH_USERINFO_REQUEST
+      })
+      
+      return router.push('/community')
+    }
 
-    yield put({
-      type: FETCH_USERINFO_REQUEST
-    })
-    
-    return router.push('/community')
   } catch (err) {
     yield put({
       type: SIGN_IN_FAILURE,
-      data: err.response.data,
+      error: err
     })
+
+    
+    if (err.response.data.code === 'NOT_FOUND')
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.NOT_FOUND
+        }
+      })
+    else
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.FORBIDDEN_ACCESS
+        }
+      })
   }
 }
 
@@ -141,25 +164,30 @@ function* SignUp (action) {
   try {
     const result = yield call(signUpAPI, action.data)
 
-    setCookie('accessToken', result.data.access_token, {
-      path: '/',
-      secure: true,
-    })
-    setCookie('refreshToken', result.data.refresh_token, {
-      path: '/',
-      secure: true,
-    })
+    if (result.status === 200) {
+      setCookie('accessToken', result.data.access_token, {
+        path: '/',
+        secure: true,
+      })
+      setCookie('refreshToken', result.data.refresh_token, {
+        path: '/',
+        secure: true,
+      })
+  
+      yield put({
+        type: SIGN_UP_SUCCESS,
+        data: result.data,
+      })
+  
+      yield put({
+        type: FETCH_USERINFO_REQUEST,
+      })
+  
+      return router.push('/community')
+    } else {
+      openPopup(PopupCode.DUPLICATION_ERROR)
+    }
 
-    yield put({
-      type: SIGN_UP_SUCCESS,
-      data: result.data,
-    })
-
-    yield put({
-      type: FETCH_USERINFO_REQUEST,
-    })
-
-    return router.push('/community')
   } catch (err) {
     yield put({
       type: SIGN_UP_FAILURE,

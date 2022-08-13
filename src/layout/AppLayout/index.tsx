@@ -40,7 +40,6 @@ const AppLayout = (props: AppLayoutProps) => {
   
   useEffect(() => {
     setIsShowing(true)
-
     fetchAlertList()
   }, [])
 

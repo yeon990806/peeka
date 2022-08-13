@@ -45,7 +45,6 @@ const profile = () => {
         onPrev={ () => toggleWithdrawDisplay() }
       />
       <ChangePasswordPopup
-        // userEmail={ userInfo. }
         display={ displayPasswordPopup }
         onPrev={ () => togglePasswordDisplay() }
       />

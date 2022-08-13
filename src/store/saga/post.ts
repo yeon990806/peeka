@@ -1,18 +1,24 @@
 import { APIHost } from '@/common/api';
 import { CategoryType } from "@/common/defines/Category";
+import { PopupCode } from '@/common/defines/Popup';
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
 import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects";
+import { UPDATE_POPUP } from '../reducer/popup';
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  CHANGE_POST_CATEGORY,
   DELETE_POST_FAILURE,
   DELETE_POST_REQUEST,
   DELETE_POST_SUCCESS,
   FETCH_POST_FAILURE,
   FETCH_POST_REQUEST,
   FETCH_POST_SUCCESS,
+  UPDATE_POST_FAILURE,
+  UPDATE_POST_REQUEST,
+  UPDATE_POST_SUCCESS,
 } from "../reducer/post";
 
 function fetchPostAPI (param) {
@@ -42,6 +48,35 @@ function addPostAPI (param) {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
   })
+}
+
+function updatePostAPI (param) {
+  const f = new FormData()
+  
+  let dataset = {
+    category_code: param.category_code,
+    category: param.category,
+    contents: param.contents
+  }
+
+  for (let key in param.images) {
+    if (param.images[key])
+      f.append('images', param.images[key])
+    else
+      continue
+  }
+  f.append('contents', new Blob([ JSON.stringify(dataset) ], { type: 'application/json' }))
+
+
+  const options = {
+    data: dataset,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${ getCookie('accessToken') }`,
+    }
+  }
+
+  return axios.patch(`${ APIHost }/board/post`, f)
 }
 
 function deletePostAPI (param) {
@@ -84,14 +119,43 @@ function* AddPost (action) {
       type: ADD_POST_SUCCESS,
       data: result.data,
     })
+
+    yield put({
+      type: CHANGE_POST_CATEGORY,
+      data: CategoryType[action.data.category]
+    })
     
     if (action.data.onSuccess) action.data.onSuccess()
   } catch (err) {
-    const _err = err
     yield put({
       type: ADD_POST_FAILURE,
       error: err,
     })
+  }
+}
+
+function* UpdatePost (action) {
+  try {
+    const result = yield call(updatePostAPI, action.data)
+
+    if (result.status === 200)
+      yield put({
+        type: UPDATE_POST_SUCCESS,
+        data: {
+          post: action.data,
+          onSuccess: action.data.onSuccess,
+        }
+      })
+  } catch (err) {
+    yield put({
+      type: UPDATE_POST_FAILURE,
+      data: err
+    })
+    if (err.response.data.code === 'FORBIDDEN_ACCESS')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.FORBIDDEN_ACCESS
+      })
   }
 }
 
@@ -107,8 +171,13 @@ function* DeletePost (action) {
   } catch (err) {
     yield put({
       type: DELETE_POST_FAILURE,
-      data: err.response.data
+      error: err
     })
+    if (err.response.data.code === 'FORBIDDEN_ACCESS')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.FORBIDDEN_ACCESS
+      })
   }
 }
 
@@ -120,6 +189,10 @@ function* watchCreatePost () {
   yield takeLatest(ADD_POST_REQUEST, AddPost)
 }
 
+function* watchUpdatePost () {
+  yield takeLatest(UPDATE_POST_REQUEST, UpdatePost)
+}
+
 function* watchDeletePost () {
   yield takeLatest(DELETE_POST_REQUEST, DeletePost)
 }
@@ -128,6 +201,7 @@ export default function* postSaga () {
   yield all([
     fork(watchFetchingPost),
     fork(watchCreatePost),
+    fork(watchUpdatePost),
     fork(watchDeletePost),
   ])
 }

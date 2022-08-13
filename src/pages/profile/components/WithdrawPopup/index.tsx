@@ -41,13 +41,12 @@ const WithDrawPopup = (props: WithDrawPopupProps) => {
         dispatch({
           type: SIGN_OUT_REQUEST,
         })
-      } else {
-        onChangeError('비밀번호가 틀립니다. 다시 시도해주세요.')
+        
+        Router.push('/community')
       }
 
-        Router.push('/community')
     } catch (err) {
-      onChangeError('다시 시도해주세요.')
+      onChangeError('비밀번호가 틀립니다. 다시 시도해주세요.')
     }
   }, [inputPassword])
 

@@ -16,11 +16,13 @@ import {
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAILURE,
 } from "../reducer/comment"
-import { ADD_USERPOST_COMMENT, DELETE_USERPOST_COMMENT, FETCH_USERPOST_COMMENT, UPDATE_USERPOST_COMMENT } from './../reducer/user';
+import { ADD_USERPOST_COMMENT, DELETE_USERPOST_COMMENT, FETCH_USERPOST_COMMENT, UPDATE_USERPOST_COMMENT, FETCH_ALERT_COMMENT, ADD_ALERT_COMMENT, UPDATE_ALERT_COMMENT, DELETE_ALERT_COMMENT } from './../reducer/user';
 import { ADD_POST_COMMENT, FETCH_POST_COMMENT, UPDATE_POST_COMMENT } from "../reducer/post"
 import { StorePostType } from '@/common/defines/Store';
 import { ADD_EXTRAPOST_COMMENT, DELETE_EXTRAPOST_COMMENT, FETCH_EXTRAPOST_COMMENT, UPDATE_EXTRAPOST_COMMENT } from '../reducer/extra';
 import { APIHost } from '@/common/api';
+import { UPDATE_POPUP } from '../reducer/popup';
+import { PopupCode } from '@/common/defines/Popup';
 
 function fetchCommentAPI (param) {
   return axios.get(`${ APIHost }/public/board/comment?post_id=${ param.postId }&id=${ param.id }&paging_number=0&paging_size=10`, {
@@ -96,6 +98,13 @@ function* FetchComment (action) {
         })
 
         break
+      case StorePostType.Alert:
+        yield put({
+          type: FETCH_ALERT_COMMENT,
+          data,
+        })
+
+        break
       default:
         break
     }
@@ -140,6 +149,13 @@ function* AddComment (action) {
         yield put({
           type: ADD_EXTRAPOST_COMMENT,
           data
+        })
+
+        break
+      case StorePostType.Alert:
+        yield put({
+          type: ADD_ALERT_COMMENT,
+          data,
         })
 
         break
@@ -191,6 +207,13 @@ function* UpdateComment (action) {
           })
 
           break
+        case StorePostType.Alert:
+          yield put({
+            type: UPDATE_ALERT_COMMENT,
+            data,
+          })
+
+          break
         default:
           break
       }
@@ -201,6 +224,12 @@ function* UpdateComment (action) {
       type: UPDATE_COMMENT_FAILURE,
       data: err.response.data
     })
+
+    if (err.response.data.code === 'FORBIDDEN_ACCESS')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.FORBIDDEN_ACCESS
+      })
   }
 }
 
@@ -239,6 +268,13 @@ function* DeleteComment (action) {
         })
 
         break
+      case StorePostType.Alert:
+        yield put({
+          type: DELETE_ALERT_COMMENT,
+          data,
+        })
+
+        break
       default:
         return
     }
@@ -247,6 +283,12 @@ function* DeleteComment (action) {
       type: DELETE_COMMENT_FAILURE,
       data: err.response.data
     })
+
+    if (err.response.data.code === 'FORBIDDEN_ACCESS')
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.FORBIDDEN_ACCESS
+      })
   }
 }
 

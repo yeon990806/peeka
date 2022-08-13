@@ -8,7 +8,7 @@ export interface PostContainerProps {
   postType: StorePostType,
   postList: PostType[],
   fetchLoading: boolean,
-  fetchList: (initPost, loading, lastId?) => void,
+  fetchList?: (initPost, loading, lastId?) => void,
 }
 
 const PostContainer = (props: PostContainerProps) => {
@@ -16,7 +16,7 @@ const PostContainer = (props: PostContainerProps) => {
 
   const handleObserver = useCallback(entries => {
     const target = entries[0];
-    if (target.isIntersecting) {
+    if (target.isIntersecting && props.fetchList) {
       return props.fetchList(false, props.fetchLoading)
     }
   }, [props.postList]);
@@ -40,7 +40,7 @@ const PostContainer = (props: PostContainerProps) => {
           key={ post.id }
         />
       )) }
-      { props.postList.length >= 20 && <div ref={ trigger } /> }
+      { (props.postList.length >= 20 && props.fetchList) && <div ref={ trigger } /> }
     </div>
   )
 }

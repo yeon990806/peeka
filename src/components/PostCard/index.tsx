@@ -18,6 +18,7 @@ import ReportPopup from "./components/ReportPopup";
 
 import style from "./style.module.scss"
 import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
+import UpdatePostPopup from './components/UpdatePostPopup';
 interface PostProps {
   post: PostType,
   type: StorePostType,
@@ -31,21 +32,16 @@ const PostCard = (props: PostProps) => {
   const postLink = useRef(`${ location.origin }/community/${ props.post.id }`)
 
   const [displayReportPopup, setDisplayReportPopup] = useState<boolean>(false)
+  const [displayUpdatePopup, setDisplayUpdatePopup] = useState<boolean>(false)
   const [displayDeletePopup, setDisplayDeletePopup] = useState<boolean>(false)
   const [displayCommentContainer, setDisplayCommentContainer] = useState<boolean>(false)
   const [postMenuList, setPostMenuList] = useState<PopupItemProps[]>()
 
   const hashtagRegexp = new RegExp(/#[^\s#]+/g)
 
-  const toggleDisplayReportPopup = useCallback(() => {
-    setDisplayReportPopup(prev => !prev)
-  }, [displayReportPopup])
-
-  const toggleDisplayDeletePopup = useCallback(() => {
-    setDisplayDeletePopup(prev => !prev)
-  }, [displayDeletePopup])
-
-  const onClickSharePost = useCallback(() => {}, [])
+  const toggleDisplayReportPopup = useCallback(() => setDisplayReportPopup(prev => !prev), [displayReportPopup])
+  const toggleDisplayUpdatePopup = useCallback(() => setDisplayUpdatePopup(prev => !prev), [displayUpdatePopup])
+  const toggleDisplayDeletePopup = useCallback(() => setDisplayDeletePopup(prev => !prev), [displayDeletePopup])
 
   const getUserPost = useCallback(() => {
     if (router.pathname.indexOf('userpost') < 0 && router.asPath.indexOf(props.post.member_id.toString()) < 0)
@@ -112,6 +108,10 @@ const PostCard = (props: PostProps) => {
           onClick: () => {}
         },
         {
+          text: "수정",
+          onClick: () => toggleDisplayUpdatePopup()
+        },
+        {
           text: "삭제",
           onClick: () => toggleDisplayDeletePopup()
         },
@@ -127,7 +127,7 @@ const PostCard = (props: PostProps) => {
           onClick: () => sharePost()
         },
       ])
-  }, [props.post.member_id])
+  }, [props.post.member_id, userInfo])
 
   return (
     <>
@@ -135,6 +135,11 @@ const PostCard = (props: PostProps) => {
         postId={ props.post.id }
         display={ displayReportPopup }
         onPrev = { () => toggleDisplayReportPopup() }
+      />
+      <UpdatePostPopup
+        post={ props.post }
+        display={ displayUpdatePopup }
+        onPrev={ toggleDisplayUpdatePopup }
       />
       <DeletePostPopup
         postId={ props.post.id }

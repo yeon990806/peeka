@@ -32,12 +32,12 @@ const Recover = () => {
       })
 
       if (result.status === 200) {
-        openPopup(200)
+        openPopup(PopupCode.COMPLETE)
       } else {
         openPopup(PopupCode.NOT_FOUND)
       }
     } catch (err) {
-      openPopup(500)
+      openPopup(PopupCode.UNKNOWN)
     }
   }
 

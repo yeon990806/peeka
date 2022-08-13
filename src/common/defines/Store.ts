@@ -34,6 +34,12 @@ export type UserType = {
   fetchAlertLoading: boolean
   fetchAlertSuccess: boolean
   fetchAlertError: any
+  updateAlertLoading: boolean,
+  updateAlertSuccess: boolean,
+  updateAlertError: any,
+  deleteAlertLoading: boolean,
+  deleteAlertSuccess: boolean,
+  deleteAlertError: any,
   readAlertLoading: boolean
   readAlertSuccess: boolean
   readAlertError: any
@@ -55,6 +61,9 @@ export type PostStateType = {
   addPostLoading: boolean
   addPostSuccess: boolean
   addPostError: boolean
+  updatePostLoading: boolean
+  updatePostSuccess: boolean
+  updatePostError: any
   deletePostLoading: boolean
   deletePostSuccess: boolean
   deletePostError: boolean
@@ -80,6 +89,12 @@ export type ExtraStateType = {
   fetchExtraListRequest: boolean,
   fetchExtraListSuccess: boolean,
   fetchExtraListError: any,
+  updateExtraListLoading: boolean,
+  updateExtraListSuccess: boolean,
+  updateExtraListError: any,
+  deleteExtraListLoading: boolean,
+  deleteExtraListSuccess: boolean,
+  deleteExtraListError: any,
   fetchLinkedPostRequest: boolean,
   fetchLinkedPostSuccess: boolean,
   fetchLinkedPostError: any,
@@ -148,7 +163,7 @@ export type UserInfoType = {
   gender?: 'M' | 'F';
 
   alertList: alertType[],
-  alertDetail: PostType,
+  alertDetail: PostType[],
 }
 
 export type ImageType = {
@@ -245,6 +260,7 @@ export enum StorePostType {
   MainPost = 0,
   UserPost = 1,
   ExtraPost = 2,
+  Alert = 3,
 }
 
 export enum ActionContentType {

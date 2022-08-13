@@ -42,12 +42,10 @@ const PostCategory = () => {
 
   useEffect(() => {
     if (selectedCategory && router.pathname.indexOf('community') < 0) setSelectedCategory(null)
-    else onClickCategoryButton(category)
-  }, [router.pathname])
-
-  useEffect(() => {
-    if (category !== selectedCategory) onClickCategoryButton(category)
-  }, [category])
+    else {
+      if (category !== selectedCategory) onClickCategoryButton(category)
+    }
+  }, [router.pathname, category])
 
   return (
     <nav className={ classNames(style.PostCategory, !mobile ? style.DeskCategory : '') }>

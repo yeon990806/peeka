@@ -4,19 +4,20 @@ import style from "./style.module.scss"
 import Button from "../Button";
 import UserProfile from "../UserProfile";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_POST_REQUEST } from "@/store/reducer/post";
+import { ADD_POST_REQUEST, UPDATE_POST_REQUEST } from "@/store/reducer/post";
 import { IsMobile } from '@/common/hooks/breakpoints';
 import SelectBox from "../SelectBox";
 import Textarea from "../Textarea";
 import { encodeFileToBase64 } from "@/common/defines/Format";
-import { StateType } from "@/common/defines/Store";
+import { PostType, StateType } from "@/common/defines/Store";
 import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
+import axios from "axios";
 
 interface InputPostProps {
   placeholder?: string;
   popup?: boolean;
-  postIdx?: number;
+  post?: PostType;
 
   onSubmit?: () => void;
 }
@@ -28,7 +29,7 @@ const InputPost = (props: InputPostProps) => {
   const [inputValue, setInputValue] = useState<string>('')
   const [fileList, setFileList] = useState<FileList>()
   const [uploadImage, setUploadImage] = useState<{ image: File, url: any, lastModified: number }[]>([])
-  const [postCategory, setPostCategory] = useState<{ display: string; value: string; } | null>(null)
+  const [postCategory, setPostCategory] = useState<{ display: string; value: string; } | null>()
   const imageInput = useRef<HTMLInputElement>(null)
 
   const selectArray = [
@@ -39,6 +40,7 @@ const InputPost = (props: InputPostProps) => {
   ]
 
   const SelectboxStyle = useMemo(() => ({ marginRight: 8 }), [])
+
   const onInputContent = useCallback((v: string) => setInputValue(v), [inputValue])
   const onClickImageUpload = useCallback((e) => {
     imageInput.current.click()
@@ -59,6 +61,7 @@ const InputPost = (props: InputPostProps) => {
     if (!postCategory)
       return dispatch(openPopup(PopupCode.CATEGORY_NULL))
 
+    if (props.post)
       dispatch({
         type: ADD_POST_REQUEST,
         data: {
@@ -71,8 +74,22 @@ const InputPost = (props: InputPostProps) => {
             if (props.onSubmit) props.onSubmit()
           }
         }
-      }
-    )
+      })
+    else
+      dispatch({
+        type: UPDATE_POST_REQUEST,
+        data: {
+          contents: inputValue,
+          category_code: postCategory.value,
+          category: postCategory.display,
+          images: fileList,
+          onSuccess: () => {
+            setInputValue('')
+            setPostCategory(undefined)
+            if (props.onSubmit) props.onSubmit()
+          }
+        }
+      })
   }, [uploadImage, inputValue, postCategory])
     
 
@@ -87,6 +104,15 @@ const InputPost = (props: InputPostProps) => {
 
     setFileList(dataTransfer.files)
   }
+
+  useEffect(() => {
+    if (props.post) {
+      const category = selectArray.find(v => v.value === props.post.category_code)
+
+      onInputContent(props.post.contents)
+      setPostCategory(category)
+    }
+  }, [props.post])
 
   useEffect(() => {
     if (fileList) {
