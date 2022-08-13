@@ -18,6 +18,7 @@ interface InputPostProps {
   placeholder?: string;
   popup?: boolean;
   post?: PostType;
+  postIdx?: number;
 
   onSubmit?: () => void;
 }
