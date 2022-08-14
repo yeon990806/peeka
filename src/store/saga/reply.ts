@@ -114,7 +114,7 @@ function* FetchReply (action) {
       case StorePostType.Alert:
         yield put({
           type: FETCH_ALERT_COMMENT_REPLY,
-          data: action.data,
+          data: data,
         })
 
         break
@@ -169,7 +169,7 @@ function* AddReply (action) {
       case StorePostType.Alert:
         yield put({
           type: ADD_ALERT_COMMENT_REPLY,
-          data: action.data,
+          data: data,
         })
 
         break
@@ -225,7 +225,7 @@ function* UpdateReply (action) {
       case StorePostType.Alert:
         yield put({
           type: UPDATE_ALERT_COMMENT_REPLY,
-          data: action.data,
+          data: data,
         })
 
         break
@@ -286,7 +286,7 @@ function* DeleteReply (action) {
       case StorePostType.Alert:
         yield put({
           type: DELETE_ALERT_COMMENT_REPLY,
-          data: action.data,
+          data: data,
         })
 
         break

@@ -233,9 +233,9 @@ const PostCard = (props: PostProps) => {
               />
             </div>
             { (props.post.comment_list && props.post.comment_list.length > 0) && <div className={ style.PostCommentList }>
-              <div className={ style.AlertComment }>
-                알림 댓글입니다.
-              </div>
+              { props.type === StorePostType.Alert && <div className={ style.AlertComment }>
+                  알림 댓글입니다.
+                </div> }
               { props.post.comment_list.map(comment => (
                 comment.id && <CommentCard
                   data={ comment }
