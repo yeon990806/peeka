@@ -1,7 +1,7 @@
 import { DELETE_POST_COMMENT } from './../reducer/post';
 import axios from "axios"
 import { getCookie } from "@/common/libs/Cookie"
-import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects"
+import { all, call, fork, put, takeLatest } from "redux-saga/effects"
 import {
   FETCH_COMMENT_REQUEST,
   FETCH_COMMENT_SUCCESS,
@@ -293,7 +293,7 @@ function* DeleteComment (action) {
 }
 
 function* watchFetchComment () {
-  yield throttle(2000, FETCH_COMMENT_REQUEST, FetchComment)
+  yield takeLatest(FETCH_COMMENT_REQUEST, FetchComment)
 }
 
 function* watchAddComment () {

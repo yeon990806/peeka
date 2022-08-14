@@ -1,7 +1,7 @@
 import { FETCH_CURATOR_FAILURE, FETCH_CURATOR_REQUEST, FETCH_VIDEO_FAILURE, FETCH_VIDEO_REQUEST, FETCH_VIDEO_SUCCESS } from './../reducer/content';
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
-import { all, call, fork, put, throttle } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { FETCH_CURATOR_SUCCESS } from "../reducer/content";
 import { APIHost } from '@/common/api';
 
@@ -60,11 +60,11 @@ function* FetchVideo (action) {
 }
 
 function* watchFetchCurator () {
-  yield throttle(2000, FETCH_CURATOR_REQUEST, FetchCurator)
+  yield takeLatest(FETCH_CURATOR_REQUEST, FetchCurator)
 }
 
 function* watchFetchVideo () {
-  yield throttle(2000, FETCH_VIDEO_REQUEST, FetchVideo)
+  yield takeLatest(FETCH_VIDEO_REQUEST, FetchVideo)
 }
 
 export default function* contentSaga () {

@@ -3,7 +3,7 @@ import { PopupCode } from '@/common/defines/Popup';
 import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
 import router from 'next/router';
-import { all, call, fork, put, throttle, delay, takeLatest } from 'redux-saga/effects'
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects'
 import { getCookie, setCookie } from '../../common/libs/Cookie';
 import { openPopup, UPDATE_POPUP } from '../reducer/popup';
 import { 
@@ -267,23 +267,23 @@ function* watchFetchUserInfo () {
 }
 
 function* watchSignIn () {
-  yield throttle(20000, SIGN_IN_REQUEST, SignIn)
+  yield takeLatest(SIGN_IN_REQUEST, SignIn)
 }
 
 function* watchSignUp () {
-  yield throttle(20000, SIGN_UP_REQUEST, SignUp)
+  yield takeLatest(SIGN_UP_REQUEST, SignUp)
 }
 
 function* watchSignOut () {
-  yield throttle(20000, SIGN_OUT_REQUEST, SignOut)
+  yield takeLatest(SIGN_OUT_REQUEST, SignOut)
 }
 
 function* watchUserPost () {
-  yield throttle(20000, USER_POST_REQUEST, FetchUserPost)
+  yield takeLatest(USER_POST_REQUEST, FetchUserPost)
 }
 
 function* watchFetchAlert () {
-  yield throttle(20000, FETCH_ALERT_REQUEST, FetchAlert)
+  yield takeLatest(FETCH_ALERT_REQUEST, FetchAlert)
 }
 
 function* watchReadAlert () {

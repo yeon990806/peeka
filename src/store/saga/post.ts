@@ -7,7 +7,7 @@ import { CategoryType } from "@/common/defines/Category";
 import { PopupCode } from '@/common/defines/Popup';
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
-import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { UPDATE_POPUP } from '../reducer/popup';
 import {
   ADD_POST_FAILURE,
@@ -254,7 +254,7 @@ function* DeletePost (action) {
 }
 
 function* watchFetchingPost () {
-  yield throttle(5000, FETCH_POST_REQUEST, FetchPost)
+  yield takeLatest(FETCH_POST_REQUEST, FetchPost)
 }
 
 function* watchCreatePost () {

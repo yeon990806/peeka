@@ -37,7 +37,7 @@ const InputComment = (props: InputCommentProps) => {
           postType: props.type,
           onSuccess: () => {
             setInputValue('')
-            props.callback()
+            if (props.callback) props.callback()
           }
         }
       })
@@ -49,7 +49,10 @@ const InputComment = (props: InputCommentProps) => {
           contents: inputValue,
           author: props.author,
           postType: props.type,
-          onSuccess: () => setInputValue('')
+          onSuccess: () => {
+            setInputValue('')
+            if (props.callback) props.callback()
+          }
         }
       })
     }

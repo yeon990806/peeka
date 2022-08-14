@@ -167,6 +167,7 @@ export type PostType = {
   length: number;
   id: number;
   member_id: number;
+  member_image: string;
   nickname: string;
   state_code: string; //TODO:: enum 대체 
   created_at: Date;
@@ -185,6 +186,7 @@ export type CommentType = {
   id: number;
   state_code: string;
   post_id: number;
+  member_image: string;
   member_id: number;
   nickname: string;
   contents: string;
@@ -209,6 +211,7 @@ export type ReplyType = {
   id: number
   state_code: string
   comment_id: number
+  member_image: string
   member_id: number
   nickname: string
   contents: string

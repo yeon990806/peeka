@@ -112,7 +112,10 @@ const ReplyCard = (props: ReplyCardProps) => {
         onCancel={ () => setDisplayDeleteReply(false) }
         onClick={ () => onDeleteReply() }
       />
-      <UserProfile size='xs' />
+      <UserProfile
+        size='xs'
+        profileImage={ props.data.member_image }
+      />
       <div className={ style.CommentCardContent }>
         <div className={ style.CommentCardInfoContainer }>
           <div className={ style.CommentCardInfo }>
@@ -187,6 +190,9 @@ const ReplyCard = (props: ReplyCardProps) => {
             placeholder="답글을 입력해주세요."
             type={ props.type }
             replyMode
+            callback={ () => {
+              setActiveReply(false)
+            } }
           />
         </div> }
       </div>

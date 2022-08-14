@@ -1,7 +1,7 @@
 import { APIHost } from "@/common/api";
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
-import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { FETCH_EXTRAPOST_FAILURE, FETCH_EXTRAPOST_REQUEST, FETCH_EXTRAPOST_SUCCESS, FETCH_LINKEDPOST_FAILURE, FETCH_LINKEDPOST_REQUEST, FETCH_LINKEDPOST_SUCCESS } from "../reducer/extra";
 
 function FetchExtraPostAPI (param) {
@@ -75,7 +75,7 @@ function* FetchLinkedPost (action) {
 }
 
 function* watchFetchingExtraPost () {
-  yield throttle(5000, FETCH_EXTRAPOST_REQUEST, FetchExtraPost)
+  yield takeLatest(FETCH_EXTRAPOST_REQUEST, FetchExtraPost)
 }
 
 function* watchFetchingLinkedPost () {

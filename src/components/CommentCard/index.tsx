@@ -137,7 +137,10 @@ const CommentCard = (props: CommentCardProps) => {
         onCancel={ () => setDisplayDeleteComment(false) }
         onClick={ () => onDeleteComment() }
       />
-      <UserProfile size='xs' />
+      <UserProfile
+        size='xs'
+        profileImage={ props.data.member_image }
+      />
       <div className={ style.CommentCardContent }>
         <div className={ style.CommentCardInfoContainer }>
           <div className={ style.CommentCardInfo }>
@@ -211,7 +214,10 @@ const CommentCard = (props: CommentCardProps) => {
               replyMode
               commentId={ props.data.id }
               type={ props.type }
-              callback={ () => setDisplayReplyList(true) }
+              callback={ () => {
+                toggleActiveReply()
+                setDisplayReplyList(true)
+              } }
             />
           </div> }
         { displayReplyList && <div className={ style.ReplyContainer }>

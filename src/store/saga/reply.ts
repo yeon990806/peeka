@@ -3,7 +3,7 @@ import { ADD_POST_COMMENT_REPLY, UPDATE_POST_COMMENT_REPLY, DELETE_POST_COMMENT_
 import { StorePostType } from "@/common/defines/Store";
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
-import { all, call, fork, put, takeLatest, throttle } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { ADD_EXTRAPOST_COMMENT_REPLY, DELETE_EXTRAPOST_COMMENT_REPLY, FETCH_EXTRAPOST_COMMENT_REPLY, UPDATE_EXTRAPOST_COMMENT_REPLY } from "../reducer/extra";
 import { FETCH_POST_COMMENT_REPLY } from "../reducer/post";
 import { 
@@ -308,7 +308,7 @@ function* DeleteReply (action) {
 }
 
 function* watchFetchReply () {
-  yield throttle(2000, FETCH_REPLY_REQUEST, FetchReply)
+  yield takeLatest(FETCH_REPLY_REQUEST, FetchReply)
 }
 
 function* watchAddReply () {

@@ -155,6 +155,7 @@ const PostCard = (props: PostProps) => {
               onClick={ () => getUserPost() }
             >
               <UserProfile
+                profileImage={ props.post.member_image }
                 size="sm"
               />
               <div className={ style.PostInfo }>
