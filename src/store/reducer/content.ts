@@ -55,8 +55,6 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchVideoSuccess = true
       
       if (action.data.id)
-        draft.videoList.push(...action.data.list)
-      else
         draft.videoList = action.data.list
 
       break

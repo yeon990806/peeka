@@ -74,21 +74,6 @@ const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
             togglePassword
             placeholder="기존 비밀번호"
             onInput={ (v) => onChangeLegacyPassword(v) }
-            validate={[
-              (v: string) => {
-                const validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-
-                if (v.match(validPassword) !== null) {
-                  setConfirmLegacy(true)
-
-                  return { state: true, msg: '' }
-                } else {
-                  setConfirmLegacy(false)
-
-                  return { state: false, msg: '' }
-                }
-              },
-            ]}
             />
           <Input
             value={ inputPassword }
@@ -98,7 +83,7 @@ const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
             description="비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다."
             validate={[
               (v: string) => {
-                const validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                const validPassword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8}$/
 
                 if (v.match(validPassword) !== null) {
                   setConfirmPassword(true)
@@ -107,7 +92,7 @@ const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
                 } else {
                   setConfirmPassword(false)
 
-                  return { state: false, msg: "비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다." } 
+                  return { state: false, msg: "비밀번호는 8자 이상이어야 하며, 영문, 숫자, 특수문자를 모두 포함하어야 합니다." } 
                 }
               },
             ]}

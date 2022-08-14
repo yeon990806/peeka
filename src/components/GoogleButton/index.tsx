@@ -1,4 +1,4 @@
-import { GoogleSignIn, GooleTest } from "@/common/api"
+import { GoogleSignIn } from "@/common/api"
 import { getCookie, setCookie } from "@/common/libs/Cookie"
 import { FETCH_USERINFO_REQUEST, SET_SIGN_UP_PARAMETER, UPDATE_USERINFO } from "@/store/reducer/user"
 import { useRouter } from "next/router"
@@ -14,7 +14,7 @@ const GoogleButton = memo((props: GoogleButtonProps) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const onClickEventHandler = useCallback(() => {
-    window.open(GooleTest, 'auth')
+    window.open(GoogleSignIn, 'auth')
   }, [props.type])
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const GoogleButton = memo((props: GoogleButtonProps) => {
       onClick={ () => onClickEventHandler() }
     >
       <img src="/images/google-logo.svg" tabIndex={-1} alt="google login" />
-      구글 아이디로 로그인
+      { props.type === 'signIn' ? '구글 아이디로 로그인' : '구글 아이디로 가입' }
     </button>
   )
 })

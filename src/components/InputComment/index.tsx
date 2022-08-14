@@ -16,6 +16,7 @@ interface InputCommentProps {
   replyMode?: boolean;
   commentId?: number;
   type: StorePostType;
+  callback?: () => void
 }
 
 const InputComment = (props: InputCommentProps) => {
@@ -34,7 +35,10 @@ const InputComment = (props: InputCommentProps) => {
           author: props.author,
           toUserName: props.toUserName ? props.toUserName : '',
           postType: props.type,
-          onSuccess: () => setInputValue('')
+          onSuccess: () => {
+            setInputValue('')
+            props.callback()
+          }
         }
       })
     } else {

@@ -92,7 +92,7 @@ const InputInfo = (props: InputInfoProps) => {
             description="비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다."
             validate={[
               (v: string) => {
-                const validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                const validPassword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8}$/
 
                 if (v.match(validPassword) !== null) {
                   props.setPasswordError(false)

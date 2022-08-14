@@ -211,6 +211,7 @@ const CommentCard = (props: CommentCardProps) => {
               replyMode
               commentId={ props.data.id }
               type={ props.type }
+              callback={ () => setDisplayReplyList(true) }
             />
           </div> }
         { displayReplyList && <div className={ style.ReplyContainer }>

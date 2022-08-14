@@ -66,7 +66,7 @@ const WithDrawPopup = (props: WithDrawPopupProps) => {
         onInput={ (v) => onChangeInputPassword(v) }
         validate={[
           (v: string) => {
-            const validPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+            const validPassword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8}$/
 
             if (v.match(validPassword) !== null) {
               setConsistentText(true)
