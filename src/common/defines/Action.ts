@@ -1,11 +1,9 @@
 import { ActionContentType } from './Store';
 
-export function updatePostAction (post, target, callback?) {
-  let _post = target.find(v => v.id === post.post.id)
+export function updatePostAction (data, target, callback?) {
+  let idx = target.findIndex(v => v.id === data.id)
 
-  _post.contents = post.post.contents
-  _post.category = post.post.category
-  _post.category_code = post.post.category_code
+  target[idx] = { ...data.post }
 
   if (callback) callback()
 }

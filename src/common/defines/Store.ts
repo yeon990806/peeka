@@ -31,6 +31,8 @@ export type UserType = {
   userPostLoading: boolean
   userPostSuccess: boolean
   userPostError: any
+  updateUserPost: boolean,
+  deleteUserPost: boolean,
   fetchDone: boolean
   fetchAlertLoading: boolean
   fetchAlertSuccess: boolean

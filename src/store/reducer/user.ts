@@ -2,7 +2,7 @@ import produce from "immer"
 
 import { UserType } from "@/common/defines/Store"
 import { setCookie, removeCookie } from "@/common/libs/Cookie"
-import { fetchCommentAction, addCommentAction, updateCommentAction, deleteCommentAction, fetchReplyAction, addReplyAction, updateReplyAction, deleteReplyAction, likeContentAction, unlikeContentAction, scrapContentAction, unscrapContentAction, deletePostAction } from "@/common/defines/Action"
+import { fetchCommentAction, addCommentAction, updateCommentAction, deleteCommentAction, fetchReplyAction, addReplyAction, updateReplyAction, deleteReplyAction, likeContentAction, unlikeContentAction, scrapContentAction, unscrapContentAction, deletePostAction, updatePostAction } from "@/common/defines/Action"
 
 export const initialState: UserType = {
   alwaysSignIn: false,
@@ -22,6 +22,8 @@ export const initialState: UserType = {
   userPostLoading: false,
   userPostSuccess: false,
   userPostError: false,
+  updateUserPost: false,
+  deleteUserPost: false,
   fetchAlertLoading: false,
   fetchAlertSuccess: false,
   fetchAlertError: false,
@@ -75,6 +77,9 @@ export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE'
 export const USER_POST_REQUEST = 'USER_POST_REQUEST'
 export const USER_POST_SUCCESS = 'USER_POST_SUCCESS'
 export const USER_POST_FAILURE = 'USER_POST_FAILURE'
+
+export const UPDATE_USERPOST = 'UPDATE_USERPOST'
+export const DELETE_USERPOST = 'DELETE_USERPOST'
 
 export const FETCH_USERPOST_COMMENT = 'FETCH_USERPOST_COMMENT'
 export const ADD_USERPOST_COMMENT = 'ADD_USERPOST_COMMENT'
@@ -282,6 +287,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.userPostSuccess = false
       draft.userPostError = null
 
+      if (draft.userPost.length === 0) draft.fetchDone = false
+
       break
     case USER_POST_SUCCESS:
       draft.userPostLoading = false
@@ -301,6 +308,13 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case USER_POST_FAILURE:
       draft.userPostLoading = false
       draft.userPostError = action.error
+
+      break
+    case UPDATE_USERPOST:
+      updatePostAction(action.data, draft.userPost, action.data.onSuccess)
+
+      break
+    case DELETE_USERPOST:
 
       break
     case FETCH_USERPOST_COMMENT:

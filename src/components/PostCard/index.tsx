@@ -138,6 +138,7 @@ const PostCard = (props: PostProps) => {
       />
       <UpdatePostPopup
         post={ props.post }
+        postType={ props.type }
         display={ displayUpdatePopup }
         onPrev={ toggleDisplayUpdatePopup }
       />

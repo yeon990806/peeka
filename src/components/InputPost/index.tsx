@@ -9,7 +9,7 @@ import { IsMobile } from '@/common/hooks/breakpoints';
 import SelectBox from "../SelectBox";
 import Textarea from "../Textarea";
 import { encodeFileToBase64 } from "@/common/defines/Format";
-import { ImageType, PostType, StateType } from "@/common/defines/Store";
+import { ImageType, PostType, StateType, StorePostType } from "@/common/defines/Store";
 import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
 import axios from "axios";
@@ -20,6 +20,7 @@ interface InputPostProps {
   post?: PostType;
   postIdx?: number;
   row?: number;
+  postType?: StorePostType;
 
   onSubmit?: () => void;
 }
@@ -95,6 +96,7 @@ const InputPost = (props: InputPostProps) => {
         data: {
           id: props.post.id,
           contents: inputValue,
+          postType: props.postType,
           category_code: postCategory.value,
           category: postCategory.display,
           images: fileList,

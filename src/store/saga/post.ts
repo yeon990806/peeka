@@ -1,3 +1,5 @@
+import { UPDATE_USERPOST } from './../reducer/user';
+import { StorePostType } from '@/common/defines/Store';
 import { APIHost } from '@/common/api';
 import { CategoryType } from "@/common/defines/Category";
 import { PopupCode } from '@/common/defines/Popup';
@@ -20,6 +22,7 @@ import {
   UPDATE_POST_REQUEST,
   UPDATE_POST_SUCCESS,
 } from "../reducer/post";
+import { UPDATE_EXTRAPOST_SUCCESS } from '../reducer/extra';
 
 function fetchPostAPI (param) {
   return axios.get(`${ APIHost }/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
@@ -134,16 +137,38 @@ function* AddPost (action) {
 
 function* UpdatePost (action) {
   try {
+    debugger
     const result = yield call(updatePostAPI, action.data)
+    const responseData = {
+      id: action.data.id,
+      post: result.data,
+      onSuccess: action.data.onSuccess,
+    }
 
-    if (result.status === 200)
-      yield put({
-        type: UPDATE_POST_SUCCESS,
-        data: {
-          post: action.data,
-          onSuccess: action.data.onSuccess,
-        }
-      })
+    if (result.status === 200) {
+      switch (action.data.postType) {
+        case StorePostType.MainPost:
+          yield put({
+            type: UPDATE_POST_SUCCESS,
+            data: responseData,
+          })
+
+          break
+        case StorePostType.ExtraPost:
+          yield put({
+            type: UPDATE_EXTRAPOST_SUCCESS,
+            data: responseData,
+          })
+
+          break
+        case StorePostType.UserPost:
+          yield put({
+            type: UPDATE_USERPOST
+          })
+
+          break
+      }
+    }
   } catch (err) {
     yield put({
       type: UPDATE_POST_FAILURE,

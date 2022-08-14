@@ -1,4 +1,4 @@
-import { PostType } from "@/common/defines/Store"
+import { PostType, StorePostType } from "@/common/defines/Store"
 import { IsMobile } from "@/common/hooks/breakpoints"
 import InputPost from "@/components/InputPost"
 import Popup from "@/components/Popup"
@@ -8,6 +8,7 @@ interface UpdatePostPopupProps {
   display: boolean
   post: PostType
   onPrev: () => void;
+  postType: StorePostType,
 }
 
 const UpdatePostPopup = (props: UpdatePostPopupProps) => {
@@ -21,6 +22,7 @@ const UpdatePostPopup = (props: UpdatePostPopupProps) => {
             popup
             placeholder="현재 떠오르는 생각들을 적어주세요"
             post={ props.post }
+            postType={ props.postType }
             onSubmit={ props.onPrev }
           />
         </>
