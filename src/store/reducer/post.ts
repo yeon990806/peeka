@@ -37,10 +37,12 @@ export const ADD_POST_FAILURE = 'ADD_POST_FAILURE'
 export const UPDATE_POST_REQUEST = 'UPDATE_POST_REQUEST'
 export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS'
 export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE'
+export const UPDATE_MAINPOST = 'UPDATE_MAINPOST'
 
 export const DELETE_POST_REQUEST = 'DELETE_POST_REQUEST'
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS'
 export const DELETE_POST_FAILURE = 'DELETE_POST_FAILURE'
+export const DELETE_MAINPOST = 'UPDATE_MAINPOST'
 
 export const FETCH_POST_COMMENT = 'FETCH_POST_COMMENT'
 export const ADD_POST_COMMENT = 'ADD_POST_COMMENT'
@@ -121,6 +123,9 @@ const reducer = (state = initialState, action) => {
         draft.updatePostLoading = false
         draft.updatePostSuccess = true
 
+        
+        break
+      case UPDATE_MAINPOST:
         updatePostAction(action.data, draft.mainPost, action.data.onSuccess)
 
         break
@@ -139,13 +144,15 @@ const reducer = (state = initialState, action) => {
         draft.deletePostLoading = false
         draft.deletePostSuccess = true
         
-        deletePostAction(action.data, draft.mainPost, action.data.onSuccess)
-        
         break
       case DELETE_POST_FAILURE:
         draft.deletePostLoading = false
         draft.deletePostSuccess = false
         draft.deletePostError = action.error
+        
+        break
+      case DELETE_MAINPOST:
+        deletePostAction(action.data, draft.mainPost, action.data.onSuccess)
         
         break
       case FETCH_POST_COMMENT:

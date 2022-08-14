@@ -1,5 +1,7 @@
-import { UPDATE_USERPOST } from './../reducer/user';
+import { DELETE_EXTRAPOST } from './../reducer/extra';
 import { StorePostType } from '@/common/defines/Store';
+import { DELETE_MAINPOST, UPDATE_MAINPOST } from './../reducer/post';
+import { UPDATE_USERPOST, UPDATE_ALERT, DELETE_USERPOST, DELETE_ALERT } from './../reducer/user';
 import { APIHost } from '@/common/api';
 import { CategoryType } from "@/common/defines/Category";
 import { PopupCode } from '@/common/defines/Popup';
@@ -22,7 +24,7 @@ import {
   UPDATE_POST_REQUEST,
   UPDATE_POST_SUCCESS,
 } from "../reducer/post";
-import { UPDATE_EXTRAPOST_SUCCESS } from '../reducer/extra';
+import { UPDATE_EXTRAPOST } from '../reducer/extra';
 
 function fetchPostAPI (param) {
   return axios.get(`${ APIHost }/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
@@ -137,7 +139,6 @@ function* AddPost (action) {
 
 function* UpdatePost (action) {
   try {
-    debugger
     const result = yield call(updatePostAPI, action.data)
     const responseData = {
       id: action.data.id,
@@ -146,27 +147,41 @@ function* UpdatePost (action) {
     }
 
     if (result.status === 200) {
+      yield put({
+        type: UPDATE_POST_SUCCESS,
+      })
+
       switch (action.data.postType) {
         case StorePostType.MainPost:
           yield put({
-            type: UPDATE_POST_SUCCESS,
+            type: UPDATE_MAINPOST,
             data: responseData,
           })
 
           break
         case StorePostType.ExtraPost:
           yield put({
-            type: UPDATE_EXTRAPOST_SUCCESS,
+            type: UPDATE_EXTRAPOST,
             data: responseData,
           })
 
           break
         case StorePostType.UserPost:
           yield put({
-            type: UPDATE_USERPOST
+            type: UPDATE_USERPOST,
+            data: responseData,
           })
 
           break
+        case StorePostType.Alert:
+          yield put({
+            type: UPDATE_ALERT,
+            data: responseData,
+          })
+
+          break
+        default:
+          return
       }
     }
   } catch (err) {
@@ -186,11 +201,45 @@ function* DeletePost (action) {
   try {
     const result = yield call(deletePostAPI, action.data) 
 
-    if (result.status === 200)
+    if (result.status === 200) {
       yield put({
-        type: DELETE_POST_SUCCESS,
-        data: action.data
+        type: DELETE_POST_SUCCESS
       })
+
+      switch (action.data.postType) {
+        case StorePostType.MainPost:
+          yield put({
+            type: DELETE_MAINPOST,
+            data: action.data,
+          })
+
+          break
+        case StorePostType.ExtraPost:
+          yield put({
+            type: DELETE_EXTRAPOST,
+            data: action.data,
+          })
+
+          break
+        case StorePostType.UserPost:
+          yield put({
+            type: DELETE_USERPOST,
+            data: action.data,
+          })
+
+          break
+        case StorePostType.Alert:
+          yield put({
+            type: DELETE_ALERT,
+            data: action.data,
+          })
+
+          break
+        default:
+          return
+      }
+    }
+
   } catch (err) {
     yield put({
       type: DELETE_POST_FAILURE,

@@ -23,15 +23,6 @@ const VideoList = () => {
   return (
     <div className={ style.VideoList }>
       <ul className={ style.VideoItemContainer }>
-        <li className={ style.VideoListItem }>
-          <iframe
-            width="320"
-            height="180"
-            src="https://www.youtube.com/embed/EoD12043Srk"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen></iframe>
-        </li>
         { videoList.map(video => (
           <li 
             className={ style.VideoListItem }

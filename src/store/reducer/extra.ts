@@ -10,12 +10,6 @@ export const initialState: ExtraStateType = {
   fetchExtraListSuccess: false,
   fetchExtraListError: null,
   fetchDone: false,
-  updateExtraListLoading: false,
-  updateExtraListSuccess: false,
-  updateExtraListError: null,
-  deleteExtraListLoading: false,
-  deleteExtraListSuccess: false,
-  deleteExtraListError: null,
   fetchLinkedPostRequest: false,
   fetchLinkedPostSuccess: false,
   fetchLinkedPostError: null,
@@ -27,13 +21,8 @@ export const FETCH_EXTRAPOST_REQUEST = 'FETCH_EXTRALIST_REQUEST'
 export const FETCH_EXTRAPOST_SUCCESS = 'FETCH_EXTRALIST_SUCCESS'
 export const FETCH_EXTRAPOST_FAILURE = 'FETCH_ETRALIST_FAILURE'
 
-export const UPDATE_EXTRAPOST_REQUEST = 'UPDATE_EXTRAPOST_REQUEST'
-export const UPDATE_EXTRAPOST_SUCCESS = 'UPDATE_EXTRAPOST_SUCCESS'
-export const UPDATE_EXTRAPOST_FAILURE = 'UPDATE_EXTRAPOST_FAILURE'
-
-export const DELETE_EXTRAPOST_REQUEST = 'DELETE_EXTRAPOST_REQUEST'
-export const DELETE_EXTRAPOST_SUCCESS = 'DELETE_EXTRAPOST_SUCCESS'
-export const DELETE_EXTRAPOST_FAILURE = 'DELETE_EXTRAPOST_FAILURE'
+export const UPDATE_EXTRAPOST = 'UPDATE_EXTRAPOST'
+export const DELETE_EXTRAPOST = 'DELETE_EXTRAPOST'
 
 export const FETCH_LINKEDPOST_REQUEST = 'FETCH_LINKEDPOST_REQUEST'
 export const FETCH_LINKEDPOST_SUCCESS = 'FETCH_LINKEDPOST_SUCCESS'
@@ -89,40 +78,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchExtraListError = action.error
       
       break
-    case UPDATE_EXTRAPOST_REQUEST:
-      draft.updateExtraListLoading = true
-      draft.updateExtraListSuccess = false
-      draft.updateExtraListError = null
-
-      break
-    case UPDATE_EXTRAPOST_SUCCESS:
-      draft.updateExtraListLoading = false
-      draft.updateExtraListSuccess = true
-      
+    case UPDATE_EXTRAPOST:
       updatePostAction(action.data, draft.extraList, action.data.onSuccess)
       
       break
-    case UPDATE_EXTRAPOST_FAILURE:
-      draft.updateExtraListLoading = false
-      draft.updateExtraListError = action.error
-      
-      break
-    case DELETE_EXTRAPOST_REQUEST:
-      draft.deleteExtraListLoading = true
-      draft.deleteExtraListSuccess = false
-      draft.deleteExtraListError = null
-
-      break
-    case DELETE_EXTRAPOST_SUCCESS:
-      draft.updateExtraListLoading = false
-      draft.updateExtraListSuccess = true
-
-      deletePostAction(action.data, draft.extraList, action.data.onnSuccess)
-      
-      break
-    case DELETE_EXTRAPOST_FAILURE:
-      draft.updateExtraListLoading = false
-      draft.deleteExtraListError = action.error
+    case DELETE_EXTRAPOST:
+      deletePostAction(action.data, draft.extraList, action.data.onSuccess)
       
       break
     case FETCH_LINKEDPOST_REQUEST:

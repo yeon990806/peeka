@@ -22,17 +22,9 @@ export const initialState: UserType = {
   userPostLoading: false,
   userPostSuccess: false,
   userPostError: false,
-  updateUserPost: false,
-  deleteUserPost: false,
   fetchAlertLoading: false,
   fetchAlertSuccess: false,
   fetchAlertError: false,
-  updateAlertLoading: false,
-  updateAlertSuccess: false,
-  updateAlertError: null,
-  deleteAlertLoading: false,
-  deleteAlertSuccess: false,
-  deleteAlertError: null,
   readAlertLoading: false,
   readAlertSuccess: false,
   readAlertError: false,
@@ -102,13 +94,8 @@ export const FETCH_ALERT_REQUEST = 'FETCH_ALERT_REQUEST'
 export const FETCH_ALERT_SUCCESS = 'FETCH_ALERT_SUCCESS'
 export const FETCH_ALERT_FAILURE = 'FETCH_ALERT_FAILURE'
 
-export const UPDATE_ALERT_REQUEST = 'UPDATE_ALERT_REQUEST'
-export const UPDATE_ALERT_SUCCESS = 'UPDATE_ALERT_SUCCESS'
-export const UPDATE_ALERT_FAILURE = 'UPDATE_ALERT_FAILURE'
-
-export const DELETE_ALERT_REQUEST = 'DELETE_ALERT_REQUEST'
-export const DELETE_ALERT_SUCCESS = 'DELETE_ALERT_SUCCESS'
-export const DELETE_ALERT_FAILURE = 'DELETE_ALERT_FAILURE'
+export const UPDATE_ALERT = 'UPDATE_ALERT'
+export const DELETE_ALERT = 'DELETE_ALERT'
 
 export const FETCH_ALERT_COMMENT = 'FETCH_ALERT_COMMENT'
 export const ADD_ALERT_COMMENT = 'ADD_ALERT_COMMENT'
@@ -393,38 +380,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchAlertError = action.error
 
       break
-    case UPDATE_ALERT_REQUEST:
-      draft.updateAlertLoading = true
-      draft.updateAlertSuccess = false
-      draft.updateAlertError = null
+    case UPDATE_ALERT:
+      updatePostAction(action.data, draft.userInfo.alertDetail, action.data.onSuccess)
 
       break
-    case UPDATE_ALERT_SUCCESS:
-      draft.updateAlertLoading = false
-      draft.updateAlertSuccess = true
-
-      break
-    case UPDATE_ALERT_FAILURE:
-      draft.updateAlertLoading = false
-      draft.updateAlertError = action.error
-  
-      break
-    case DELETE_ALERT_REQUEST:
-      draft.deleteAlertLoading = true
-      draft.deleteAlertSuccess = false
-      draft.deleteAlertError = null
-
-      break
-    case DELETE_ALERT_SUCCESS:
-      draft.deleteAlertLoading = false
-      draft.deleteAlertSuccess = true
-
+    case DELETE_ALERT:
       deletePostAction(action.data, draft.userInfo.alertDetail, action.data.onnSuccess)
-
-      break
-    case DELETE_ALERT_FAILURE:
-      draft.deleteAlertLoading = false
-      draft.deleteAlertError = action.error
 
       break
     case FETCH_ALERT_COMMENT:

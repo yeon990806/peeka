@@ -31,18 +31,10 @@ export type UserType = {
   userPostLoading: boolean
   userPostSuccess: boolean
   userPostError: any
-  updateUserPost: boolean,
-  deleteUserPost: boolean,
   fetchDone: boolean
   fetchAlertLoading: boolean
   fetchAlertSuccess: boolean
   fetchAlertError: any
-  updateAlertLoading: boolean,
-  updateAlertSuccess: boolean,
-  updateAlertError: any,
-  deleteAlertLoading: boolean,
-  deleteAlertSuccess: boolean,
-  deleteAlertError: any,
   readAlertLoading: boolean
   readAlertSuccess: boolean
   readAlertError: any
@@ -94,12 +86,6 @@ export type ExtraStateType = {
   fetchExtraListSuccess: boolean,
   fetchExtraListError: any,
   fetchDone: boolean,
-  updateExtraListLoading: boolean,
-  updateExtraListSuccess: boolean,
-  updateExtraListError: any,
-  deleteExtraListLoading: boolean,
-  deleteExtraListSuccess: boolean,
-  deleteExtraListError: any,
   fetchLinkedPostRequest: boolean,
   fetchLinkedPostSuccess: boolean,
   fetchLinkedPostError: any,
