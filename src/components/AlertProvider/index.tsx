@@ -29,6 +29,8 @@ const AlertProvider = () => {
         return "임시 비밀번호가 입력하신 이메일로 전송되었습니다."
       case PopupCode.UNKNOWN:
         return "잠시 후에 다시 시도해주세요."
+      case PopupCode.REPORT_SUCCESS:
+        return "게시물을 신고했습니다."
     }
   }
 

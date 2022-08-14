@@ -8,6 +8,7 @@ interface PopupProps {
   type: "alert" | "confirm" | "input",
   buttonAlign: "left" | "center" | "right"
   placeholder?: string;
+  submitText?: string;
   param?: any;
   onClick?: () => void;
   onCancel?: () => void;
@@ -40,7 +41,7 @@ const Popup = (props: PopupProps) => {
             theme="primary"
             onClick={ () => props.onClick() }
           >
-            { props.type === "input" ? "저장" : "확인" }
+            { props.submitText || props.type === "input" ? "저장" : "확인" }
           </Button> }
         </footer>
       </div>

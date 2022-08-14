@@ -13,6 +13,7 @@ interface TextareaProps extends DefaultProps {
   readonly?: boolean;
   disabled?: boolean;
   row?: number;
+  fixedHeight?: boolean;
   placeholder?: string;
   description?: string;
   draggable?: boolean;
@@ -84,7 +85,7 @@ const Textarea = memo((props: TextareaProps) => {
           } }
           onKeyUp={ (e) => {
             e.stopPropagation()
-            resizeTextarea()
+            if (!props.fixedHeight) resizeTextarea()
           } }
           onKeyDown={ (e) => {
             if (e.key === 'Enter' && props.onEnter)

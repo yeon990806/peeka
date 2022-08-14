@@ -7,4 +7,5 @@ export enum PopupCode {
   COMPLETE = 5, // 완료되었습니다.
   SEND_TEMP_PW_SUCCESS = 6,
   UNKNOWN = 7,
+  REPORT_SUCCESS = 8, // 신고 완료.
 }
