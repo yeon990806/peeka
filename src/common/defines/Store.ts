@@ -223,10 +223,7 @@ export type CuratorType = {
   id: number
   member_id: number
   nickname: string
-  profile_image: {
-    uploadedFileURL: string,
-    uploadedFileKey: string,
-  }
+  member_image: string
   source: null,
   created_at: Date,
 }

@@ -26,7 +26,7 @@ const RealTimeRanking = () => {
       <header className={ style.RealTimeRankingHeader }>
         <h1>
           <span>
-            추천 큐레이터
+            큐레이터 업데이트
           </span>
         </h1>
       </header>
