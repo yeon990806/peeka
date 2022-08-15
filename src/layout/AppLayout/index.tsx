@@ -1,14 +1,14 @@
 
 import style from "./style.module.scss"
-import { useState, useEffect, useMemo, useRef, useCallback, createRef } from 'react';
+import { useState, useEffect, useCallback, createRef } from 'react';
 import TopButton from "@/components/TopButton";
 import PrimaryHeader from "@/components/PrimaryHeader";
 import { useMediaQuery } from "react-responsive";
-import RealTimeRanking from "@/components/RealTimeRanking";
 import { useDispatch, useSelector } from "react-redux";
 import VideoList from "@/components/VideoList";
 import { FETCH_ALERT_REQUEST } from "@/store/reducer/user";
 import { StateType } from "@/common/defines/Store";
+import CuratorList from "@/components/CuratorList";
 
 interface AppLayoutProps {
   children: React.ReactNode,
@@ -70,13 +70,13 @@ const AppLayout = (props: AppLayoutProps) => {
       { scrollY >= 1200 && <TopButton
         onClick={ () => onClickHandleTop() }
       /> }
-      <div className="container" ref={ container }>
-        <div className="content-container">
+      <div className={ style.Container } ref={ container }>
+        <div className={ style.ContentContainer }>
           { props.children }
         </div>
-        { wideScreen && <RealTimeRanking /> }
-        { wideScreen && <VideoList /> }
       </div>
+      { wideScreen && <VideoList /> }
+      { wideScreen && <CuratorList /> }
     </div>
   )
 }

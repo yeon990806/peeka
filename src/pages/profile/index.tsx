@@ -63,7 +63,7 @@ const profile = () => {
             changeImage
           />
           <div className={ style.Username }>
-            { userInfo.nickname }
+            { userInfo.nickname.replaceAll('@', '') }
           </div>
         </div>
         <List

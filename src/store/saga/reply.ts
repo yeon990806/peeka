@@ -169,7 +169,7 @@ function* AddReply (action) {
       case StorePostType.Alert:
         yield put({
           type: ADD_ALERT_COMMENT_REPLY,
-          data: data,
+          data,
         })
 
         break

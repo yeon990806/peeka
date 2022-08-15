@@ -80,10 +80,10 @@ const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
             type="password"
             togglePassword
             placeholder="비밀번호"
-            description="비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다."
+            description="비밀번호는 8자 이상이어야 하며, 영문, 숫자, 특수문자를 모두 포함하어야 합니다."
             validate={[
               (v: string) => {
-                const validPassword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8}$/
+                const validPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 
                 if (v.match(validPassword) !== null) {
                   setConfirmPassword(true)

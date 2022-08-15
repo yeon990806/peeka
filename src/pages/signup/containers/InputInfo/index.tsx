@@ -46,7 +46,9 @@ const InputInfo = (props: InputInfoProps) => {
   const existenceUsername = async (v: string) => {
     const result = await axios.get(`${ APIHost }/public/auth/nickname/existence?nickname=${ v }`)
 
-    return onToggleExistenceUsername(result.data.statement)
+    onToggleExistenceUsername(result.data.statement)
+
+    return result.data.statement
   }
 
   useEffect(() => {
@@ -62,37 +64,36 @@ const InputInfo = (props: InputInfoProps) => {
             termsType={ termsType }
             onClose={ () => setDisplayPopup(false) }
           /> }
-          
           <Input
             value={ props.userName }
             placeholder="유저네임"
-            onChange={ (v) => {
+            onChange={ async (v) => {
               props.setUserName(v)
               existenceUsername(v)
             } }
-            validate={[
+            existedValue={ existencedUsername }
+            errorMessage={ "이미 사용 중인 닉네임입니다." }
+            validate={ [
               (v: string) => {
-                if (!existencedUsername) {
-                  props.setPasswordError(false)
+                const validUsername = /^[0-9|a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]*$/
 
-                  return { state: true, msg: '사용할 수 있는 닉네임입니다!' }
+                if (v.match(validUsername) !== null) {
+                  return { state: true, msg: '' }
                 } else {
-                  props.setPasswordError(true)
-
-                  return { state: false, msg: '사용 중인 닉네임이에요.' }
+                  return { state: false, msg: '닉네임엔 공백과 특수문자가 허용되지 않습니다.' }
                 }
               }
-            ]}
+            ] }
           />
           <Input
             value={ props.password }
             type="password"
             togglePassword
             placeholder="비밀번호"
-            description="비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다."
+            description="비밀번호는 8자 이상이어야 하며, 영문, 숫자, 특수문자를 모두 포함하어야 합니다."
             validate={[
               (v: string) => {
-                const validPassword = /^(?=.*[a-zA-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8}$/
+                const validPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/
 
                 if (v.match(validPassword) !== null) {
                   props.setPasswordError(false)
@@ -101,7 +102,7 @@ const InputInfo = (props: InputInfoProps) => {
                 } else {
                   props.setPasswordError(false)
 
-                  return { state: false, msg: "비밀번호는 8자 이상이어야 하며, 대/소문자, 숫자, 특수문자를 모두 포함하어야 합니다." } 
+                  return { state: false, msg: "비밀번호는 8자 이상이어야 하며, 영문, 숫자, 특수문자를 모두 포함하어야 합니다." } 
                 }
               }
             ]}

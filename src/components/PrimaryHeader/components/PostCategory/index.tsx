@@ -52,8 +52,9 @@ const PostCategory = () => {
       { (Object.keys(CategoryType) as Array<keyof typeof CategoryType>).map((key) => (
         <Button
           key={ key }
-          theme={ CategoryType[key] === selectedCategory ? "primary" : "gray" }
           type="text"
+          additionalClass={ style.CategoryButton }
+          theme={ CategoryType[key] === selectedCategory ? "primary" : "gray" }
           onClick={ () => onClickCategoryButton(CategoryType[key]) }
         >
           { key }

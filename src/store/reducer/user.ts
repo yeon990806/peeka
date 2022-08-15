@@ -51,7 +51,7 @@ export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE'
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
-export const SIGN_UP_SUCCESS = 'SIGN_UP_REQUEST'
+export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS'
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE'
 
 export const SIGN_OUT_REQUEST = 'SIGN_OUT_REQUEST'
@@ -202,20 +202,16 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case SIGN_UP_SUCCESS: {
       const userInfo = {
         id: action.data.id,
-        nick_name: action.data.nick_name,
-        grant_type: action.data.grant_type,
-      }
-
-      draft.signUpLoading = false
-      draft.signUpSuccess = true
-
-      draft.userInfo = {
-        id: action.data.id,
         nickname: action.data.nickname,
         grant_type: action.data.grant_type,
         alertList: [],
         alertDetail: null,
       }
+
+      draft.signUpLoading = false
+      draft.signUpSuccess = true
+
+      draft.userInfo = userInfo
 
       setCookie('accessToken', action.data.access_token, {
         path: '/',

@@ -40,13 +40,14 @@
 
     .CommentInput {
       display: grid;
-      grid-template-columns: 1fr 64px;
+      grid-template-columns: 1fr auto;
       grid-gap: 8px;
 
       .CommentInputButton {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         justify-content: flex-end;
+        align-items: flex-end;
       }
     }
 

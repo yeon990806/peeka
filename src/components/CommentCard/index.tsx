@@ -23,6 +23,7 @@ interface CommentCardProps {
 
 const CommentCard = (props: CommentCardProps) => {
   const dispatch = useDispatch()
+  const userId = useSelector((state: StateType) => state.user.userInfo.id)
   const addSuccess = useSelector((state: StateType) => state.comment.addCommentLoading)
   const modifySuccess = useSelector((state: StateType) => state.comment.updateCommentSuccess)
   const [activeModify, setActiveModify] = useState<boolean>(false)
@@ -145,15 +146,15 @@ const CommentCard = (props: CommentCardProps) => {
         <div className={ style.CommentCardInfoContainer }>
           <div className={ style.CommentCardInfo }>
             <h2 className={ style.CommentCardAuthor }>
-              { props.data.nickname }
+              { props.data.nickname.replace('@', '') }
             </h2>
             <p className={ style.CommentCardDate }>
               { getLongDateFormat(props.data.created_at) }
             </p>
           </div>
-          <MenuPopup menuList={ menuList } theme="light">
+          { ((userId === props.data.member_id) && !activeModify) && <MenuPopup menuList={ menuList } theme="light">
             <img src="/images/more.svg" tabIndex={-1} />
-          </MenuPopup>
+          </MenuPopup> }
         </div>
         { !activeModify
           ? <article className={ style.CommentCardText }>
@@ -215,8 +216,8 @@ const CommentCard = (props: CommentCardProps) => {
               commentId={ props.data.id }
               type={ props.type }
               callback={ () => {
-                toggleActiveReply()
                 setDisplayReplyList(true)
+                toggleActiveReply()
               } }
             />
           </div> }

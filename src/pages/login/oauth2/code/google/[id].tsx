@@ -33,7 +33,7 @@ const auth = () => {
 
   return (
     <div style={ { color: '#e3e3e3' } }>
-      이메일 체크...
+      이메일 체크... google
     </div>
   )
 }

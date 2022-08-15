@@ -1,13 +1,16 @@
-.RealTimeRanking {
+.CuratorListContainer {
   position: fixed;
-  top: 50px;
-  left: calc(50% + 340px);
-  width: 300px;
-  padding: 24px;
+  top: 70px;
+  right: calc(50% - 720px);
+}
+
+.CuratorList {
+  width: 320px;
+  padding: 12px;
   border-radius: 10px;
   background-color: $content-background;
 
-  .RealTimeRankingHeader {
+  .CuratorHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,17 +31,15 @@
     }
 
     h1 {
-      font-size: 16px;
+      width: 100%;
+      font-size: 18px;
       font-weight: bold;
-      color: $disabled-color;
-
-      span {
-        color: $light;
-      }
+      text-align: center;
+      color: $primary;
     }
   }
 
-  .RealTimeRankingList {
+  .CuratorListContent {
     margin-top: 30px;
 
     > li {

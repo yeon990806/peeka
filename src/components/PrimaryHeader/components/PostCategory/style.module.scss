@@ -2,6 +2,10 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
 
+  .CategoryButton {
+    font-size: 18px;
+  }
+
   > button {
     padding: 8px 0 9px;
     color: $light-gray;

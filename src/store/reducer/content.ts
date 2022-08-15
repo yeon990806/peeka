@@ -54,8 +54,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchVideoLoading = false
       draft.fetchVideoSuccess = true
       
-      if (action.data.id)
-        draft.videoList = action.data.list
+      draft.videoList = [ ...action.data.list ]
 
       break
     case FETCH_VIDEO_FAILURE:

@@ -1,11 +1,11 @@
-import { ReplyType, StorePostType } from '@/common/defines/Store'
+import { ReplyType, StateType, StorePostType } from '@/common/defines/Store'
 import Button from '../Button'
 import UserProfile from '../UserProfile'
 import style from './style.module.scss'
 import MenuPopup from '../MenuPopup';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import Textarea from '../Textarea';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Popup from '../Popup';
 import InputComment from '../InputComment';
 import { DELETE_REPLY_REQUEST, UPDATE_REPLY_REQUEST } from '@/store/reducer/reply';
@@ -21,6 +21,7 @@ interface ReplyCardProps {
 
 const ReplyCard = (props: ReplyCardProps) => {
   const dispatch = useDispatch()
+  const userId = useSelector((state: StateType) => state.user.userInfo.id)
   const [activeModify, setActiveModify] = useState<boolean>(false)
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
@@ -120,15 +121,15 @@ const ReplyCard = (props: ReplyCardProps) => {
         <div className={ style.CommentCardInfoContainer }>
           <div className={ style.CommentCardInfo }>
             <h2 className={ style.CommentCardAuthor }>
-              { props.data.nickname }
+              { props.data.nickname.replace('@', '') }
             </h2>
             {/* <p className={ style.CommentCardDate }>
               { getLongDateFormat(props.data.created_at) }
             </p> */}
           </div>
-          <MenuPopup menuList={ menuList } theme="light">
+          { ((userId === props.data.member_id) && !activeModify) && <MenuPopup menuList={ menuList } theme="light">
             <img src="/images/more.svg" tabIndex={-1} />
-          </MenuPopup>
+          </MenuPopup> }
         </div>
         { !activeModify
           ? <article className={ style.CommentCardText }>

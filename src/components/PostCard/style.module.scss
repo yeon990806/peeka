@@ -1,7 +1,7 @@
 .Post {
   background-color: $dark-gray;
   list-style: none;
-  max-width: 628px;
+  max-width: 720px;
 
   & + .Post {
     margin-top: 16px;
@@ -11,6 +11,16 @@
     padding: 16px 24px;
     border-radius: 10px;
     background-color: $content-background;
+
+    .BestPost {
+      display: flex;
+      grid-gap: 8px;
+      padding: 0 0 16px;
+      align-items: center;
+      color: $primary;
+      font-size: 16px;
+      font-weight: bold;
+    }
 
     .PostContentContainer {
       padding: 0;
@@ -29,15 +39,20 @@
     padding: 14px 12px 8px;
     
     .PostHeader {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
       align-items: center;
   
       .PostInfoContainer {
-        display: flex;
+        display: grid;
+        grid-template-columns: auto 1fr;
         flex: 1;
   
         .PostInfo {
+          display: grid;
+          grid-template-rows: 1fr auto;
           padding-left: 8px;
+          align-items: center;
   
           h1 {
             font-size: 15px;

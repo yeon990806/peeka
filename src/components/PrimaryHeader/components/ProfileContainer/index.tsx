@@ -155,7 +155,7 @@ const ProfileContainer = (props: ProfileContainerProps) => {
             size="xxs"
             profileImage={ userInfo.image ? userInfo.image.uploadedFileURL : '' }
           />
-          { !IsMobile() && <p className={ style.Username }>{ userInfo.nickname }</p> }
+          { !IsMobile() && <p className={ style.Username }>{ userInfo.nickname.replace('@', '') }</p> }
         </MenuPopup>
       )
   }

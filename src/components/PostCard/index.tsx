@@ -149,6 +149,10 @@ const PostCard = (props: PostProps) => {
       />
       <div className={ classnames(style.Post, desktop && style.DeskPost) }>
         <div className={ style.PostContentContainer }>
+          {/* { props.post.like_count >= 100 && <div className={ style.BestPost }>
+            <img src="/images/best-mono.svg" />
+            Best
+          </div> } */}
           <div className={ style.PostHeader }>
             <div
               className={ style.PostInfoContainer }
@@ -160,7 +164,7 @@ const PostCard = (props: PostProps) => {
               />
               <div className={ style.PostInfo }>
                 <h1>
-                  { props.post.nickname }
+                  { props.post.nickname.replace('@', '') }
                 </h1>
                 <p>
                   <span className={ style.PostCategory }>

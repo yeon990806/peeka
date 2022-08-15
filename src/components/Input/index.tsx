@@ -20,19 +20,21 @@ interface InputProps extends DefaultProps {
   draggable?: boolean;
   description?: string;
   searchInput?: boolean;
-  validate?: { (data: string): { state: boolean, msg: string } } [];
+  validate?: { (data: string): { state: boolean, msg: string } }[]
   togglePassword?: boolean;
   pattern?: string;
 
   renderFocus?: boolean
-
+  existedValue?: boolean
+  errorMessage?: string
+  
   postfix?: React.ReactNode;
   prefix?: React.ReactNode;
-
+  
   onInput?: (value: InputProps['value']) => void;
   onChange?: (value: InputProps['value']) => void;
   onEnter?: (value: InputProps['value']) => void;
-  onError?: (v: boolean) => void;
+  onError?: (v: boolean) => void
 }
 
 const Input = React.memo((props: InputProps) => {
@@ -56,34 +58,47 @@ const Input = React.memo((props: InputProps) => {
     if (input && props.onInput) props.onInput(inputValue)
     if (!focus && props.onChange) props.onChange(inputValue)
 
-    if (props.validate && props.validate.length > 0 && inputValue)
-      for (let i = 0; i < props.validate.length; i++) {
-        const result = props.validate[i](inputValue);
-  
-        setInputDescription(result.msg)
-        
-        if (!result.state || inputValue.length === 0) {
-          setInputError(true)
-          setDescStyle('normal')
+    if (!props.existedValue) {
+      if (props.validate && props.validate.length > 0 && inputValue)
+        for (let i = 0; i < props.validate.length; i++) {
+          const result = props.validate[i](inputValue);
+    
+          setInputDescription(result.msg)
           
-          break
-        } else {
-          setInputError(false)
-          setDescStyle('success')
+          if (!result.state || inputValue.length === 0) {
+            setInputError(true)
+            setDescStyle('normal')
+            
+            break
+          } else {
+            setInputError(false)
+            setDescStyle('success')
+          }
         }
+      else {
+        setInputError(false)
+        setDescStyle('normal')
+        setInputDescription('')
+  
+        return
       }
-    else {
+    } else {
       setInputError(false)
-      setDescStyle('normal')
-      setInputDescription('')
-
-      return
+      setDescStyle('error')
+      setInputDescription(props.errorMessage)
     }
-  }, [focus, input, inputValue])
+    
+  }, [focus, input, inputValue, props.existedValue])
 
   useEffect(() => {
-    if (props.onError) props.onError(inputError)
-  }, [inputError])
+    if (props.onError && !props.existedValue) {
+      props.onError(inputError)
+      setInputDescription('')
+      setDescStyle('error')
+    } else {
+      setDescStyle('normal')
+    }
+  }, [inputError, props.existedValue])
 
   useEffect(() => {
     if (props.togglePassword) {

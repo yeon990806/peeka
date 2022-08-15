@@ -11,18 +11,6 @@
   }
 }
 
-.container {
-  width: 100%;
-  overflow: scroll;
-
-  .content-container {
-    position: relative;
-    min-width: 320px;
-    max-width: 628px;
-    margin: 0 auto;
-  }
-}
-
 .slick-arrow {
   position: absolute !important;
   top: 50%;
