@@ -63,7 +63,7 @@ const ProfileContainer = (props: ProfileContainerProps) => {
 
   const SearchButton = () => {
     return (
-      <Button type="icon" onClick={ () => props.onToggleSearch(true) }>
+      <Button additionalClass={ style.SearchButton } type="icon" onClick={ () => props.onToggleSearch(true) }>
         <img src="/images/search.svg" alt="search" tabIndex={-1} />
       </Button>
     )

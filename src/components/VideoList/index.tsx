@@ -7,15 +7,29 @@ import { CategoryType } from "@/common/defines/Category";
 
 const VideoList = () => {
   const dispatch = useDispatch()
-  const videoList = useSelector((state: StateType) => state.content.videoList)
   const category = useSelector((state: StateType) => state.post.postCategory)
+  const currentList = useSelector((state: StateType) => {
+    switch (category) {
+      case CategoryType.전체:
+        return state.content.allVideoList
+      case CategoryType.영화:
+        return state.content.movieVideoList
+      case CategoryType.시리즈:
+        return state.content.seriesVideoList
+      case CategoryType.웹툰:
+        return state.content.toonVideoList
+      case CategoryType.웹소설:
+        return state.content.novelVideoList
+    }
+  })
 
   useEffect(() => {
     dispatch({
       type: FETCH_VIDEO_REQUEST,
       data: {
         category: category === CategoryType.전체 ? '' : category,
-        id: videoList.length > 0 ? videoList[0].id : ''
+        id: '',
+        // id: currentList.length > 0 ? currentList[0].id : '' ,
       }
     })
   }, [category])
@@ -23,7 +37,7 @@ const VideoList = () => {
   return (
     <div className={ style.VideoList }>
       <ul className={ style.VideoItemContainer }>
-        { videoList.map(video => (
+        { currentList.map(video => (
           <li 
             className={ style.VideoListItem }
             key={ video.id }

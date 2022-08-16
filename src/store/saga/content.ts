@@ -48,6 +48,7 @@ function* FetchVideo (action) {
       type: FETCH_VIDEO_SUCCESS,
       data: {
         list: result.data,
+        category: action.data.category,
         id: action.data.id
       }
     })

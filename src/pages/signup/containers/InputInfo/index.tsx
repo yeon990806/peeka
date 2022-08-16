@@ -98,7 +98,7 @@ const InputInfo = (props: InputInfoProps) => {
                 if (v.match(validPassword) !== null) {
                   props.setPasswordError(false)
 
-                  return { state: true, msg: v }
+                  return { state: true, msg: "" }
                 } else {
                   props.setPasswordError(false)
 

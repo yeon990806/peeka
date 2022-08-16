@@ -25,6 +25,7 @@ import {
   UPDATE_POST_SUCCESS,
 } from "../reducer/post";
 import { UPDATE_EXTRAPOST } from '../reducer/extra';
+import { reIssueAction } from '@/common/defines/Action';
 
 function fetchPostAPI (param) {
   return axios.get(`${ APIHost }/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
@@ -134,6 +135,9 @@ function* AddPost (action) {
       type: ADD_POST_FAILURE,
       error: err,
     })
+
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -194,6 +198,8 @@ function* UpdatePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -250,6 +256,8 @@ function* DeletePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 

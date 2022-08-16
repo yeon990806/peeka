@@ -24,6 +24,7 @@ import { ADD_USERPOST_COMMENT_REPLY, FETCH_USERPOST_COMMENT_REPLY } from "../red
 import { APIHost } from '@/common/api';
 import { UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
+import { reIssueAction } from '@/common/defines/Action';
 
 function fetchReplyAPI (param) {
   return axios.get(`${ APIHost }/public/board/reply?comment_id=${ param.commentId }&id=${ param.id }&paging_number=0&paging_size=20`, {
@@ -181,6 +182,8 @@ function* AddReply (action) {
       type: ADD_REPLY_FAILURE,
       error: err
     })
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -243,6 +246,8 @@ function* UpdateReply (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -304,6 +309,8 @@ function* DeleteReply (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 

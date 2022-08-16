@@ -11,6 +11,7 @@ import { getCookie } from '@/common/libs/Cookie';
 import { APIHost } from '@/common/api';
 import { UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
+import { reIssueAction } from '@/common/defines/Action';
 
 function likePostAPI (param) {
   const data = {
@@ -124,6 +125,8 @@ function* LikePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -179,6 +182,8 @@ function* UnlikePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -235,6 +240,8 @@ function* ScrapPost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -291,6 +298,8 @@ function* UnscrapPost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
+    else if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 

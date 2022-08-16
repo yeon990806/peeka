@@ -124,8 +124,8 @@
 
   &.icon {
     min-width: 32px;
-    height: 32px;
-    padding: 8px;
+    min-height: 32px;
+    padding: 4px;
     display: inline-flex;
     grid-gap: 4px;
     align-items: center;

@@ -1,4 +1,5 @@
 import { APIHost } from '@/common/api';
+import { reIssueAction } from '@/common/defines/Action';
 import { PopupCode } from '@/common/defines/Popup';
 import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
@@ -113,6 +114,8 @@ function* FetchUserInfo () {
       type: FETCH_USERINFO_FAILURE,
       data: err
     })
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -239,6 +242,8 @@ function* FetchAlert (action) {
       type: FETCH_ALERT_FAILURE,
       data: err
     })
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -259,6 +264,8 @@ function* ReadAlert (action) {
       type: READ_ALERT_FAILURE,
       error: err
     })
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 

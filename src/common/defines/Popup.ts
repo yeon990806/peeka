@@ -8,4 +8,5 @@ export enum PopupCode {
   SEND_TEMP_PW_SUCCESS = 6,
   UNKNOWN = 7,
   REPORT_SUCCESS = 8, // 신고 완료.
+  REQUEST_SIGN_IN = 9, // 로그인으로 유도함
 }

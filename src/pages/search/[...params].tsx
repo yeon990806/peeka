@@ -1,12 +1,10 @@
 import { LayoutType } from "../_app"
-import style from "./style.module.scss"
 import { useEffect } from "react";
-import Spinner from "@/components/Spinner";
 import { useRouter } from "next/router";
-import PostContainer from "@/components/PostContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { EMPTY_EXTRA_LIST, FETCH_EXTRAPOST_REQUEST } from "@/store/reducer/extra";
 import { StateType, StorePostType } from "@/common/defines/Store";
+import ExtraPage from "@/components/ExtraPage";
 
 const search = () => {
   const router = useRouter()
@@ -46,29 +44,21 @@ const search = () => {
   }, [category, text])
   
   return (
-    <div className={ style.MyPost }>
-      <div className={ style.PageHeader }>
-        <img src="/images/search.svg" tabIndex={-1} role="presentation" />
-        <h1>
-          검색 결과
-        </h1>
-      </div>
-      <div className={ style.PostContainer }>
-        { (searchContent && searchContent.length > 0)
-          ? <PostContainer
-            postList={ searchContent }
-            fetchDone={ searchDone }
-            fetchLoading={ searchLoading }
-            fetchList={ fetchSearchContent }
-            postType={ StorePostType.ExtraPost }
-          />
-          : <div className={ style.NullContent }>
-            <h1>검색 결과가 없어요.</h1>
-          </div>
-        }
-        { searchLoading && <Spinner /> }
-      </div>
-    </div>
+    <ExtraPage
+      img={
+        <>
+          <circle cx="11" cy="11" r="7" stroke="#FFF200" strokeWidth="1.7"/>
+          <path d="M20 20L16 16" stroke="#FFF200" strokeWidth="1.7" strokeLinecap="round"/>
+        </>
+      }
+      title="검색 결과"
+      postList={ searchContent }
+      fetchDone={ searchDone }
+      fetchLoading={ searchLoading }
+      fetchPost={ fetchSearchContent }
+      postType={ StorePostType.ExtraPost }
+      nullText="검색 결과가 없어요."
+    />
   )
 }
 

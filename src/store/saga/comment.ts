@@ -23,6 +23,7 @@ import { ADD_EXTRAPOST_COMMENT, DELETE_EXTRAPOST_COMMENT, FETCH_EXTRAPOST_COMMEN
 import { APIHost } from '@/common/api';
 import { UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
+import { reIssueAction } from '@/common/defines/Action';
 
 function fetchCommentAPI (param) {
   return axios.get(`${ APIHost }/public/board/comment?post_id=${ param.postId }&id=${ param.id }&paging_number=0&paging_size=10`, {
@@ -167,6 +168,8 @@ function* AddComment (action) {
       type: ADD_COMMENT_FAILURE,
       data: err
     })
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -230,6 +233,8 @@ function* UpdateComment (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 
@@ -289,6 +294,8 @@ function* DeleteComment (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
+    if (err.response.data.code === 'Unauthorized')
+      reIssueAction()
   }
 }
 

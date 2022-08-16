@@ -1,4 +1,3 @@
-import { IsMobile, IsDesktop } from "@/common/hooks/breakpoints";
 import UserProfile from "@/components/UserProfile";
 import style from "./style.module.scss"
 

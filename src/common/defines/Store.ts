@@ -77,7 +77,11 @@ export type ContentStateType = {
   fetchVideoSuccess: boolean
   fetchVideoError: any
   curatorList: CuratorType[],
-  videoList: VideoType[],
+  allVideoList: VideoType[],
+  movieVideoList: VideoType[],
+  seriesVideoList: VideoType[],
+  toonVideoList: VideoType[],
+  novelVideoList: VideoType[],
 }
 
 export type ExtraStateType = {

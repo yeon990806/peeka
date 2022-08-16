@@ -1,9 +1,9 @@
-.MyPost {
+.ExtraPage {
   position: relative;
   display: flex;
   flex-direction: column;
   
-  .PageHeader {
+  .ExtraPageHeader {
     position: sticky;
     top: 0;
     padding: 0 0 16px;
@@ -19,8 +19,7 @@
     }
   }
 
-  .PostContainer {
-    flex: 1;
+  .ExtraPagePost {
     overflow-y: auto;
 
     > div + div {
@@ -29,7 +28,7 @@
   }
 }
 
-.NullContent {
+.ExtraPageNullContent {
   margin-top: 80px;
   display: flex;
   flex-direction: column;

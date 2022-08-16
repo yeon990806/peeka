@@ -31,6 +31,8 @@ const AlertProvider = () => {
         return "잠시 후에 다시 시도해주세요."
       case PopupCode.REPORT_SUCCESS:
         return "게시물을 신고했습니다."
+      case PopupCode.REQUEST_SIGN_IN:
+        return "로그인 유효기간이 만료되었습니다. 다시 로그인해주세요."
     }
   }
 
