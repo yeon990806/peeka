@@ -28,6 +28,7 @@ const SignInPopup = (props: SignInPopupProps) => {
       content={ <SignIn popup/> }
       buttonAlign={"right"} 
       onCancel={ props.onClose }
+      block
     />
   )
 }
