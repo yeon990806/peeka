@@ -1,4 +1,3 @@
-import { reIssueAction } from "@/common/defines/Action";
 import { PopupCode } from "@/common/defines/Popup";
 import { IsMobile } from "@/common/hooks/breakpoints";
 import { getCookie } from "@/common/libs/Cookie";
@@ -64,8 +63,6 @@ const ReportPopup = (props: ReportPopupProps) => {
         dispatch(openPopup(PopupCode.REPORT_SUCCESS, props.onPrev()))
     }).catch((err) => {
       dispatch(openPopup(PopupCode.UNKNOWN))
-      if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
     })
   }, [reportText])
 

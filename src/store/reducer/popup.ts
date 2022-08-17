@@ -2,15 +2,16 @@ import produce from 'immer';
 
 import { PopupStateType } from '@/common/defines/Store';
 import { PopupCode } from '@/common/defines/Popup';
-import { useDispatch } from 'react-redux';
 
 export const initialState: PopupStateType = {
   popupDisplay: false,
+  signInPopupDisplay: false,
   popupCode: null,
   callback: null,
 }
 
 export const UPDATE_POPUP = 'UPDATE_POPUP'
+export const TOGGLE_SIGN_IN_POPUP = 'TOGGLE_SIGN_IN_POPUP'
 
 export const openPopup = (code: PopupCode, callback?) => ({
   type: UPDATE_POPUP,
@@ -40,6 +41,10 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
 
       draft.callback = null
+
+      break
+    case TOGGLE_SIGN_IN_POPUP:
+      draft.signInPopupDisplay = !draft.signInPopupDisplay
 
       break
     default:

@@ -18,6 +18,9 @@ export type UserType = {
   fetchUserInfoLoading: boolean
   fetchUserInfoSuccess: boolean
   fetchUserInfoError: any
+  reIssueLoading: boolean
+  reIssueSuccess: boolean
+  reIssueError: any
   alwaysSignIn: boolean
   signInLoading: boolean
   signInSuccess: boolean
@@ -142,6 +145,7 @@ export type ReactionStateType = {
 
 export type PopupStateType = {
   popupDisplay: boolean
+  signInPopupDisplay: boolean
   popupCode: PopupCode | null
   callback?: () => void | null
 }

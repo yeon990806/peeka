@@ -9,6 +9,9 @@ export const initialState: UserType = {
   fetchUserInfoLoading: false,
   fetchUserInfoSuccess: false,
   fetchUserInfoError: null,
+  reIssueLoading: false,
+  reIssueSuccess: false,
+  reIssueError: null,
   fetchDone: false,
   signInLoading: false,
   signInSuccess: false,
@@ -45,6 +48,10 @@ export const UPDATE_USERINFO = 'UPDATE_USERINFO'
 export const FETCH_USERINFO_REQUEST = 'FETCH_USERINFO_REQUEST'
 export const FETCH_USERINFO_SUCCESS = 'FETCH_USERINFO_SUCCESS'
 export const FETCH_USERINFO_FAILURE = 'FETCH_USERINFO_FAILURE'
+
+export const RE_ISSUE_REQUEST = 'RE_ISSUE_REQUEST'
+export const RE_ISSUE_SUCCESS = 'RE_ISSUE_SUCCESS'
+export const RE_ISSUE_FAILURE = 'RE_ISSUE_FAILURE'
 
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS'
@@ -148,6 +155,26 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case FETCH_USERINFO_FAILURE:
       draft.fetchUserInfoLoading = false
       draft.fetchUserInfoError = action.error
+
+      if (action.callback) action.callback()
+
+      break
+    case RE_ISSUE_REQUEST:
+      draft.reIssueLoading = true
+      draft.reIssueSuccess = false
+      draft.reIssueError = null
+
+      break
+    case RE_ISSUE_SUCCESS:
+      draft.reIssueLoading = false
+      draft.reIssueSuccess = true
+
+      break
+    case RE_ISSUE_FAILURE:
+      draft.reIssueLoading = false
+      draft.reIssueError = action.error
+
+      if (action.data.callback) action.data.callback()
 
       break
     case SIGN_IN_REQUEST:

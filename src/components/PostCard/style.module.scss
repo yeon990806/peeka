@@ -1,7 +1,9 @@
 .Post {
   background-color: $dark-gray;
   list-style: none;
+  width: 100vw;
   max-width: 720px;
+  overflow: hidden;
 
   & + .Post {
     margin-top: 16px;

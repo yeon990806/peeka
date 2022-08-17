@@ -22,9 +22,8 @@ import {
 } from "../reducer/reply";
 import { ADD_USERPOST_COMMENT_REPLY, FETCH_USERPOST_COMMENT_REPLY } from "../reducer/user";
 import { APIHost } from '@/common/api';
-import { UPDATE_POPUP } from '../reducer/popup';
+import { TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
-import { reIssueAction } from '@/common/defines/Action';
 
 function fetchReplyAPI (param) {
   return axios.get(`${ APIHost }/public/board/reply?comment_id=${ param.commentId }&id=${ param.id }&paging_number=0&paging_size=20`, {
@@ -38,6 +37,7 @@ function addReplyAPI (param) {
   const paramData = {
     post_id: param.postId,
     comment_id: param.commentId,
+    member_image: param.memberImage,
     contents: `${param.toUserName ? `@${param.toUserName}`: ''} ${param.contents}`,
     to_member_id: param.author,
   }
@@ -52,6 +52,7 @@ function addReplyAPI (param) {
 function updateReplyAPI (param) {
   const paramData = {
     id: param.id,
+    member_image: param.memberImage,
     contents: param.contents,
   }
 
@@ -182,8 +183,10 @@ function* AddReply (action) {
       type: ADD_REPLY_FAILURE,
       error: err
     })
-    if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -246,8 +249,10 @@ function* UpdateReply (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -309,8 +314,10 @@ function* DeleteReply (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 

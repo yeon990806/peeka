@@ -12,8 +12,6 @@ import { encodeFileToBase64 } from "@/common/defines/Format";
 import { ImageType, PostType, StateType, StorePostType } from "@/common/defines/Store";
 import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
-import axios from "axios";
-
 interface InputPostProps {
   placeholder?: string;
   popup?: boolean;
@@ -29,13 +27,14 @@ interface PostImageType {
   image: File,
   url: any,
   lastModified?: number,
-  idx?: number
+  idx?: string
 }
 
 const InputPost = (props: InputPostProps) => {
   const mobile = IsMobile()
   const dispatch = useDispatch()
   const userImage = useSelector((state: StateType) => state.user.userInfo.image)
+  const globalCategory = useSelector((state: StateType) => state.post.postCategory)
   const [inputValue, setInputValue] = useState<string>('')
   const [fileList, setFileList] = useState<FileList>()
   const [uploadImage, setUploadImage] = useState<PostImageType[]>([])
@@ -62,9 +61,12 @@ const InputPost = (props: InputPostProps) => {
     const dataTransfer = new DataTransfer()
     let fileData = fileList ? Array.from(fileList).concat(Array.from(e.target.files)) : Array.from(e.target.files)
     
+    fileData = fileData.sort((a, b) => (a as File).lastModified - (b as File).lastModified)
+    
     fileData.forEach((file: File) => {
-      if (dataTransfer.files.length < 6 - postImage.length)
+      if (dataTransfer.files.length < 6 - postImage.length) {
         dataTransfer.items.add(file)
+      }
     })
 
     setFileList(dataTransfer.files)
@@ -82,6 +84,7 @@ const InputPost = (props: InputPostProps) => {
           category_code: postCategory.value,
           category: postCategory.display,
           images: fileList,
+          memberImage: userImage.uploadedFileURL || '',
           onSuccess: () => {
             setInputValue('')
             setUploadImage([])
@@ -100,6 +103,7 @@ const InputPost = (props: InputPostProps) => {
           category_code: postCategory.value,
           category: postCategory.display,
           images: fileList,
+          memberImage: userImage.uploadedFileURL || '',
           deleted_images: deletedImage,
           onSuccess: () => {
             setInputValue('')
@@ -116,6 +120,7 @@ const InputPost = (props: InputPostProps) => {
 
     if (clickedImage.image) {
       const dataTransfer = new DataTransfer()
+      imageInput.current.value = ''
   
       Array.from(fileList)
         .filter(file => file !== clickedImage.image)
@@ -142,7 +147,6 @@ const InputPost = (props: InputPostProps) => {
           const _img = {
             image: null,
             url: v.uploadedFileURL,
-            idx: i
           }
 
           setPostImage(prev => ([...prev, _img]))
@@ -156,10 +160,16 @@ const InputPost = (props: InputPostProps) => {
       setUploadImage([])
       Array.from(fileList).forEach(async (image) => {
         await encodeFileToBase64(image)
-          .then((data: File) => setUploadImage((prev) => [...prev, { image: image, url: data, lastModified: image.lastModified }].sort((a, b) => b.lastModified - a.lastModified)) )
+          .then((data: File) => setUploadImage((prev) => [...prev, { image: image, url: data, lastModified: image.lastModified }]))
       })
     }
   }, [fileList])
+
+  useEffect(() => {
+    const category = selectArray.find(v => v.value === globalCategory)
+    
+    setPostCategory(category)
+  }, [globalCategory])
 
   return (
     <form

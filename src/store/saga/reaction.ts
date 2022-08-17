@@ -1,4 +1,4 @@
-import { LIKE_ALERT, SCRAP_ALERT, UNLIKE_ALERT, UNSCRAP_ALERT } from './../reducer/user';
+import { FETCH_USERINFO_REQUEST, LIKE_ALERT, SCRAP_ALERT, UNLIKE_ALERT, UNSCRAP_ALERT, RE_ISSUE_REQUEST } from './../reducer/user';
 import { LIKE_CONTENT_SUCCESS, LIKE_CONTENT_FAILURE, UNLIKE_CONTENT_SUCCESS, UNLIKE_CONTENT_FAILURE, SCRAP_CONTENT_SUCCESS, SCRAP_CONTENT_FAILURE, UNSCRAP_CONTENT_SUCCESS, UNSCRAP_CONTENT_FAILURE } from './../reducer/reaction';
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
@@ -9,9 +9,8 @@ import { LIKE_USERPOST_CONTENT, SCRAP_USERPOST, UNLIKE_USERPOST_CONTENT, UNSCRAP
 import { LIKE_EXTRAPOST_CONTENT, SCRAP_EXTRAPOST, UNLIKE_EXTRAPOST_CONTENT, UNSCRAP_EXTRAPOST } from '../reducer/extra';
 import { getCookie } from '@/common/libs/Cookie';
 import { APIHost } from '@/common/api';
-import { UPDATE_POPUP } from '../reducer/popup';
+import { TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
-import { reIssueAction } from '@/common/defines/Action';
 
 function likePostAPI (param) {
   const data = {
@@ -125,8 +124,10 @@ function* LikePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -182,8 +183,10 @@ function* UnlikePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -240,8 +243,11 @@ function* ScrapPost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -298,8 +304,10 @@ function* UnscrapPost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.STATE_CONFLICT
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 

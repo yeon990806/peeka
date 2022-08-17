@@ -19,6 +19,10 @@
     border-radius: 15px;
     background-color: $content-background;
     overflow: hidden;
+    
+    &.block {
+      max-width: 480px;
+    }
 
     article {
       padding: 14px 16px 15px;

@@ -58,8 +58,6 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchVideoLoading = false
       draft.fetchVideoSuccess = true
 
-      console.log(action.data.category, action.data.list)
-
       switch (action.data.category) {
         case 'MV':
           draft.movieVideoList = [ ...action.data.list ]

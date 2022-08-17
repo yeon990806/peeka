@@ -9,6 +9,8 @@ import VideoList from "@/components/VideoList";
 import { FETCH_ALERT_REQUEST } from "@/store/reducer/user";
 import { StateType } from "@/common/defines/Store";
 import CuratorList from "@/components/CuratorList";
+import SignInPopup from "@/components/SignInPopup";
+import { TOGGLE_SIGN_IN_POPUP } from "@/store/reducer/popup";
 
 interface AppLayoutProps {
   children: React.ReactNode,
@@ -18,6 +20,7 @@ const AppLayout = (props: AppLayoutProps) => {
   const dispatch = useDispatch()
   const container = createRef<HTMLDivElement>()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
+  const signInPopupDisplay = useSelector((state: StateType) => state.popup.signInPopupDisplay)
   const [isShowing, setIsShowing] = useState<boolean>(false)
   const [scrollY, setScrollY] = useState<number>(0)
   const wideScreen = useMediaQuery({
@@ -31,8 +34,11 @@ const AppLayout = (props: AppLayoutProps) => {
     }
   })
 
+  const toggleSignInPopup = () => dispatch({
+    type: TOGGLE_SIGN_IN_POPUP,
+  })
+
   const onFollow = () => {
-    console.log(container.current.scrollTop)
     setScrollY(container.current.scrollTop)
   }
 
@@ -77,6 +83,10 @@ const AppLayout = (props: AppLayoutProps) => {
       </div>
       { wideScreen && <VideoList /> }
       { wideScreen && <CuratorList /> }
+      <SignInPopup
+        display={ signInPopupDisplay }
+        onClose={ toggleSignInPopup }
+      />
     </div>
   )
 }

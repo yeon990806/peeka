@@ -1,14 +1,14 @@
 import { DELETE_EXTRAPOST } from './../reducer/extra';
 import { StorePostType } from '@/common/defines/Store';
 import { DELETE_MAINPOST, UPDATE_MAINPOST } from './../reducer/post';
-import { UPDATE_USERPOST, UPDATE_ALERT, DELETE_USERPOST, DELETE_ALERT } from './../reducer/user';
+import { UPDATE_USERPOST, UPDATE_ALERT, DELETE_USERPOST, DELETE_ALERT, RE_ISSUE_REQUEST } from './../reducer/user';
 import { APIHost } from '@/common/api';
 import { CategoryType } from "@/common/defines/Category";
 import { PopupCode } from '@/common/defines/Popup';
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { UPDATE_POPUP } from '../reducer/popup';
+import { TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
@@ -25,7 +25,6 @@ import {
   UPDATE_POST_SUCCESS,
 } from "../reducer/post";
 import { UPDATE_EXTRAPOST } from '../reducer/extra';
-import { reIssueAction } from '@/common/defines/Action';
 
 function fetchPostAPI (param) {
   return axios.get(`${ APIHost }/public/board/post?id=${ param.id }&paging_number=0&paging_size=20&category_code=${ param.category_code ? param.category_code === CategoryType.전체 ? "" : param.category_code : "" }`)
@@ -37,6 +36,7 @@ function addPostAPI (param) {
   let dataset = {
     category_code: param.category_code,
     category: param.category,
+    member_image: param.memberImage,
     contents: param.contents
   }
 
@@ -63,6 +63,7 @@ function updatePostAPI (param) {
     id: param.id,
     category_code: param.category_code,
     category: param.category,
+    member_image: param.memberImage,
     contents: param.contents,
     deleted_images: param.deleted_images,
   }
@@ -136,8 +137,16 @@ function* AddPost (action) {
       error: err,
     })
 
-    if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    const _err = err
+
+    if (err.response.status === 401)
+      yield put({
+        type: RE_ISSUE_REQUEST,
+      })
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -198,8 +207,10 @@ function* UpdatePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -256,8 +267,10 @@ function* DeletePost (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
-    else if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    else if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 

@@ -1,24 +1,3 @@
-import { PopupCode } from '@/common/defines/Popup';
-import { openPopup } from '@/store/reducer/popup';
-import { useDispatch } from 'react-redux';
-import { getCookie } from '@/common/libs/Cookie';
-import axios from "axios"
-import { APIHost } from "../api"
-import Router from 'next/router';
-
-export async function reIssueAction () {
-  try {
-    const result = await axios.post(`${ APIHost }/public/auth/reissue`, {
-      access_token: getCookie('accessToken'),
-      refresh_token: getCookie('refreshToken')
-    }) 
-  } catch (err) {
-    const dispatch = useDispatch()
-
-    dispatch(openPopup(PopupCode.REQUEST_SIGN_IN, Router.push('/signin')))
-  }
-}
-
 export function updatePostAction (data, target, callback?) {
   let idx = target.findIndex(v => v.id === data.id)
 

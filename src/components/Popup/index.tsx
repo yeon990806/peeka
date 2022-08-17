@@ -1,11 +1,12 @@
 import Button from "../Button";
 import style from "./style.module.scss"
 import { useCallback } from 'react';
+import classNames from "classnames";
 
 interface PopupProps {
   display: boolean;
   content?: string | React.ReactNode;
-  type: "alert" | "confirm" | "input",
+  type: "alert" | "confirm" | "input" | "full" | "cancel",
   buttonAlign: "left" | "center" | "right"
   placeholder?: string;
   submitText?: string;
@@ -13,6 +14,7 @@ interface PopupProps {
   onClick?: () => void;
   onCancel?: () => void;
   confirmDisable?: boolean;
+  block?: boolean
 }
 
 const Popup = (props: PopupProps) => {
@@ -24,11 +26,11 @@ const Popup = (props: PopupProps) => {
   
   return (
     <div className={ style.Popup }>
-      <div className={ style.PopupModal }>
+      <div className={ classNames(style.PopupModal, props.block && style.block) }>
         <article>
           { props.content }
         </article>
-        <footer className={ props.buttonAlign && style[props.buttonAlign] }>
+        { props.type !== 'full' && <footer className={ props.buttonAlign && style[props.buttonAlign] }>
           { props.type !== 'alert' && <Button
             type="text"
             theme="light"
@@ -36,14 +38,14 @@ const Popup = (props: PopupProps) => {
           >
             취소
           </Button> }
-          { !props.confirmDisable && <Button
+          { (!props.confirmDisable && props.type !== "cancel") && <Button
             type="text"
             theme="primary"
             onClick={ () => props.onClick() }
           >
             { props.submitText || props.type === "input" ? "저장" : "확인" }
           </Button> }
-        </footer>
+        </footer> }
       </div>
     </div>
   )

@@ -1,12 +1,12 @@
+import { RE_ISSUE_FAILURE, RE_ISSUE_REQUEST, RE_ISSUE_SUCCESS } from './../reducer/user';
 import { APIHost } from '@/common/api';
-import { reIssueAction } from '@/common/defines/Action';
 import { PopupCode } from '@/common/defines/Popup';
 import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
 import router from 'next/router';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects'
 import { getCookie, setCookie } from '../../common/libs/Cookie';
-import { openPopup, UPDATE_POPUP } from '../reducer/popup';
+import { openPopup, TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
 import { 
   FETCH_USERINFO_REQUEST,
   FETCH_USERINFO_FAILURE,
@@ -65,7 +65,7 @@ function signUpAPI (param) {
   })
 }
 
-export function onSlientRefresh () {
+export async function onSilentRefresh () {
   return axios.post(`${ APIHost }/public/auth/reissue`, {
     access_token: getCookie('accessToken'),
     refresh_token: getCookie('refreshToken')
@@ -114,8 +114,39 @@ function* FetchUserInfo () {
       type: FETCH_USERINFO_FAILURE,
       data: err
     })
-    if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+    if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
+  }
+}
+
+function* ReIssueAction (action) {
+  try {
+    const result = yield call(onSilentRefresh)
+
+    if (result.status === 200) {
+      yield put({
+        type: RE_ISSUE_SUCCESS
+      })
+    }
+  } catch (err) {
+    yield put({
+      type: RE_ISSUE_FAILURE,
+      data: {
+        callback: action.data.callback,
+      },
+      error: err,
+    })
+    if (err.response.status === 404) {
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.REQUEST_SIGN_IN
+        }
+      })
+    }
   }
 }
 
@@ -124,7 +155,7 @@ function* SignIn (action) {
     const result = yield call(signInAPI, action.data)
 
     if (result.status === 200) {
-      if (action.alwaysSignIn) setTimeout(onSlientRefresh, JWT_EXPIRY_TIME - 60000)
+      if (action.alwaysSignIn) setTimeout(onSilentRefresh, JWT_EXPIRY_TIME - 60000)
       yield put({
         type: SIGN_IN_SUCCESS,
         data: result.data
@@ -226,6 +257,11 @@ function* FetchUserPost (action) {
       type: USER_POST_FAILURE,
       data: err.response.data,
     })
+
+    if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -242,8 +278,11 @@ function* FetchAlert (action) {
       type: FETCH_ALERT_FAILURE,
       data: err
     })
-    if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+
+    if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
@@ -264,13 +303,20 @@ function* ReadAlert (action) {
       type: READ_ALERT_FAILURE,
       error: err
     })
-    if (err.response.data.code === 'Unauthorized')
-      reIssueAction()
+
+    if (err.response.status === 401)
+      yield put({
+        type: TOGGLE_SIGN_IN_POPUP,
+      })
   }
 }
 
 function* watchFetchUserInfo () {
   yield takeLatest(FETCH_USERINFO_REQUEST, FetchUserInfo)
+}
+
+function* watchReIssue () {
+  yield takeLatest(RE_ISSUE_REQUEST, ReIssueAction)
 }
 
 function* watchSignIn () {
@@ -300,6 +346,7 @@ function* watchReadAlert () {
 export default function* userSaga () {
   yield all([
     fork(watchFetchUserInfo),
+    fork(watchReIssue),
     fork(watchSignIn),
     fork(watchSignUp),
     fork(watchSignOut),

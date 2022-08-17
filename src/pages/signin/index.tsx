@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
-import { LayoutType } from '../_app'
 import { SIGN_IN_REQUEST, TOGGLE_ALWAYS_SIGN_IN } from '@/store/reducer/user';
 import { useCallback } from 'react';
 import { StateType } from '@/common/defines/Store';
@@ -14,8 +13,15 @@ import GoogleButton from '@/components/GoogleButton';
 
 import style from './style.module.scss'
 import Loader from '@/components/Loader';
+import classNames from 'classnames';
 
-const SignIn = () => {
+interface SignInProps {
+  popup?: boolean
+}
+
+let isPopup
+
+const SignIn = (props: SignInProps) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const rememberUser = useSelector((state: StateType) => state.user.alwaysSignIn)
@@ -42,8 +48,12 @@ const SignIn = () => {
     })
   }
 
+  useEffect(() => {
+    if (props.popup) isPopup = true
+  }, [props.popup])
+
   return (
-    <div className={ style.SignInContainer }>
+    <div className={  classNames(style.SignInContainer, props.popup && style.SignInPopup) }>
       <div className={ style.SignIn }>
         <Link href="/community">
           <a className={ style.Logo }>Peeka</a>
@@ -114,6 +124,6 @@ const SignIn = () => {
   )
 }
 
-SignIn.getLayout = LayoutType.Sign
+SignIn.getLayout = 1
 
 export default SignIn

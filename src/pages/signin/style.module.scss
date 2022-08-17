@@ -6,6 +6,26 @@
   display: grid;
   grid-template-rows: 1fr auto;
   padding: 32px 32px 48px;
+
+  &.SignInPopup {
+    height: auto;
+    overflow-y: auto;
+    padding: 12px;
+
+    .SignIn {
+      .SignInForm {
+        margin-top: 24px;
+
+        .SignInButton {
+          margin-top: 16px;
+        }
+
+        .SignInText {
+          margin: 12px 0;
+        }
+      }
+    }
+  }
 }
 
 .SignIn {

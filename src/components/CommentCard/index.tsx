@@ -24,6 +24,7 @@ interface CommentCardProps {
 const CommentCard = (props: CommentCardProps) => {
   const dispatch = useDispatch()
   const userId = useSelector((state: StateType) => state.user.userInfo.id)
+  const userImage = useSelector((state: StateType) => state.user.userInfo.image)
   const addSuccess = useSelector((state: StateType) => state.comment.addCommentLoading)
   const modifySuccess = useSelector((state: StateType) => state.comment.updateCommentSuccess)
   const [activeModify, setActiveModify] = useState<boolean>(false)
@@ -77,6 +78,7 @@ const CommentCard = (props: CommentCardProps) => {
       dispatch({
         type: UPDATE_COMMENT_REQUEST,
         data: {
+          memberImage: userImage.uploadedFileKey || "",
           postId: props.data.post_id,
           id: props.data.id,
           contents: inputValue,

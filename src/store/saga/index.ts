@@ -1,4 +1,4 @@
-import { all, fork } from "redux-saga/effects"
+import { all, fork, put } from "redux-saga/effects"
 import postSaga from "./post"
 import userSaga from "./user"
 import commentSaga from "./comment"

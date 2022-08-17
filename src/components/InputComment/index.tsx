@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ADD_COMMENT_REQUEST } from '@/store/reducer/comment';
 import { ADD_REPLY_REQUEST } from '../../store/reducer/reply';
 import Button from "../Button";
 import Textarea from "../Textarea";
 import style from "./style.module.scss"
-import { StorePostType } from "@/common/defines/Store";
+import { StateType, StorePostType } from "@/common/defines/Store";
 
 interface InputCommentProps {
   onSubmit?: () => void;
@@ -21,6 +21,7 @@ interface InputCommentProps {
 
 const InputComment = (props: InputCommentProps) => {
   const dispatch = useDispatch()
+  const useImage = useSelector((state: StateType) => state.user.userInfo.image)
   const [inputValue, setInputValue] = useState<string>('')
 
   const onInputContent = useCallback((v: string) => setInputValue(v), [inputValue])
@@ -29,6 +30,7 @@ const InputComment = (props: InputCommentProps) => {
       dispatch({
         type: ADD_REPLY_REQUEST,
         data: {
+          memberImage: useImage.uploadedFileURL || "",
           postId: props.postId,
           commentId: props.commentId,
           contents: inputValue,
@@ -45,6 +47,7 @@ const InputComment = (props: InputCommentProps) => {
       dispatch({
         type: ADD_COMMENT_REQUEST,
         data: {
+          memberImage: useImage.uploadedFileURL || "",
           postId: props.postId,
           contents: inputValue,
           author: props.author,

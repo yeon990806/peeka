@@ -3,7 +3,7 @@ import { ActionContentType, PostType, StateType, StorePostType } from "@/common/
 import { PopupItemProps } from '@/components/MenuPopup';
 import { IsDesktop } from "@/common/hooks/breakpoints";
 import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
-import { Ref, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router'
 import classnames from "classnames"
