@@ -61,7 +61,7 @@ const InputPost = (props: InputPostProps) => {
     const dataTransfer = new DataTransfer()
     let fileData = fileList ? Array.from(fileList).concat(Array.from(e.target.files)) : Array.from(e.target.files)
     
-    fileData = fileData.sort((a, b) => (a as File).lastModified - (b as File).lastModified)
+    fileData = fileData.sort((a, b) => (b as File).lastModified - (a as File).lastModified)
     
     fileData.forEach((file: File) => {
       if (dataTransfer.files.length < 6 - postImage.length) {
