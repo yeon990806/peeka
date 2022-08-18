@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
 import { SIGN_IN_REQUEST, TOGGLE_ALWAYS_SIGN_IN } from '@/store/reducer/user';
@@ -30,6 +30,9 @@ const SignIn = (props: SignInProps) => {
   const [inputPassword, setInputPassword] = useState<string>(''); // 비밀번호
   const [validateError, setValidateError] = useState<boolean>(false); // 유효성 체크 에러 여부
 
+  const LogoStyle = useMemo(() => ({
+    backgroundImage: "url('/images/peeka-logo.svg')"
+  }), [])
 
   const requestSignIn = useCallback(() => {
     if ((inputEmail.length > 0 && !validateError) && inputPassword.length > 0)
@@ -56,7 +59,7 @@ const SignIn = (props: SignInProps) => {
     <div className={  classNames(style.SignInContainer, props.popup && style.SignInPopup) }>
       <div className={ style.SignIn }>
         <Link href="/community">
-          <a className={ style.Logo }>Peeka</a>
+          <a className={ style.Logo } style={ LogoStyle } />
         </Link>
         <div className={ style.SignInForm }>
           <Input

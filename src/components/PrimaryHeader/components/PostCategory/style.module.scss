@@ -3,7 +3,7 @@
   grid-template-columns: repeat(5, 1fr);
 
   .CategoryButton {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   > button {
@@ -17,6 +17,10 @@
     display: inline-flex;
     grid-gap: 40px;
     grid-template-columns: auto;
+
+    .CategoryButton {
+      font-size: 18px;
+    }
 
     .FilterButton {
       width: 32px;

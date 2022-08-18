@@ -173,6 +173,10 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case RE_ISSUE_FAILURE:
       draft.reIssueLoading = false
       draft.reIssueError = action.error
+      
+      removeCookie('userInfo')
+      removeCookie('accessToken')
+      removeCookie('refreshToken')
 
       if (action.data.callback) action.data.callback()
 

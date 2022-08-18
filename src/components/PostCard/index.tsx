@@ -1,5 +1,6 @@
 import { getLongDateFormat } from '@/common/defines/Format';
-import { ActionContentType, PostType, StateType, StorePostType } from "@/common/defines/Store";
+import { PostType, StateType, StorePostType } from "@/common/defines/Store";
+import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
 import { PopupItemProps } from '@/components/MenuPopup';
 import { IsDesktop } from "@/common/hooks/breakpoints";
 import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
@@ -17,8 +18,7 @@ import MenuPopup from "../MenuPopup";
 import ReportPopup from "./components/ReportPopup";
 
 import style from "./style.module.scss"
-import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
-import UpdatePostPopup from './components/UpdatePostPopup';
+import InputPost from '../InputPost';
 interface PostProps {
   post: PostType,
   type: StorePostType,
@@ -32,15 +32,15 @@ const PostCard = (props: PostProps) => {
   const postLink = useRef(`${ location.origin }/community/${ props.post.id }`)
 
   const [displayReportPopup, setDisplayReportPopup] = useState<boolean>(false)
-  const [displayUpdatePopup, setDisplayUpdatePopup] = useState<boolean>(false)
   const [displayDeletePopup, setDisplayDeletePopup] = useState<boolean>(false)
+  const [activeModify, setActiveModify] = useState<boolean>(false)
   const [displayCommentContainer, setDisplayCommentContainer] = useState<boolean>(props.type === StorePostType.Alert)
   const [postMenuList, setPostMenuList] = useState<PopupItemProps[]>()
 
   const hashtagRegexp = new RegExp(/#[^\s#]+/g)
 
   const toggleDisplayReportPopup = useCallback(() => setDisplayReportPopup(prev => !prev), [displayReportPopup])
-  const toggleDisplayUpdatePopup = useCallback(() => setDisplayUpdatePopup(prev => !prev), [displayUpdatePopup])
+  const toggleModify = useCallback(() => setActiveModify(prev => !prev), [activeModify])
   const toggleDisplayDeletePopup = useCallback(() => setDisplayDeletePopup(prev => !prev), [displayDeletePopup])
 
   const getUserPost = useCallback(() => {
@@ -109,7 +109,7 @@ const PostCard = (props: PostProps) => {
         },
         {
           text: "수정",
-          onClick: () => toggleDisplayUpdatePopup()
+          onClick: () => toggleModify()
         },
         {
           text: "삭제",
@@ -135,12 +135,6 @@ const PostCard = (props: PostProps) => {
         postId={ props.post.id }
         display={ displayReportPopup }
         onPrev = { () => toggleDisplayReportPopup() }
-      />
-      <UpdatePostPopup
-        post={ props.post }
-        postType={ props.type }
-        display={ displayUpdatePopup }
-        onPrev={ toggleDisplayUpdatePopup }
       />
       <DeletePostPopup
         postId={ props.post.id }
@@ -185,13 +179,21 @@ const PostCard = (props: PostProps) => {
               <img role="presentation" src="/images/more.svg" alt="more" tabIndex={-1} />
             </MenuPopup>
           </div>
-          <article className={ style.PostContent }>
-            { props.post.contents.split("\n").map((line, idx) => (
-              <div key={ `${props.post.id}-${idx}` }>
-                {line}
-              </div>
-            )) }
-          </article>
+          { activeModify
+            ? <InputPost
+              modify
+              post={ props.post }
+              postType={ props.type }
+              onSubmit={ toggleModify }
+            />
+            : <article className={ style.PostContent }>
+              { props.post.contents.split("\n").map((line, idx) => (
+                <div key={ `${props.post.id}-${idx}` }>
+                  {line}
+                </div>
+              )) }
+            </article>
+          }
         </div>
         <div className={ style.ImageContainer }>
           <ImageSlide

@@ -70,9 +70,9 @@ function updatePostAPI (param) {
 
   for (let key in param.images) {
     if (param.images[key])
-      f.append('images', param.images[key])
+    f.append('images', param.images[key])
     else
-      continue
+    continue
   }
   f.append('contents', new Blob([ JSON.stringify(dataset) ], { type: 'application/json' }))
 

@@ -14,7 +14,7 @@ import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
 interface InputPostProps {
   placeholder?: string;
-  popup?: boolean;
+  modify?: boolean;
   post?: PostType;
   postIdx?: number;
   row?: number;
@@ -169,29 +169,32 @@ const InputPost = (props: InputPostProps) => {
   }, [fileList])
 
   useEffect(() => {
-    const category = selectArray.find(v => v.value === globalCategory)
-    
-    setPostCategory(category)
+    if (!props.modify) {
+      const category = selectArray.find(v => v.value === globalCategory)
+      
+      setPostCategory(category)
+    }
   }, [globalCategory])
 
   return (
     <form
       className={ classNames(style.InputPost,
-        props.popup && style.InputPostPopup,
+        props.modify && style.ModifyPost,
         !mobile && style.DesktopInputPost
       ) }
       encType="multipart/form-data"
     >
       <div className={ style.InputFormContainer }>
-        <UserProfile
+        { !props.modify && <UserProfile
           size="xs"
           profileImage={ userImage ? userImage.uploadedFileURL : '' }
-        />
+        /> }
         <Textarea
           block
           borderless
           paddingless
-          row={ props.row || 1 }
+          row={ props.row || props.modify ? 5 : 1 }
+          fixedHeight={ props.modify ? true : false }
           value={ inputValue }
           additionalClass={ style.InputForm }
           onInput={ (v: string) => onInputContent(v) }
@@ -213,6 +216,14 @@ const InputPost = (props: InputPostProps) => {
           <Button type="icon" onClick={ (e) => onClickImageUpload(e) }>
             <img src="/images/image-upload.svg" tabIndex={-1} />
           </Button>
+          { props.modify && <Button
+            type="round"
+            theme="gray"
+            onClick={ props.onSubmit }
+            additionalClass={ style.CancelButton }
+          >
+            취소
+          </Button> }
           <Button
             type="round"
             theme="primary"
@@ -220,7 +231,7 @@ const InputPost = (props: InputPostProps) => {
             onClick={ () => onSubmitPost() }
             additionalClass={ style.PostSubmitButton }
           >
-            등록
+            { props.modify ? '수정' : '등록' }
           </Button>
         </div>
       </div>

@@ -33,13 +33,18 @@
 
   .Logo {
     display: inline-block;
+    width: 120px;
+    height: 120px;
     color: $primary;
     font-size: 40px;
     font-weight: bold;
+    background-size: 280%;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   .SignInForm {
-    margin-top: 48px;
+    margin-top: 36px;
 
     .SignInButton {
       margin-top: 32px;

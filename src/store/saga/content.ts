@@ -53,7 +53,6 @@ function* FetchVideo (action) {
       }
     })
   } catch (err) {
-    debugger
     yield put({
       type: FETCH_VIDEO_FAILURE,
       error: err
