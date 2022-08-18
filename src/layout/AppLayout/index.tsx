@@ -28,12 +28,12 @@ const AppLayout = (props: AppLayoutProps) => {
     query: '(min-width: 1400px)',
   })
 
-  // const fetchAlertList = () => dispatch({
-  //   type: FETCH_ALERT_REQUEST,
-  //   data: {
-  //     id: (userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[userInfo.alertList.length - 1].id : ''
-  //   }
-  // })
+  const fetchAlertList = () => dispatch({
+    type: FETCH_ALERT_REQUEST,
+    data: {
+      id: (userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[userInfo.alertList.length - 1].id : ''
+    }
+  })
 
   const toggleSignInPopup = () => dispatch({
     type: TOGGLE_SIGN_IN_POPUP,
@@ -56,7 +56,7 @@ const AppLayout = (props: AppLayoutProps) => {
     // let watch = null
 
     setIsShowing(true)
-    // if (userInfo.id) fetchAlertList()
+    if (userInfo.id) fetchAlertList()
     // if (container.current) {
     //   const watch = () => {
     //     container.current.addEventListener('scroll', onFollow)
@@ -83,7 +83,7 @@ const AppLayout = (props: AppLayoutProps) => {
         </div>
       </div>
       {/* { wideScreen && <VideoList /> } */}
-      { wideScreen && <CuratorList /> }
+      {/* { wideScreen && <CuratorList /> } */}
       <SignInPopup
         display={ signInPopupDisplay }
         onClose={ toggleSignInPopup }
