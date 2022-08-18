@@ -80,6 +80,7 @@ const Community = () => {
           ? <HashContainer />
           : <>
             { isLogin.id && <InputPost
+              additionalClass={ style.CommunityInputPost }
               placeholder="현재 떠오르는 생각들을 적어주세요"
             /> } 
           </> 

@@ -12,7 +12,9 @@ import { encodeFileToBase64 } from "@/common/defines/Format";
 import { ImageType, PostType, StateType, StorePostType } from "@/common/defines/Store";
 import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
-interface InputPostProps {
+import { DefaultProps } from "@/common/defines/Props";
+
+interface InputPostProps extends DefaultProps {
   placeholder?: string;
   modify?: boolean;
   popup?: boolean;
@@ -180,6 +182,7 @@ const InputPost = (props: InputPostProps) => {
   return (
     <form
       className={ classNames(style.InputPost,
+        props.additionalClass,
         props.modify && style.ModifyPost,
         props.popup && style.PopupPost,
         !mobile && style.DesktopInputPost
