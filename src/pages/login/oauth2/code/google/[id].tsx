@@ -2,10 +2,8 @@ import { authEmail } from '@/common/api'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { SET_SIGN_UP_PARAMETER } from '@/store/reducer/user'
 
 const auth = () => {
-  const dispatch = useDispatch()
 
   const getGoogleEmail = async (authCode) => {
     try {

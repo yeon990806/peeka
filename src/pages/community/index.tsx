@@ -70,44 +70,50 @@ const Community = () => {
   }, [postCategory])
 
   if (!showing) return <></>
-  return (
-    <div className={ style.Community }>
-      { postLoading && <Loader /> }
-      { mobile
-        ? <HashContainer />
-        : <>
-          { isLogin.id && <InputPost
-            placeholder="현재 떠오르는 생각들을 적어주세요"
-          /> } 
-        </> 
-      }
-      <div className={ style.CommunityPost }>
-        { postList.length > 0 && <PostContainer
-          fetchDone={ postDone }
-          fetchList={() => fetchPost(false, postLoading)}
-          fetchLoading={ postLoading }
-          postList={postList}
-          postType={ StorePostType.MainPost }
-        /> }
-      </div>
-      { mobile && isLogin.id && <PostButton
-        onClick={ () => toggleDisplayInputPopup() }
-      /> }
-      <Screen
-        display={ displayInputPopup }
-        content={
-          <>
-            <InputPost
-              popup
+  
+  try {
+
+    return (
+      <div className={ style.Community }>
+        { postLoading && <Loader /> }
+        { mobile
+          ? <HashContainer />
+          : <>
+            { isLogin.id && <InputPost
               placeholder="현재 떠오르는 생각들을 적어주세요"
-              onSubmit={ () => toggleDisplayInputPopup() }
-            />
-          </>
+            /> } 
+          </> 
         }
-        onCancel={ () => toggleDisplayInputPopup() }
-      />
-    </div>
-  );
+        <div className={ style.CommunityPost }>
+          { postList.length > 0 && <PostContainer
+            fetchDone={ postDone }
+            fetchList={() => fetchPost(false, postLoading)}
+            fetchLoading={ postLoading }
+            postList={postList}
+            postType={ StorePostType.MainPost }
+          /> }
+        </div>
+        { mobile && isLogin.id && <PostButton
+          onClick={ () => toggleDisplayInputPopup() }
+        /> }
+        <Screen
+          display={ displayInputPopup }
+          content={
+            <>
+              <InputPost
+                popup
+                placeholder="현재 떠오르는 생각들을 적어주세요"
+                onSubmit={ () => toggleDisplayInputPopup() }
+              />
+            </>
+          }
+          onCancel={ () => toggleDisplayInputPopup() }
+        />
+      </div>
+    );
+  } catch (err) {
+    console.error(err)
+  }
 }
 
 Community.getLayout = LayoutType.App
