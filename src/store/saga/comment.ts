@@ -170,7 +170,7 @@ function* AddComment (action) {
       type: ADD_COMMENT_FAILURE,
       data: err
     })
-    if (err.response.status === 401)
+    if (err.response && err.rxesponse.status === 401)
       yield put({
         type: TOGGLE_SIGN_IN_POPUP,
       })
@@ -233,15 +233,18 @@ function* UpdateComment (action) {
       data: err.response.data
     })
 
-    if (err.response.data.code === 'FORBIDDEN_ACCESS')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.FORBIDDEN_ACCESS
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    if (err.response) {
+      if (err.response.data.code === 'FORBIDDEN_ACCESS')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.FORBIDDEN_ACCESS
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
+
   }
 }
 
@@ -296,15 +299,17 @@ function* DeleteComment (action) {
       data: err.response.data
     })
 
-    if (err.response.data.code === 'FORBIDDEN_ACCESS')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.FORBIDDEN_ACCESS
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    if (err.response) {
+      if (err.response.data.code === 'FORBIDDEN_ACCESS')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.FORBIDDEN_ACCESS
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import { InputStepType, SignupStepType, userType } from "@/common/defines/Signup";
+import { SignupStepType, userType } from "@/common/defines/Signup";
 import { Mobile, Desktop, IsDesktop } from "@/common/hooks/breakpoints";
 import Button from "@/components/Button";
 import Link from "next/link";
@@ -107,6 +107,9 @@ const SignUp = () => {
   }
 
   const onPrevClickHandler = () => {
+    if (googleEmail.email)
+      return router.push('/signin')
+      
     switch (pageStep) {
       case SignupStepType.EmailAuth:
         return router.push('/signin')
@@ -161,10 +164,8 @@ const SignUp = () => {
     if (pageStep === SignupStepType.EmailAuth) {
       return setEnableClick( googleEmail.email ? true : (sentCode && authCode.length === 4))
     } else {
-      return setEnableClick(userEmail && username && password && !inputError && birthDate && gender >= 0 && serviceTerms && privacyPolicy)
+      return setEnableClick(userEmail && username && (googleEmail.email || password) && !inputError && birthDate && gender >= 0 && serviceTerms && privacyPolicy)
     }
-
-    setEnableClick(false)
   }, [pageStep, userEmail, sentCode, authCode, googleEmail, userEmail, username, password, birthDate, gender, serviceTerms, privacyPolicy, inputError])
 
   const pagecontent = () => {
@@ -191,6 +192,7 @@ const SignUp = () => {
           privacyPolicy={ privacyPolicy }
           receiveMarketing={ receiveMarketing }
           passwordError={ inputError }
+          googleEmail={ googleEmail.email ? true : false }
           setUserName={ (v) => onChangeUserName(v) }
           setPassword={ (v) => onChangePassword(v) }
           setBirthDate={ (v) => onChangeBirthDate(v) }

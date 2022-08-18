@@ -119,15 +119,17 @@ function* LikePost (action) {
       error: err,
     })
 
-    if (err.response.data.code === 'STATE_CONFLICT')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.STATE_CONFLICT
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    if (err.response) {
+      if (err.response.data.code === 'STATE_CONFLICT')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.STATE_CONFLICT
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 
@@ -178,15 +180,17 @@ function* UnlikePost (action) {
       error: err.response.data,
     })
 
-    if (err.response.data.code === 'STATE_CONFLICT')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.STATE_CONFLICT
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    if (err.response) {
+      if (err.response.data.code === 'STATE_CONFLICT')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.STATE_CONFLICT
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 
@@ -238,16 +242,18 @@ function* ScrapPost (action) {
       error: err
     })
 
-    if (err.response.data.code === 'STATE_CONFLICT')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.STATE_CONFLICT
-      })
-
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    if (err.response) {
+      if (err.response.data.code === 'STATE_CONFLICT')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.STATE_CONFLICT
+        })
+  
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 
@@ -299,15 +305,17 @@ function* UnscrapPost (action) {
       error: err
     })
 
-    if (err.response.data.code === 'STATE_CONFLICT')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.STATE_CONFLICT
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    if (err.response) {
+      if (err.response.data.code === 'STATE_CONFLICT')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.STATE_CONFLICT
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 

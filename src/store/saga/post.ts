@@ -137,16 +137,16 @@ function* AddPost (action) {
       error: err,
     })
 
-    const _err = err
-
-    if (err.response.status === 401)
-      yield put({
-        type: RE_ISSUE_REQUEST,
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    if (err.response) {
+      if (err.response.status === 401)
+        yield put({
+          type: RE_ISSUE_REQUEST,
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 
@@ -202,15 +202,18 @@ function* UpdatePost (action) {
       type: UPDATE_POST_FAILURE,
       data: err
     })
-    if (err.response.data.code === 'FORBIDDEN_ACCESS')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.FORBIDDEN_ACCESS
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+
+    if (err.response) {
+      if (err.response.data.code === 'FORBIDDEN_ACCESS')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.FORBIDDEN_ACCESS
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 
@@ -262,15 +265,18 @@ function* DeletePost (action) {
       type: DELETE_POST_FAILURE,
       error: err
     })
-    if (err.response.data.code === 'FORBIDDEN_ACCESS')
-      yield put({
-        type: UPDATE_POPUP,
-        code: PopupCode.FORBIDDEN_ACCESS
-      })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+
+    if (err.response) {
+      if (err.response.data.code === 'FORBIDDEN_ACCESS')
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.FORBIDDEN_ACCESS
+        })
+      else if (err.response.status === 401)
+        yield put({
+          type: TOGGLE_SIGN_IN_POPUP,
+        })
+    }
   }
 }
 

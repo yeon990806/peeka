@@ -114,7 +114,7 @@ function* FetchUserInfo () {
       type: FETCH_USERINFO_FAILURE,
       data: err
     })
-    if (err.response.status === 401)
+    if (err.response && err.response.status === 401)
       yield put({
         type: TOGGLE_SIGN_IN_POPUP,
       })
@@ -138,7 +138,8 @@ function* ReIssueAction (action) {
       },
       error: err,
     })
-    if (err.response.status === 404) {
+
+    if (err.response && err.response.status === 404) {
       yield put({
         type: UPDATE_POPUP,
         data: {
@@ -174,23 +175,22 @@ function* SignIn (action) {
       error: err
     })
 
-    
-    // if (err.response.data.code === 'NOT_FOUND')
-    //   yield put({
-    //     type: UPDATE_POPUP,
-    //     data: {
-    //       display: true,
-    //       code: PopupCode.NOT_FOUND
-    //     }
-    //   })
-    // else
-    //   yield put({
-    //     type: UPDATE_POPUP,
-    //     data: {
-    //       display: true,
-    //       code: PopupCode.FORBIDDEN_ACCESS
-    //     }
-    //   })
+    if (err.response && err.response.data.code === 'NOT_FOUND')
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.NOT_FOUND
+        }
+      })
+    else
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.FORBIDDEN_ACCESS
+        }
+      })
   }
 }
 
@@ -258,7 +258,7 @@ function* FetchUserPost (action) {
       data: err.response.data,
     })
 
-    if (err.response.status === 401)
+    if (err.response && err.response.status === 401)
       yield put({
         type: TOGGLE_SIGN_IN_POPUP,
       })
@@ -279,7 +279,7 @@ function* FetchAlert (action) {
       data: err
     })
 
-    if (err.response.status === 401)
+    if (err.response && err.response.status === 401)
       yield put({
         type: TOGGLE_SIGN_IN_POPUP,
       })
@@ -304,7 +304,7 @@ function* ReadAlert (action) {
       error: err
     })
 
-    if (err.response.status === 401)
+    if (err.response && err.response.status === 401)
       yield put({
         type: TOGGLE_SIGN_IN_POPUP,
       })

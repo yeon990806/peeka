@@ -22,6 +22,7 @@ interface InputInfoProps {
   serviceTerms: boolean;
   privacyPolicy: boolean;
   receiveMarketing: boolean;
+  googleEmail: boolean;
 
   setUserName: (v: string) => void;
   setPassword: (v: string) => void;
@@ -85,7 +86,7 @@ const InputInfo = (props: InputInfoProps) => {
               }
             ] }
           />
-          <Input
+          { !props.googleEmail && <Input
             value={ props.password }
             type="password"
             togglePassword
@@ -107,7 +108,7 @@ const InputInfo = (props: InputInfoProps) => {
               }
             ]}
             onInput={ (v) => props.setPassword(v) }
-          />
+          /> }
           <Input
             value={ props.birthDate }
             type="text"
