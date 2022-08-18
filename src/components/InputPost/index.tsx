@@ -61,13 +61,16 @@ const InputPost = (props: InputPostProps) => {
     const dataTransfer = new DataTransfer()
     let fileData = fileList ? Array.from(fileList).concat(Array.from(e.target.files)) : Array.from(e.target.files)
     
-    fileData = fileData.sort((a, b) => (b as File).lastModified - (a as File).lastModified)
     
     fileData.forEach((file: File) => {
       if (dataTransfer.files.length < 6 - postImage.length) {
+        file.idx = fileData.findIndex((v: File) => v.lastModified === file.lastModified).toString()
+
         dataTransfer.items.add(file)
       }
     })
+
+    fileData = fileData.sort((a, b) => parseInt((b as File).idx) - parseInt((a as File).idx))
 
     setFileList(dataTransfer.files)
   }, [fileList])
