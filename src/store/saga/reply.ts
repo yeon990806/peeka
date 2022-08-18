@@ -249,10 +249,10 @@ function* UpdateReply (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    // else if (err.response.status === 401)
+    //   yield put({
+    //     type: TOGGLE_SIGN_IN_POPUP,
+    //   })
   }
 }
 
@@ -314,10 +314,10 @@ function* DeleteReply (action) {
         type: UPDATE_POPUP,
         code: PopupCode.FORBIDDEN_ACCESS
       })
-    else if (err.response.status === 401)
-      yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
-      })
+    // else if (err.response.status === 401)
+    //   yield put({
+    //     type: TOGGLE_SIGN_IN_POPUP,
+    //   })
   }
 }
 

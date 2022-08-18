@@ -175,22 +175,22 @@ function* SignIn (action) {
     })
 
     
-    if (err.response.data.code === 'NOT_FOUND')
-      yield put({
-        type: UPDATE_POPUP,
-        data: {
-          display: true,
-          code: PopupCode.NOT_FOUND
-        }
-      })
-    else
-      yield put({
-        type: UPDATE_POPUP,
-        data: {
-          display: true,
-          code: PopupCode.FORBIDDEN_ACCESS
-        }
-      })
+    // if (err.response.data.code === 'NOT_FOUND')
+    //   yield put({
+    //     type: UPDATE_POPUP,
+    //     data: {
+    //       display: true,
+    //       code: PopupCode.NOT_FOUND
+    //     }
+    //   })
+    // else
+    //   yield put({
+    //     type: UPDATE_POPUP,
+    //     data: {
+    //       display: true,
+    //       code: PopupCode.FORBIDDEN_ACCESS
+    //     }
+    //   })
   }
 }
 
