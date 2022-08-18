@@ -82,8 +82,8 @@ const AppLayout = (props: AppLayoutProps) => {
           { props.children }
         </div>
       </div>
-      {/* { wideScreen && <VideoList /> } */}
-      {/* { wideScreen && <CuratorList /> } */}
+      { wideScreen && <VideoList /> }
+      { wideScreen && <CuratorList /> }
       <SignInPopup
         display={ signInPopupDisplay }
         onClose={ toggleSignInPopup }

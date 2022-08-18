@@ -10,11 +10,7 @@ export const initialState: ContentStateType = {
   fetchVideoSuccess: false,
   fetchVideoError: false,
   curatorList: [],
-  allVideoList: [],
-  movieVideoList: [],
-  seriesVideoList: [],
-  toonVideoList: [],
-  novelVideoList: [],
+  videoList: [],
 }
 
 export const FETCH_CURATOR_REQUEST = 'FETCH_CURATOR_REQUEST'
@@ -57,30 +53,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case FETCH_VIDEO_SUCCESS:
       draft.fetchVideoLoading = false
       draft.fetchVideoSuccess = true
-
-      switch (action.data.category) {
-        case 'MV':
-          draft.movieVideoList = [ ...action.data.list ]
-          
-          break
-        case 'SE':
-          draft.seriesVideoList = [ ...action.data.list ]
-
-          break
-        case 'WT':
-          draft.toonVideoList = [ ...action.data.list ]
-
-          break
-        case 'WN':
-          draft.novelVideoList = [ ...action.data.list ]
-
-          break
-        default:
-          draft.allVideoList = [ ...action.data.list ]
-
-          break
-      }
-
+      draft.videoList = [ ...action.data.list ]
       break
     case FETCH_VIDEO_FAILURE:
       draft.fetchVideoLoading = false
