@@ -260,7 +260,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.signUpLoading = false
       draft.signUpError = action.error
 
-      break  
+      break
     case SIGN_OUT_REQUEST:
       draft.signOutLoading = false
       draft.signOutSuccess = false

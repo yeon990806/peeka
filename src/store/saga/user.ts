@@ -104,6 +104,12 @@ function readAlertAPI (param) {
 function* FetchUserInfo () {
   try {
     const result = yield call(fetchUserInfoAPI)
+    
+    if (!result.image || result.image.hasOwnProperty("uploadedFileURL"))
+      result.image = {
+        uploadedFileKey: "",
+        uploadedFileURL: "",
+      }
 
     yield put({
       type: FETCH_USERINFO_SUCCESS,
