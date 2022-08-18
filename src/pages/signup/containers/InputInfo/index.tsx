@@ -113,9 +113,9 @@ const InputInfo = (props: InputInfoProps) => {
             value={ props.birthDate }
             type="text"
             inputmode="numeric"
-            placeholder="생년월일"
+            placeholder="생년월일 6자리"
             maxLength={6}
-            description="예: 000101"
+            description="예: 000101, 900304"
             validate={[
               (v: string) => {
                 const validDate = /^\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$/

@@ -59,7 +59,9 @@ export function addReplyAction ({ postId, commentId, list }, target, callback?) 
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
 
-  comment.reply_list = [ ...comment.reply_list, ...list ]
+  const reply_list = comment.reply_list
+
+  comment.reply_list = reply_list.push([ ...list ])
   comment.reply_count += 1
 
   if (callback) callback()
