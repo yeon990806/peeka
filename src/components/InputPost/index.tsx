@@ -15,6 +15,7 @@ import { PopupCode } from "@/common/defines/Popup";
 interface InputPostProps {
   placeholder?: string;
   modify?: boolean;
+  popup?: boolean;
   post?: PostType;
   postIdx?: number;
   row?: number;
@@ -180,6 +181,7 @@ const InputPost = (props: InputPostProps) => {
     <form
       className={ classNames(style.InputPost,
         props.modify && style.ModifyPost,
+        props.popup && style.PopupPost,
         !mobile && style.DesktopInputPost
       ) }
       encType="multipart/form-data"
