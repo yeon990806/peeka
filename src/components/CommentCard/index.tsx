@@ -78,7 +78,7 @@ const CommentCard = (props: CommentCardProps) => {
       dispatch({
         type: UPDATE_COMMENT_REQUEST,
         data: {
-          memberImage: userImage.uploadedFileKey || "",
+          memberImage: (userImage && userImage.uploadedFileKey) || "",
           postId: props.data.post_id,
           id: props.data.id,
           contents: inputValue,

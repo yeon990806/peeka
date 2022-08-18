@@ -84,7 +84,7 @@ const InputPost = (props: InputPostProps) => {
           category_code: postCategory.value,
           category: postCategory.display,
           images: fileList,
-          memberImage: userImage.uploadedFileURL || '',
+          memberImage: (userImage && userImage.uploadedFileURL) || '',
           onSuccess: () => {
             setInputValue('')
             setUploadImage([])
@@ -103,7 +103,7 @@ const InputPost = (props: InputPostProps) => {
           category_code: postCategory.value,
           category: postCategory.display,
           images: fileList,
-          memberImage: userImage.uploadedFileURL || '',
+          memberImage: (userImage && userImage.uploadedFileURL) || '',
           deleted_images: deletedImage,
           onSuccess: () => {
             setInputValue('')

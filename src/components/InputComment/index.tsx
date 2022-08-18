@@ -30,7 +30,7 @@ const InputComment = (props: InputCommentProps) => {
       dispatch({
         type: ADD_REPLY_REQUEST,
         data: {
-          memberImage: useImage.uploadedFileURL || "",
+          memberImage: (useImage && useImage.uploadedFileURL) || "",
           postId: props.postId,
           commentId: props.commentId,
           contents: inputValue,
@@ -47,7 +47,7 @@ const InputComment = (props: InputCommentProps) => {
       dispatch({
         type: ADD_COMMENT_REQUEST,
         data: {
-          memberImage: useImage.uploadedFileURL || "",
+          memberImage: (useImage && useImage.uploadedFileURL) || "",
           postId: props.postId,
           contents: inputValue,
           author: props.author,
