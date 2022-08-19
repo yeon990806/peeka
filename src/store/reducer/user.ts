@@ -169,6 +169,16 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.reIssueLoading = false
       draft.reIssueSuccess = true
 
+      setCookie('accessToken', action.data.access_token, { 
+        path: '/',
+        secure: true,
+        expires: new Date(Date.now() + (6 * 3600 * 1000)),
+      })
+      setCookie('refreshToken', action.data.refresh_token, {
+        path: '/',
+        secure: true,
+      })
+
       break
     case RE_ISSUE_FAILURE:
       draft.reIssueLoading = false
@@ -198,7 +208,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
         grant_type: action.data.grant_type,
       }
 
-      setCookie('accessToken', action.data.access_token, {
+      setCookie('accessToken', action.data.access_token, { 
         path: '/',
         secure: true,
         expires: new Date(Date.now() + (6 * 3600 * 1000)),
@@ -487,9 +497,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
           if (comment) {
             if ('reply_list' in comment) comment.reply_list.push(r)
             else {
-              comment.reply_list = []
-
-              comment.reply_list.push(r)
+              comment.reply_list = [ ...r ]
             }
           }
         })

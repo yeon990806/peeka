@@ -16,6 +16,10 @@
       color: $light;
       font-size: 24px;
       font-weight: bold;
+
+      &.ProfileTitle {
+        padding-left: 8px;
+      }
     }
   }
 

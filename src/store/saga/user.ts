@@ -129,6 +129,10 @@ function* ReIssueAction (action) {
       yield put({
         type: RE_ISSUE_SUCCESS
       })
+
+      yield put({
+        type: FETCH_USERINFO_REQUEST
+      })
     }
   } catch (err) {
     yield put({

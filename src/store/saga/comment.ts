@@ -122,8 +122,9 @@ function* FetchComment (action) {
 function* AddComment (action) {
   try {
     const result = yield call(addCommentAPI, action.data)
+    
     const data = {
-      list: result.data,
+      list: action.data,
       id: action.data.postId,
       member_image: action.data.memberImage,
       onSuccess: action.data.onSuccess

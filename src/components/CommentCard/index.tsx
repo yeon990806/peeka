@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getLongDateFormat } from '@/common/defines/Format';
 import { CommentType, StateType, StorePostType } from '@/common/defines/Store'
 import { UPDATE_COMMENT_REQUEST, DELETE_COMMENT_REQUEST } from '@/store/reducer/comment';
 import { FETCH_REPLY_REQUEST } from '@/store/reducer/reply';
@@ -31,7 +30,7 @@ const CommentCard = (props: CommentCardProps) => {
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
   const [displayDeleteComment, setDisplayDeleteComment] = useState<boolean>(false)
-  const [displayReplyList, setDisplayReplyList] = useState<boolean>((props.data.reply_list && props.type) === StorePostType.Alert)
+  const [displayReplyList, setDisplayReplyList] = useState<boolean>(props.type === StorePostType.Alert)
 
   const menuList = [
     {
@@ -151,7 +150,7 @@ const CommentCard = (props: CommentCardProps) => {
               { props.data.nickname.replace('@', '') }
             </h2>
             <p className={ style.CommentCardDate }>
-              { getLongDateFormat(props.data.created_at) }
+              { props.data.created_at.toString().replace('T', ' ') }
             </p>
           </div>
           { ((userId === props.data.member_id) && !activeModify) && <MenuPopup menuList={ menuList } theme="light">

@@ -3,7 +3,7 @@ import Button from '../Button'
 import UserProfile from '../UserProfile'
 import style from './style.module.scss'
 import MenuPopup from '../MenuPopup';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Textarea from '../Textarea';
 import { useDispatch, useSelector } from 'react-redux';
 import Popup from '../Popup';
@@ -25,6 +25,7 @@ const ReplyCard = (props: ReplyCardProps) => {
   const [activeModify, setActiveModify] = useState<boolean>(false)
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
+  const [modifyValue, setModifyValue] = useState<string>('')
   const [displayDeleteReply, setDisplayDeleteReply] = useState<boolean>(false)
 
   const atRegex = /@[^\s]+/g
@@ -140,7 +141,7 @@ const ReplyCard = (props: ReplyCardProps) => {
           </article>
           : <div className={ style.CommentInput }>
             <Textarea
-              value={ inputValue }
+              value={ modifyValue }
               row={ 3 }
               onInput={ (v) => onChangeInputValue(v) }
             />

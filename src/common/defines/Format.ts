@@ -36,3 +36,23 @@ export function encodeFileToBase64 (image: File) {
     reader.onerror = (error) => reject(error)
   })
 }
+
+/**
+ * @param time 변환할 날짜입니다.
+ */
+export function getTimeFromNow (time: string): string {
+  const valueDate = new Date(time)
+  const currentDate = new Date()
+
+  const diffM = Math.floor((currentDate.getTime() - valueDate.getTime()) / 1000 / 60)
+  if (diffM < 1) return '방금전'
+  else if (diffM < 60) return `${ diffM }분 전`
+  
+  const diffH = Math.floor(diffM / 60)
+  if (diffH < 24) return `${ diffH }시간 전`
+
+  const diffD = Math.floor(diffH / 60 / 24)
+  if (diffD < 365) return `${ diffD }일 전`
+
+  return `${ Math.floor(diffD / 365) }년 전`
+}

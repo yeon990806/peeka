@@ -4,7 +4,7 @@ import { StateType } from "@/common/defines/Store"
 import { getCookie } from "@/common/libs/Cookie"
 import Button from "@/components/Button"
 import Popup from "@/components/Popup"
-import { UPDATE_USERINFO } from "@/store/reducer/user"
+import { FETCH_USERINFO_REQUEST, UPDATE_USERINFO } from "@/store/reducer/user"
 import axios from "axios"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -65,13 +65,7 @@ const ChangeImagePopup = (props: ChangeImagePopupProps) => {
 
       if (result.status === 200) {
         dispatch({
-          type: UPDATE_USERINFO,
-          data: {
-            image: {
-              uploadedFileURL: tempImage,
-              uploadedFileKey: tempImage,
-            }
-          }
+          type: FETCH_USERINFO_REQUEST,
         })
 
         closePopup()

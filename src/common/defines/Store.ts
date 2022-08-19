@@ -184,6 +184,7 @@ export type PostType = {
   like_count: number;
   comment_count: number;
   comment_list: CommentType[]
+  display_comment: boolean
 }
 
 export type CommentType = {
@@ -200,6 +201,7 @@ export type CommentType = {
   created_at: Date;
   updated_at: null | Date;
   reply_list: ReplyType[]
+  display_reply: boolean
 }
 
 export type VideoType = {
@@ -230,6 +232,7 @@ export type CuratorType = {
   member_image: string
   source: null,
   created_at: Date,
+  category_code: CategoryType,
 }
 
 export type alertType = {

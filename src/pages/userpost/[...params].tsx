@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { FETCH_EXTRAPOST_REQUEST } from "@/store/reducer/extra";
 import ExtraPage from "@/components/ExtraPage";
+import UserProfile from "@/components/UserProfile";
 
 const userpost = () => {
   const router = useRouter()
@@ -44,10 +45,14 @@ const userpost = () => {
   return (
     <ExtraPage
       img={
-        <path d="M4 20L3.81092 16.9747C3.37149 9.94376 8.95536 4 16 4V4L14.7827 4.97387C12.3918 6.88656 11 9.78237 11 12.8442V12.8442C11 14.9831 9.02784 16.5774 6.93642 16.1292L4 15.5" stroke="#FFF200" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+        <UserProfile
+          profileImage={ userPost.length ? userPost[0].member_image : '' }
+          size="xxs"
+          userMembership
+        />
       }
-      imgRotate
-      title="작성 포스트 검색"
+      userProfile
+      title={ `${ userPost.length ? userPost[0].nickname : "" }님의 포스트` }
       postList={ userPost }
       fetchDone={ userDone }
       fetchLoading={ userPostLoading }

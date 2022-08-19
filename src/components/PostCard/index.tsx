@@ -27,14 +27,14 @@ interface PostProps {
 const PostCard = (props: PostProps) => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const userInfo = useSelector((state: StateType) => (state.user.userInfo))
   const desktop = IsDesktop()
   const postLink = useRef(`${ location.origin }/community/${ props.post.id }`)
+  const userInfo = useSelector((state: StateType) => (state.user.userInfo))
 
   const [displayReportPopup, setDisplayReportPopup] = useState<boolean>(false)
   const [displayDeletePopup, setDisplayDeletePopup] = useState<boolean>(false)
   const [activeModify, setActiveModify] = useState<boolean>(false)
-  const [displayCommentContainer, setDisplayCommentContainer] = useState<boolean>(props.type === StorePostType.Alert)
+  const [displayCommentContainer, setDisplayCommentContainer] = useState<boolean>(props.type === StorePostType.Alert || props.post.display_comment)
   const [postMenuList, setPostMenuList] = useState<PopupItemProps[]>()
 
   const hashtagRegexp = new RegExp(/#[^\s#]+/g)
@@ -166,7 +166,7 @@ const PostCard = (props: PostProps) => {
                   </span>
                   <span className={ style.Bar } />
                   <span className={ style.PostTimeDate }>
-                    { getLongDateFormat(props.post.created_at) }
+                    { props.post.created_at.toString().replace('T', ' ') }
                   </span>
                 </p>
               </div>

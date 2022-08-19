@@ -32,15 +32,19 @@
   text-align: center;
 
   .Logo {
-    display: inline-block;
     width: 120px;
     height: 120px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: $primary;
     font-size: 40px;
     font-weight: bold;
-    background-size: 280%;
-    background-repeat: no-repeat;
-    background-position: center;
+    overflow: hidden;
+
+    img {
+      height: 120px;
+    }
   }
 
   .SignInForm {

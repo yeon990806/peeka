@@ -30,10 +30,6 @@ const SignIn = (props: SignInProps) => {
   const [inputPassword, setInputPassword] = useState<string>(''); // 비밀번호
   const [validateError, setValidateError] = useState<boolean>(false); // 유효성 체크 에러 여부
 
-  const LogoStyle = useMemo(() => ({
-    backgroundImage: "url('/images/peeka-logo.svg')"
-  }), [])
-
   const requestSignIn = useCallback(() => {
     if ((inputEmail.length > 0 && !validateError) && inputPassword.length > 0)
       dispatch({
@@ -59,7 +55,9 @@ const SignIn = (props: SignInProps) => {
     <div className={  classNames(style.SignInContainer, props.popup && style.SignInPopup) }>
       <div className={ style.SignIn }>
         <Link href="/community">
-          <a className={ style.Logo } style={ LogoStyle } />
+          <a className={ style.Logo }>
+            <img src="/images/peeka-logo.svg" tabIndex={-1} />
+          </a>
         </Link>
         <div className={ style.SignInForm }>
           <Input

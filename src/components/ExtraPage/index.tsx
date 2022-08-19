@@ -7,6 +7,7 @@ import style from './style.module.scss'
 
 interface ExtraPageProps {
   img: ReactNode
+  userProfile?: boolean
   imgRotate?: boolean
   title: string
   postList: PostType[]
@@ -25,7 +26,11 @@ const ExtraPage = memo((props: ExtraPageProps) => {
   return (
     <div className={ style.ExtraPage }>
       <div className={ style.ExtraPageHeader }>
-          <svg
+        { props.userProfile
+          ? <>
+            { props.img }
+          </>
+          : <svg
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -35,7 +40,8 @@ const ExtraPage = memo((props: ExtraPageProps) => {
           >
             { props.img }
           </svg>
-        <h1>
+        }
+        <h1 className={ props.userProfile && style.ProfileTitle }>
           { props.title }
         </h1>
       </div>
