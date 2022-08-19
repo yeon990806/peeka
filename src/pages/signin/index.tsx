@@ -56,7 +56,7 @@ const SignIn = (props: SignInProps) => {
       <div className={ style.SignIn }>
         <Link href="/community">
           <a className={ style.Logo }>
-            <img src="/images/peeka-logo.svg" tabIndex={-1} />
+            <img src="/images/peeka-logo.svg" tabIndex={-1} alt="logo" />
           </a>
         </Link>
         <div className={ style.SignInForm }>
