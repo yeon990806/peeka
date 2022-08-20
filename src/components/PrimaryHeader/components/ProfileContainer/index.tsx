@@ -29,17 +29,18 @@ const ProfileContainer = (props: ProfileContainerProps) => {
   const signOut = useCallback(() => dispatch({
     type: SIGN_OUT_REQUEST,
   }), [])
-  const fetchAlertList = () => dispatch({
+  const fetchAlertList = (init: boolean) => dispatch({
     type: FETCH_ALERT_REQUEST,
     data: {
-      id: (userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[userInfo.alertList.length - 1].id : ''
+      init,
+      id: (init ? '' : userInfo && (userInfo.alertList && userInfo.alertList.length > 0)) ? userInfo.alertList[userInfo.alertList.length - 1].id : ''
     }
   })
   const onClickAlertButton = useCallback(() => {
     if (desktop) setPopupDisplay(prev => !prev)
     else setScreenDisplay(prev => !prev)
 
-    if (userInfo.id) fetchAlertList()
+    if (userInfo.id) fetchAlertList(true)
   }, [popupDisplay, screenDisplay, desktop])
   
   const onPrevEvent = useCallback(() => setScreenDisplay(prev => !prev), [screenDisplay]) 
@@ -80,6 +81,9 @@ const ProfileContainer = (props: ProfileContainerProps) => {
         </Button>
         { (popupDisplay && desktop) && <div className={ style.AlertList }>
           { getAlertList() }
+          <Button type="text" theme="light-gray" onClick={ () => fetchAlertList(false) }>
+            알림 더 불러오기
+          </Button>
         </div> }
       </div>
     )
@@ -168,7 +172,7 @@ const ProfileContainer = (props: ProfileContainerProps) => {
   }, [])
 
   useEffect(() => {
-    if (userInfo.id) fetchAlertList()
+    if (userInfo.id) fetchAlertList(true)
   }, [postCategory])
 
   return (

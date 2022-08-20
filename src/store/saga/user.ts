@@ -116,7 +116,7 @@ function* FetchUserInfo () {
     })
     if (err.response && err.response.status === 401)
       yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
+        type: RE_ISSUE_REQUEST,
       })
   }
 }
@@ -137,21 +137,16 @@ function* ReIssueAction (action) {
   } catch (err) {
     yield put({
       type: RE_ISSUE_FAILURE,
-      data: {
-        callback: action.data.callback,
-      },
       error: err,
     })
-
-    if (err.response && err.response.status === 404) {
-      yield put({
-        type: UPDATE_POPUP,
-        data: {
-          display: true,
-          code: PopupCode.REQUEST_SIGN_IN
-        }
-      })
-    }
+    
+    yield put({
+      type: UPDATE_POPUP,
+      data: {
+        display: true,
+        code: PopupCode.REQUEST_SIGN_IN
+      }
+    })
   }
 }
 
@@ -169,8 +164,14 @@ function* SignIn (action) {
       yield put({
         type: FETCH_USERINFO_REQUEST
       })
-      
-      return router.push('/community')
+
+      if (action.data.popup) {
+        return yield put({
+          type: TOGGLE_SIGN_IN_POPUP
+        })
+      } else {
+        return router.push('/community')
+      }
     }
 
   } catch (err) {
@@ -259,12 +260,12 @@ function* FetchUserPost (action) {
   } catch (err) {
     yield put({
       type: USER_POST_FAILURE,
-      data: err.response.data,
+      data: err,
     })
 
     if (err.response && err.response.status === 401)
       yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
+        type: RE_ISSUE_REQUEST,
       })
   }
 }
@@ -275,7 +276,10 @@ function* FetchAlert (action) {
 
     yield put({
       type: FETCH_ALERT_SUCCESS,
-      data: result.data
+      data: {
+        init: action.data.init,
+        list: result.data
+      }
     })
   } catch (err) {
     yield put({
@@ -283,9 +287,10 @@ function* FetchAlert (action) {
       data: err
     })
 
+    
     if (err.response && err.response.status === 401)
       yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
+        type: RE_ISSUE_REQUEST,
       })
   }
 }
@@ -310,7 +315,7 @@ function* ReadAlert (action) {
 
     if (err.response && err.response.status === 401)
       yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
+        type: RE_ISSUE_REQUEST,
       })
   }
 }

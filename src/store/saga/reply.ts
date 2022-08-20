@@ -1,4 +1,4 @@
-import { UPDATE_USERPOST_COMMENT_REPLY, DELETE_USERPOST_COMMENT_REPLY, FETCH_ALERT_COMMENT_REPLY, ADD_ALERT_COMMENT_REPLY, UPDATE_ALERT_COMMENT_REPLY, DELETE_ALERT_COMMENT_REPLY } from './../reducer/user';
+import { UPDATE_USERPOST_COMMENT_REPLY, DELETE_USERPOST_COMMENT_REPLY, FETCH_ALERT_COMMENT_REPLY, ADD_ALERT_COMMENT_REPLY, UPDATE_ALERT_COMMENT_REPLY, DELETE_ALERT_COMMENT_REPLY, RE_ISSUE_REQUEST } from './../reducer/user';
 import { ADD_POST_COMMENT_REPLY, UPDATE_POST_COMMENT_REPLY, DELETE_POST_COMMENT_REPLY } from './../reducer/post';
 import { StorePostType } from "@/common/defines/Store";
 import { getCookie } from "@/common/libs/Cookie";
@@ -79,7 +79,17 @@ function deleteReplyAPI (param) {
 
 function* FetchReply (action) {
   try {
-    const result = yield call(fetchReplyAPI, action.data)
+    const param = action
+
+    if (action.data.id) {
+      const temp = action.data.id.filter(v => 'added' in v === false)
+      
+      param.data.id = temp.length > 0 ? temp[temp.length - 1].id : ''
+    } else {
+      param.data.id = ''
+    }
+    
+    const result = yield call(fetchReplyAPI, param.data)
     const data = {
       list: result.data,
       postId: action.data.postId,
@@ -135,7 +145,7 @@ function* AddReply (action) {
   try {
     const result = yield call(addReplyAPI, action.data)
     const data = {
-      list: result.data,
+      reply: result.data,
       toUserName: action.data.toUserName,
       postId: action.data.postId,
       commentId: action.data.commentId,
@@ -184,12 +194,10 @@ function* AddReply (action) {
       error: err
     })
 
-    if (err.response) {
-      if (err.response.status === 401)
-        yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
-        })
-    }
+    if (err.response && err.response.status === 401)
+    yield put({
+      type: RE_ISSUE_REQUEST,
+    })
   }
 }
 
@@ -253,9 +261,9 @@ function* UpdateReply (action) {
           type: UPDATE_POPUP,
           code: PopupCode.FORBIDDEN_ACCESS
         })
-      else if (err.response.status === 401)
+      else if (err.response && err.response.status === 401)
         yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
+          type: RE_ISSUE_REQUEST,
         })
     }
 
@@ -321,9 +329,9 @@ function* DeleteReply (action) {
           type: UPDATE_POPUP,
           code: PopupCode.FORBIDDEN_ACCESS
         })
-      else if (err.response.status === 401)
+      if (err.response && err.response.status === 401)
         yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
+          type: RE_ISSUE_REQUEST,
         })
     }
   }

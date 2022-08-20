@@ -51,8 +51,8 @@ export function getTimeFromNow (time: string): string {
   const diffH = Math.floor(diffM / 60)
   if (diffH < 24) return `${ diffH }시간 전`
 
-  const diffD = Math.floor(diffH / 60 / 24)
-  if (diffD < 365) return `${ diffD }일 전`
+  // const diffD = Math.floor(diffH / 60 / 24)
+  // if (diffD < 8) return `${ diffD }일 전`
 
-  return `${ Math.floor(diffD / 365) }년 전`
+  return `${time.substring(0, 10)}`
 }

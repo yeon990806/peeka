@@ -4,10 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_POST_REQUEST } from "@/store/reducer/user";
 import ExtraPage from "@/components/ExtraPage";
+import UserProfile from "@/components/UserProfile";
 
 const userpost = () => {
   const dispatch = useDispatch()
-  const userInfo = useSelector((state: StateType) => state.user.userInfo)
+  const userInfo = useSelector((state: StateType) => state.user.userPostInfo)
   const userPostData = useSelector((state: StateType) => state.user.userPost)
   const userPostLoading = useSelector((state: StateType) => state.user.userPostLoading)
   const userDone = useSelector((state: StateType) => state.user.fetchDone)
@@ -34,9 +35,13 @@ const userpost = () => {
   return (
     <ExtraPage
       img={
-        <path d="M4 20L3.81092 16.9747C3.37149 9.94376 8.95536 4 16 4V4L14.7827 4.97387C12.3918 6.88656 11 9.78237 11 12.8442V12.8442C11 14.9831 9.02784 16.5774 6.93642 16.1292L4 15.5" stroke="#FFF200" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+        <UserProfile
+          profileImage={ userInfo.image.uploadedFileURL || '' }
+          size="xxs"
+          userMembership
+        />
       }
-      imgRotate
+      userProfile
       title="내 포스트"
       postList={ userPostData }
       fetchDone={ userDone }

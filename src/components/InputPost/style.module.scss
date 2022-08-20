@@ -51,12 +51,18 @@
     align-items: stretch;
     grid-gap: 12px;
 
-    > textarea {
+    .PostTextForm {
       flex: 1;
-      margin: 0;
-      padding: 0;
-      color: $light;
+      padding: 8px 0;
+      
+      > textarea {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        color: $light;
+      }
     }
+
   }
 
   .InputPostAction {

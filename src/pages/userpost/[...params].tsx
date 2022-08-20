@@ -13,6 +13,7 @@ const userpost = () => {
   const [id] = router.query.params || []
 
   const userPost = useSelector((state: StateType) => state.extra.extraList)
+  const userInfo = useSelector((state: StateType) => state.extra.extraUserInfo)
   const userPostLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
   const userDone = useSelector((state: StateType) => state.extra.fetchDone)
 
@@ -41,18 +42,19 @@ const userpost = () => {
   useEffect(() => {
     fetchUserPost()
   }, [id])
-  
+
+  if (!userInfo) return null
   return (
     <ExtraPage
       img={
         <UserProfile
-          profileImage={ userPost.length ? userPost[0].member_image : '' }
+          profileImage={ userInfo.image && userInfo.image.uploadedFileURL || '' }
           size="xxs"
           userMembership
         />
       }
       userProfile
-      title={ `${ userPost.length ? userPost[0].nickname : "" }님의 포스트` }
+      title={ `${ userInfo.nickname || "" }님의 포스트` }
       postList={ userPost }
       fetchDone={ userDone }
       fetchLoading={ userPostLoading }

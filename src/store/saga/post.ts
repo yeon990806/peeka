@@ -274,7 +274,7 @@ function* DeletePost (action) {
         })
       else if (err.response.status === 401)
         yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
+          type: RE_ISSUE_REQUEST,
         })
     }
   }

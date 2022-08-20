@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
 import { SIGN_IN_REQUEST, TOGGLE_ALWAYS_SIGN_IN } from '@/store/reducer/user';
@@ -14,16 +14,14 @@ import GoogleButton from '@/components/GoogleButton';
 import style from './style.module.scss'
 import Loader from '@/components/Loader';
 import classNames from 'classnames';
+import { TOGGLE_SIGN_IN_POPUP } from '@/store/reducer/popup';
 
 interface SignInProps {
   popup?: boolean
 }
 
-let isPopup
-
 const SignIn = (props: SignInProps) => {
   const dispatch = useDispatch()
-  const router = useRouter()
   const rememberUser = useSelector((state: StateType) => state.user.alwaysSignIn)
   const signInLoading = useSelector((state: StateType) => state.user.signInLoading)
   const [inputEmail, setInputEmail] = useState<string>(''); // 이메일 주소
@@ -36,7 +34,8 @@ const SignIn = (props: SignInProps) => {
         type: SIGN_IN_REQUEST,
         data: {
           email: inputEmail, 
-          password: inputPassword
+          password: inputPassword,
+          popup: props.popup
         }
       })
   }, [inputEmail, inputPassword])
@@ -46,10 +45,6 @@ const SignIn = (props: SignInProps) => {
       type: TOGGLE_ALWAYS_SIGN_IN,
     })
   }
-
-  useEffect(() => {
-    if (props.popup) isPopup = true
-  }, [props.popup])
 
   return (
     <div className={  classNames(style.SignInContainer, props.popup && style.SignInPopup) }>

@@ -63,7 +63,7 @@ const PrimaryHeader = () => {
             onToggleSearch={ () => setDisplaySearch(true) }
           />
         </div>
-        <PostCategory />
+        {/* <PostCategory /> */}
       </div>
       : <>
         <div className={ style.ScreenHeader }>

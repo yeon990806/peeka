@@ -6,6 +6,18 @@ import produce from 'immer';
 
 export const initialState: ExtraStateType = {
   extraList: [],
+  extraUserInfo: {
+    birthday: '',
+    email: '',
+    gender: '',
+    id: null,
+    image: {
+      uploadedFileURL: '',
+      uploadedFileKey: ''
+    },
+    member_code: '',
+    nickname: ''
+  },
   fetchExtraListRequest: false,
   fetchExtraListSuccess: false,
   fetchExtraListError: null,
@@ -59,18 +71,21 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case FETCH_EXTRAPOST_SUCCESS:
+      const list = "posts" in action.data ? action.data.posts : action.data
+
       draft.fetchExtraListRequest = false
       draft.fetchExtraListSuccess = true
 
       if (action.data.length > 0) {
-        const _post = draft.extraList.findIndex(v => v.id === action.data[0].id)
+        const _post = draft.extraList.findIndex(v => v.id === list[0].id)
 
         if (_post >= 0) return
       }
 
       if (action.data.length === 0) draft.fetchDone = true
  
-      draft.extraList = [...draft.extraList, ...action.data.list]
+      draft.extraList = [...draft.extraList, ...list]
+      if ("member" in action.data) draft.extraUserInfo = action.data.member
 
       break
     case FETCH_EXTRAPOST_FAILURE:

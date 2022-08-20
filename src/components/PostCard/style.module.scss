@@ -3,26 +3,28 @@
   list-style: none;
   width: 100vw;
   max-width: 720px;
-  overflow: hidden;
+  overflow-x: hidden;
 
   & + .Post {
     margin-top: 16px;
+  }
+
+  .BestPost {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0 4px 12px;
+    margin-bottom: 12px;
+    align-items: center;
+    color: $primary;
+    border-bottom: 1px solid $border-gray;
+    font-size: 14px;
   }
 
   &.DeskPost {
     padding: 16px 24px;
     border-radius: 10px;
     background-color: $content-background;
-
-    .BestPost {
-      display: flex;
-      grid-gap: 8px;
-      padding: 0 0 16px;
-      align-items: center;
-      color: $primary;
-      font-size: 16px;
-      font-weight: bold;
-    }
 
     .PostContentContainer {
       padding: 0;
@@ -117,7 +119,6 @@
       margin-top: 8px;
       padding: 12px;
       border-top: 1px solid $gray;
-
     }
 
     .AlertComment {

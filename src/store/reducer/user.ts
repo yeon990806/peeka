@@ -40,6 +40,18 @@ export const initialState: UserType = {
     alertDetail: null,
   },
   userPost: [],
+  userPostInfo: {
+    birthday: '',
+    email: '',
+    gender: '',
+    id: null,
+    image: {
+      uploadedFileURL: '',
+      uploadedFileKey: ''
+    },
+    member_code: '',
+    nickname: ''
+  },
 }
 
 export const TOGGLE_ALWAYS_SIGN_IN = 'ALWAYS_SIGN_IN_REQUEST'
@@ -188,8 +200,6 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       removeCookie('accessToken')
       removeCookie('refreshToken')
 
-      if (action.data.callback) action.data.callback()
-
       break
     case SIGN_IN_REQUEST:
       draft.signInLoading = true
@@ -318,15 +328,15 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.userPostLoading = false
       draft.userPostSuccess = true
 
-      if (action.data.length > 0) {
-        const _post = draft.userPost.findIndex(v => v.id === action.data[0].id)
+      if (action.data.posts.length > 0) {
+        const _post = draft.userPost.findIndex(v => v.id === action.data.posts[0].id)
 
         if (_post >= 0) return
       }
 
       if (action.data.length === 0) draft.fetchDone = true
 
-      draft.userPost = [ ...draft.userPost, ...action.data ]
+      draft.userPost = [ ...draft.userPost, ...action.data.posts ]
 
       break
     case USER_POST_FAILURE:
@@ -400,16 +410,20 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchAlertSuccess = true
       
       if (draft.userInfo.alertList && draft.userInfo.alertList.length > 0) {
-        if (action.data.length > 0) {
-          const alert = draft.userInfo.alertList.findIndex(v => v.id === action.data[0].id)
+        if (action.data.list.length > 0) {
+          const alert = draft.userInfo.alertList.findIndex(v => v.id === action.data.list[0].id)
   
           if (alert >= 0) return
         }
 
-        draft.userInfo.alertList = action.data.concat(draft.userInfo.alertList)
+        if (action.data.init) {
+          draft.userInfo.alertList = action.data.list
+        } else {
+          draft.userInfo.alertList = action.data.list.concat(draft.userInfo.alertList)
+        }
       }
       else 
-        draft.userInfo.alertList = action.data
+        draft.userInfo.alertList = action.data.list
       
       break
     case FETCH_ALERT_FAILURE:
@@ -497,7 +511,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
           if (comment) {
             if ('reply_list' in comment) comment.reply_list.push(r)
             else {
-              comment.reply_list = [ ...r ]
+              comment.reply_list = [ r ]
             }
           }
         })

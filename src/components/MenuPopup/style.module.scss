@@ -1,11 +1,12 @@
 .MenuPopup {
   position: relative;
+  height: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   
   .MenuPopupContent {
     position: absolute;
-    top: 100%;
+    top: calc(100% - 16px);
     right: 0;
     width: 140px;
     margin-top: 4px;
@@ -18,8 +19,7 @@
   .MenuPopupContent {
     display: flex;
     flex-direction: column;
-    
-  }  
+  }
 }
 
 .PopupItem {

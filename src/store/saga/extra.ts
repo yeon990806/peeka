@@ -46,9 +46,7 @@ function* FetchExtraPost (action) {
 
     yield put({
       type: FETCH_EXTRAPOST_SUCCESS,
-      data: {
-        list: result.data,
-      }
+      data: result.data,
     })
   } catch (err) {
     yield put({

@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { FETCH_CURATOR_REQUEST } from "@/store/reducer/content";
 import { StateType } from "@/common/defines/Store";
-import { CategoryType, CodeCategoryType } from "@/common/defines/Category";
+import { CodeCategoryType } from "@/common/defines/Category";
 import { getTimeFromNow } from "@/common/defines/Format";
 import UserProfile from "../UserProfile";
 
@@ -13,32 +13,17 @@ const CuratorList = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const curatorList = useSelector((state: StateType) => state.content.curatorList)
-  const category = useSelector((state: StateType) => state.post.postCategory)
   const [title, setTitle] = useState<string>('')
 
   useEffect(() => {
     dispatch({
       type: FETCH_CURATOR_REQUEST,
       data: {
-        category: category === CategoryType.전체 ? '' : category,
+        category: '',
         id: curatorList.length > 0 ? curatorList[0].id : ''
       }
     })
-
-    switch (category) {
-      case CategoryType.영화:
-        return setTitle ('영화')
-      case CategoryType.시리즈:
-        return setTitle ('시리즈')
-      case CategoryType.웹툰:
-        return setTitle ('웹툰')
-      case CategoryType.웹소설:
-        return setTitle ('웹소설')
-      case CategoryType.전체:
-      default:
-        return setTitle('피카')
-    }
-  }, [category])
+  }, [])
 
   return (
     <div className={ style.CuratorListContainer }>
@@ -46,7 +31,7 @@ const CuratorList = () => {
         <header className={ style.CuratorHeader }>
           <h1>
             <span>
-              { title } 큐레이터
+              피카 큐레이터
             </span>
           </h1>
         </header>

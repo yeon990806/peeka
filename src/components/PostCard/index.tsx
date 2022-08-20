@@ -1,4 +1,4 @@
-import { getLongDateFormat } from '@/common/defines/Format';
+import { getLongDateFormat, getTimeFromNow } from '@/common/defines/Format';
 import { PostType, StateType, StorePostType } from "@/common/defines/Store";
 import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
 import { PopupItemProps } from '@/components/MenuPopup';
@@ -42,6 +42,13 @@ const PostCard = (props: PostProps) => {
   const toggleDisplayReportPopup = useCallback(() => setDisplayReportPopup(prev => !prev), [displayReportPopup])
   const toggleModify = useCallback(() => setActiveModify(prev => !prev), [activeModify])
   const toggleDisplayDeletePopup = useCallback(() => setDisplayDeletePopup(prev => !prev), [displayDeletePopup])
+
+  const getTrendPostText = useCallback(() => {
+    if (props.post.like_count <= 50) return <span>떠오르는 포스트</span>
+    else if (props.post.like_count <= 300) return '주목해야 할 포스트'
+    else if (props.post.comment_count <= 1000) return '화제의 포스트'
+    else if (props.post.comment_count >= 3000) return '놓치면 안될 포스트'
+  }, [props.post.like_count])
 
   const getUserPost = useCallback(() => {
     if (router.pathname.indexOf('userpost') < 0 && router.asPath.indexOf(props.post.member_id.toString()) < 0)
@@ -143,10 +150,20 @@ const PostCard = (props: PostProps) => {
       />
       <div className={ classnames(style.Post, desktop && style.DeskPost) }>
         <div className={ style.PostContentContainer }>
-          {/* { props.post.like_count >= 100 && <div className={ style.BestPost }>
-            <img src="/images/best-mono.svg" />
-            Best
-          </div> } */}
+          { props.post.like_count >= 50 && <div className={ style.BestPost }>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M4 20L3.81092 16.9747C3.37149 9.94376 8.95536 4 16 4V4L14.7827 4.97387C12.3918 6.88656 11 9.78237 11 12.8442V12.8442C11 14.9831 9.02784 16.5774 6.93642 16.1292L4 15.5" stroke="#FFF200" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span>
+              { getTrendPostText() }
+            </span>
+          </div> }
           <div className={ style.PostHeader }>
             <div
               className={ style.PostInfoContainer }
@@ -166,7 +183,7 @@ const PostCard = (props: PostProps) => {
                   </span>
                   <span className={ style.Bar } />
                   <span className={ style.PostTimeDate }>
-                    { props.post.created_at.toString().replace('T', ' ') }
+                    { getTimeFromNow(props.post.created_at.toString()) }
                   </span>
                 </p>
               </div>

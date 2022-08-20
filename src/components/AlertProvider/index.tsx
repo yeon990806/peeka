@@ -1,6 +1,6 @@
 import { PopupCode } from '@/common/defines/Popup'
 import { StateType } from '@/common/defines/Store'
-import { closePopup } from '@/store/reducer/popup'
+import { closePopup, TOGGLE_SIGN_IN_POPUP } from '@/store/reducer/popup'
 import { useDispatch, useSelector } from 'react-redux'
 import Popup from '../Popup'
 
@@ -42,7 +42,14 @@ const AlertProvider = () => {
       type={'alert'}
       buttonAlign={'right'}
       content={ AlertContent() }
-      onClick={ () => dispatch(closePopup()) }
+      onClick={ () => {
+        dispatch(closePopup())
+        
+        if (popupCode === PopupCode.REQUEST_SIGN_IN)
+          dispatch({
+            type: TOGGLE_SIGN_IN_POPUP
+          })
+      } }
     />
   )
 }

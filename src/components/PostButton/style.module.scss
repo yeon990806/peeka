@@ -1,10 +1,12 @@
 .PostButton {
   position: fixed;
   right: 12px;
-  bottom: 20px;
+  bottom: 64px;
   width: 56px;
   height: 56px;
   border-radius: 50px !important;
+  z-index: 9;
+  box-shadow: 0 0 4px rgba($background, .6);
 
   > img {
     margin: 0 auto;

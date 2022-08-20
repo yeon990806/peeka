@@ -1,28 +1,16 @@
 .MobileSearch {
   position: absolute;
-  top: 0;
+  top: 15px;
   left: 0;
   right: 0;
   width: 100%;
-  padding: 8px 12px;
+  padding: 0 12px;
   margin: 0;
   display: grid;
   grid-gap: 8px;
   grid-template-columns: 1fr auto;
   background-color: $background;
   z-index: 1;
-
-  .CategoryButton {
-    position: absolute;
-    top: 7px;
-    left: 12px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: $primary;
-    z-index: 2;
-    cursor: pointer;
-  }
 }
 
 .CategoryPopup {

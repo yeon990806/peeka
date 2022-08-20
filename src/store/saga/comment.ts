@@ -16,7 +16,7 @@ import {
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAILURE,
 } from "../reducer/comment"
-import { ADD_USERPOST_COMMENT, DELETE_USERPOST_COMMENT, FETCH_USERPOST_COMMENT, UPDATE_USERPOST_COMMENT, FETCH_ALERT_COMMENT, ADD_ALERT_COMMENT, UPDATE_ALERT_COMMENT, DELETE_ALERT_COMMENT } from './../reducer/user';
+import { ADD_USERPOST_COMMENT, DELETE_USERPOST_COMMENT, FETCH_USERPOST_COMMENT, UPDATE_USERPOST_COMMENT, FETCH_ALERT_COMMENT, ADD_ALERT_COMMENT, UPDATE_ALERT_COMMENT, DELETE_ALERT_COMMENT, RE_ISSUE_REQUEST } from './../reducer/user';
 import { ADD_POST_COMMENT, FETCH_POST_COMMENT, UPDATE_POST_COMMENT } from "../reducer/post"
 import { StorePostType } from '@/common/defines/Store';
 import { ADD_EXTRAPOST_COMMENT, DELETE_EXTRAPOST_COMMENT, FETCH_EXTRAPOST_COMMENT, UPDATE_EXTRAPOST_COMMENT } from '../reducer/extra';
@@ -124,7 +124,7 @@ function* AddComment (action) {
     const result = yield call(addCommentAPI, action.data)
     
     const data = {
-      list: action.data,
+      comment: result.data,
       id: action.data.postId,
       member_image: action.data.memberImage,
       onSuccess: action.data.onSuccess
@@ -171,9 +171,10 @@ function* AddComment (action) {
       type: ADD_COMMENT_FAILURE,
       data: err
     })
-    if (err.response && err.rxesponse.status === 401)
+
+    if (err.response && err.response.status === 401)
       yield put({
-        type: TOGGLE_SIGN_IN_POPUP,
+        type: RE_ISSUE_REQUEST,
       })
   }
 }
@@ -242,7 +243,7 @@ function* UpdateComment (action) {
         })
       else if (err.response.status === 401)
         yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
+          type: RE_ISSUE_REQUEST,
         })
     }
 
@@ -308,7 +309,7 @@ function* DeleteComment (action) {
         })
       else if (err.response.status === 401)
         yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
+          type: RE_ISSUE_REQUEST,
         })
     }
   }

@@ -12,6 +12,8 @@ import CuratorList from "@/components/CuratorList";
 import SignInPopup from "@/components/SignInPopup";
 
 import style from "./style.module.scss"
+import PostCategory from '@/components/PrimaryHeader/components/PostCategory';
+import { IsMobile } from '@/common/hooks/breakpoints';
 
 interface AppLayoutProps {
   children: React.ReactNode,
@@ -19,6 +21,7 @@ interface AppLayoutProps {
 
 const AppLayout = (props: AppLayoutProps) => {
   const dispatch = useDispatch()
+  const mobile = IsMobile()
   const container = createRef<HTMLDivElement>()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
   const signInPopupDisplay = useSelector((state: StateType) => state.popup.signInPopupDisplay)
@@ -84,6 +87,7 @@ const AppLayout = (props: AppLayoutProps) => {
       </div>
       { wideScreen && <VideoList /> }
       { wideScreen && <CuratorList /> }
+      { mobile && <PostCategory /> }
       <SignInPopup
         display={ signInPopupDisplay }
         onClose={ toggleSignInPopup }

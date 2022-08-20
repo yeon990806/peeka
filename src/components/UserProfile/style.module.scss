@@ -48,7 +48,7 @@
   }
 
   &.UserMembership {
-    border-color: $primary;
+    border-color: rgba($primary, 0.9);
   }
 
   &:hover .ChangeImage {

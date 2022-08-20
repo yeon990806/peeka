@@ -194,17 +194,19 @@ const InputPost = (props: InputPostProps) => {
           size="xs"
           profileImage={ userImage ? userImage.uploadedFileURL : '' }
         /> }
-        <Textarea
-          block
-          borderless
-          paddingless
-          row={ props.row || props.modify ? 5 : 1 }
-          fixedHeight={ props.modify ? true : false }
-          value={ inputValue }
-          additionalClass={ style.InputForm }
-          onInput={ (v: string) => onInputContent(v) }
-          placeholder={ props.placeholder }
-        />
+        <div className={ style.PostTextForm }>
+          <Textarea
+            block
+            borderless
+            paddingless
+            row={ props.row || props.modify ? 5 : 1 }
+            fixedHeight={ props.modify ? true : false }
+            value={ inputValue }
+            additionalClass={ style.InputForm }
+            onInput={ (v: string) => onInputContent(v) }
+            placeholder={ props.placeholder }
+          />
+        </div>
       </div>
       <div className={ style.InputPostAction }>
         <div>

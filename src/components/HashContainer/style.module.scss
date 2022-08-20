@@ -1,19 +1,16 @@
 .HashContainer {
   width: 100%;
   display: block;
-  margin: 0 0 16px;
-  padding: 0 16px;
+  margin: 0 0 8px;
   overflow: hidden;
   
   .Hash {
     width: 100%;
     display: flex;
-    grid-gap: 16px;
-    padding: 16px;
-    border: 1px solid $border-gray;
-    background-color: $dark-gray;
+    grid-gap: 20px;
+    padding: 8px;
+    background-color: $background;
     white-space: nowrap;
-    border-radius: 10px;
     overflow: hidden;
     overflow-x: auto;
 
@@ -26,7 +23,7 @@
       .HashTitle {
         margin-top: 4px;
         font-size: 14px;
-        color: $primary;
+        color: rgba($primary, 0.9);
       }
   
       .HashText {

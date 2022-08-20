@@ -14,6 +14,7 @@ import Textarea from '../Textarea';
 
 import style from './style.module.scss'
 import { LIKE_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST } from '@/store/reducer/reaction';
+import { getTimeFromNow } from '@/common/defines/Format';
 
 interface CommentCardProps {
   data: CommentType,
@@ -48,7 +49,7 @@ const CommentCard = (props: CommentCardProps) => {
     data: {
       postId: props.data.post_id,
       commentId: props.data.id,
-      id: props.data.reply_list ? props.data.reply_list[props.data.reply_list.length - 1].id : '',
+      id: props.data.reply_list,
       postType: props.type,
       onSuccess: () => onChangeInputValue('')
     }
@@ -150,7 +151,7 @@ const CommentCard = (props: CommentCardProps) => {
               { props.data.nickname.replace('@', '') }
             </h2>
             <p className={ style.CommentCardDate }>
-              { props.data.created_at.toString().replace('T', ' ') }
+              { getTimeFromNow(props.data.created_at.toString()) }
             </p>
           </div>
           { ((userId === props.data.member_id) && !activeModify) && <MenuPopup menuList={ menuList } theme="light">

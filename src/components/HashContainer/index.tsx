@@ -36,7 +36,7 @@ const HashContainer = () => {
             onClick={ () => router.push(`/userpost/${ v.member_id }`) }
           >
             <UserProfile
-              size="xs"
+              size="sm"
               profileImage={ v.member_image }
               userMembership
             />
@@ -45,8 +45,8 @@ const HashContainer = () => {
             </div>
             <div className={ style.HashText }>
               { CodeCategoryType[v.category_code] || "웹툰" }
-              <span> | </span>
-              { getTimeFromNow(v.created_at.toString()) }
+              {/* <span> | </span> */}
+              {/* { getTimeFromNow(v.created_at.toString()) } */}
             </div>
           </div>
         )) }

@@ -15,14 +15,14 @@ export function deletePostAction (id, target, callback?) {
 export function fetchCommentAction ({ id, list }, target) {
   const post = target.find(v => v.id === id)
   
-  if (post.comment_list) post.comment_list.push(...list)
+  if (post.comment_list) [...post.comment_list, ...list]
   else post.comment_list = list
 }
 
-export function addCommentAction ({ id, list }, target, callback?) {
+export function addCommentAction ({ id, comment }, target, callback?) {
   const post = target.find(v => v.id === id)
 
-  post.comment_list = list
+  post.comment_list = [ comment, ...post.comment_list ]
   post.comment_count += 1
 
   if (callback) callback()
@@ -50,18 +50,30 @@ export function fetchReplyAction ({ id, commentId, postId, list }, target) {
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
 
-  comment.reply_list
-    ? comment.reply_list = [ ...comment.reply_list, ...list ]
-    : comment.reply_list = list
+  if ("reply_list" in comment) {
+    if (comment.reply_list.length > 0) {
+      const reply = comment.reply_list.findIndex(v => v.id === list[0].id)
+  
+      if (reply >= 0) return
+    }
+
+    comment.reply_list = [ ...comment.reply_list, ...list ]
+  } else {
+    comment.reply_list = list
+  }
 }
 
-export function addReplyAction ({ postId, commentId, list }, target, callback?) {
+export function addReplyAction ({ postId, commentId, reply }, target, callback?) {
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
+  const reply_list = comment.reply_list || []
+  const _reply = {
+    ...reply,
+    id: `_${ reply.id }`,
+    added: true,
+  }
 
-  const reply_list = comment.reply_list
-
-  comment.reply_list = reply_list.push([ ...list ])
+  comment.reply_list = [...reply_list, _reply]
   comment.reply_count += 1
 
   if (callback) callback()

@@ -46,7 +46,8 @@ export type UserType = {
     email?: string
   }
   signinData: {}
-  userPost: PostType[]
+  userPost: PostType[],
+  userPostInfo: UserPostInfoType,
 }
 
 export type PostStateType = {
@@ -85,6 +86,7 @@ export type ContentStateType = {
 
 export type ExtraStateType = {
   extraList: PostType[],
+  extraUserInfo: UserPostInfoType,
   fetchExtraListRequest: boolean,
   fetchExtraListSuccess: boolean,
   fetchExtraListError: any,
@@ -160,6 +162,19 @@ export type UserInfoType = {
 
   alertList: alertType[],
   alertDetail: PostType[],
+}
+
+export type UserPostInfoType = {
+  birthday: string
+  email: string
+  gender: string
+  id: 51
+  image: {
+    uploadedFileURL: string,
+    uploadedFileKey: string
+  }
+  member_code: string
+  nickname: string
 }
 
 export type ImageType = {
