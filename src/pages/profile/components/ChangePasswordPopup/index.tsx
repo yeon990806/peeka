@@ -88,7 +88,7 @@ const ChangePasswordPopup = (props: ChangePasswordPopupProps) => {
                 if (v.match(validPassword) !== null) {
                   setConfirmPassword(true)
 
-                  return { state: true, msg: v }
+                  return { state: true, msg: '' }
                 } else {
                   setConfirmPassword(false)
 
