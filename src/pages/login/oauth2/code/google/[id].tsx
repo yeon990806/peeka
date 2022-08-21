@@ -1,4 +1,5 @@
 import { authEmail } from '@/common/api'
+import Loader from '@/components/Loader'
 import axios from 'axios'
 import { useEffect } from 'react'
 
@@ -29,8 +30,8 @@ const auth = () => {
   }, [])
 
   return (
-    <div style={ { color: '#e3e3e3' } }>
-      이메일 체크... google
+    <div style={{ display: 'fixed', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: '#121212' }}>
+      <Loader />
     </div>
   )
 }
