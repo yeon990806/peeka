@@ -2,11 +2,13 @@ import style from "./style.module.scss"
 import Button, { ButtonTheme, ButtonType } from '@/components/Button';
 import { DefaultProps } from '@/common/defines/Props';
 import { createRef, useEffect, useState } from "react";
+import classNames from "classnames";
 
 interface MenuPopupProps extends DefaultProps {
   menuList: PopupItemProps[];
   type?: ButtonType;
   theme?: ButtonTheme;
+  offset?: "top" | "bottom"
 }
 
 export interface PopupItemProps {
@@ -60,7 +62,7 @@ const MenuPopup = (props: MenuPopupProps) => {
       >
         { props.children }
       </Button>
-      { popupDisplay && <div className={ style.MenuPopupContent } ref={ ref }>
+      { popupDisplay && <div className={ classNames(style.MenuPopupContent, style[props.offset]) } ref={ ref }>
         { props.menuList.map((v, i) => (
           <PopupItem
             key={ i }

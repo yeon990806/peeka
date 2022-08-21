@@ -153,6 +153,7 @@ const ProfileContainer = (props: ProfileContainerProps) => {
         <MenuPopup
           type="icon"
           theme="gray"
+          offset="bottom"
           menuList={ infoMenuList }
         >
           <UserProfile

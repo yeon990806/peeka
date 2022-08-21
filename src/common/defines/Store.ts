@@ -238,6 +238,7 @@ export type ReplyType = {
   contents: string
   like_yn: 'Y' | 'N'
   like_count: number
+  added?: boolean
 }
 
 export type CuratorType = {

@@ -1,3 +1,4 @@
+import { StorePostType } from "@/common/defines/Store";
 import Popup from "@/components/Popup";
 import { DELETE_POST_REQUEST } from "@/store/reducer/post";
 import { memo, useCallback } from 'react';
@@ -5,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 interface DeletePostPopupProps {
   postId: number;
+  postType: StorePostType
   display: boolean;
   onPrev: () => void;
 }
@@ -15,11 +17,14 @@ const DeletePostPopup = memo((props: DeletePostPopupProps) => {
   const deletePost = useCallback(() => {
     dispatch({
       type: DELETE_POST_REQUEST,
-      data: props.postId
+      data: {
+        postId: props.postId,
+        postType: props.postType,
+      }
     })
 
     props.onPrev()
-}, [props.postId])
+}, [props.postId, props.postType])
 
   if (!props.display) return null
 

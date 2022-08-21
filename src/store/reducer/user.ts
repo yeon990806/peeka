@@ -326,7 +326,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       break
     case USER_POST_SUCCESS:
       draft.userPostLoading = false
-      draft.userPostSuccess = true
+      draft.userPostSuccess = true 
 
       if (action.data.posts.length > 0) {
         const _post = draft.userPost.findIndex(v => v.id === action.data.posts[0].id)
@@ -349,6 +349,9 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case DELETE_USERPOST:
+      const arr = deletePostAction(action.data.postId, draft.userPost)
+
+      draft.userPost = arr
 
       break
     case FETCH_USERPOST_COMMENT:
@@ -435,10 +438,13 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       updatePostAction(action.data, draft.userInfo.alertDetail, action.data.onSuccess)
 
       break
-    case DELETE_ALERT:
-      deletePostAction(action.data, draft.userInfo.alertDetail, action.data.onnSuccess)
+    case DELETE_ALERT: {
+      const arr = deletePostAction(action.data.postId, draft.userInfo.alertDetail, action.data.onnSuccess)
+      
+      draft.userInfo.alertDetail = arr
 
       break
+    }
     case FETCH_ALERT_COMMENT:
       fetchCommentAction({ ...action.data }, draft.userInfo.alertDetail)
 

@@ -98,7 +98,9 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       
       break
     case DELETE_EXTRAPOST:
-      deletePostAction(action.data, draft.extraList, action.data.onSuccess)
+      const arr = deletePostAction(action.data.postId, draft.extraList, action.data.onSuccess)
+
+      draft.extraList = arr
       
       break
     case FETCH_LINKEDPOST_REQUEST:

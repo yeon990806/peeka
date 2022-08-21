@@ -7,9 +7,9 @@ export function updatePostAction (data, target, callback?) {
 }
 
 export function deletePostAction (id, target, callback?) {
-  target = target.filter(v => v.id !== id)
-
   if (callback) callback()
+  
+  return target.filter(v => v.id !== id)
 }
 
 export function fetchCommentAction ({ id, list }, target) {
@@ -57,6 +57,7 @@ export function fetchReplyAction ({ id, commentId, postId, list }, target) {
       if (reply >= 0) return
     }
 
+    comment.reply_list = comment.reply_list.filter(v => "added" in v === false)
     comment.reply_list = [ ...comment.reply_list, ...list ]
   } else {
     comment.reply_list = list

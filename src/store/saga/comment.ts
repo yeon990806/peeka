@@ -21,7 +21,7 @@ import { ADD_POST_COMMENT, FETCH_POST_COMMENT, UPDATE_POST_COMMENT } from "../re
 import { StorePostType } from '@/common/defines/Store';
 import { ADD_EXTRAPOST_COMMENT, DELETE_EXTRAPOST_COMMENT, FETCH_EXTRAPOST_COMMENT, UPDATE_EXTRAPOST_COMMENT } from '../reducer/extra';
 import { APIHost } from '@/common/api';
-import { TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
+import { UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
 
 function fetchCommentAPI (param) {

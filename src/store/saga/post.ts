@@ -85,16 +85,12 @@ function updatePostAPI (param) {
 }
 
 function deletePostAPI (param) {
-  const options = {
-    data: {
-      id: param
-    },
+  return axios.delete(`${ APIHost }/board/post`, {
+    data: param,
     headers: {
       'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
-  }
-  
-  return axios.delete(`${ APIHost }/board/post`, options)
+  })
 }
 
 function* FetchPost (action) {
@@ -219,7 +215,7 @@ function* UpdatePost (action) {
 
 function* DeletePost (action) {
   try {
-    const result = yield call(deletePostAPI, action.data) 
+    const result = yield call(deletePostAPI, { id: action.data.postId })
 
     if (result.status === 200) {
       yield put({

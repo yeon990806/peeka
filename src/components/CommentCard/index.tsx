@@ -61,7 +61,7 @@ const CommentCard = (props: CommentCardProps) => {
   const toggleReplyList = useCallback(() => {
     setDisplayReplyList(prev => !prev)
 
-    if (!displayReplyList && !props.data.reply_list) fetchCommentReply()
+    if (!displayReplyList) fetchCommentReply()
   }, [displayReplyList, props.data.reply_list])
 
   const onChangeInputValue = useCallback((v: string) => {
@@ -234,9 +234,9 @@ const CommentCard = (props: CommentCardProps) => {
               type={ props.type }
             />
           )) }
-          <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
+          { props.data.reply_list && !(props.data.reply_list.length === 1 && props.data.reply_list[0].added) && <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
             답글 더 불러오기
-          </Button>
+          </Button> }
         </div> }
       </div>
     </div>

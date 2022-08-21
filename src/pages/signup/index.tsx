@@ -227,8 +227,6 @@ const SignUp = () => {
           </Link>
         </Desktop>
         { pagecontent() }
-      </div>
-      <footer>
         <Button
           type="action"
           theme="primary"
@@ -240,7 +238,7 @@ const SignUp = () => {
         >
           { footerButtonText[pageStep] }
         </Button>
-      </footer>
+      </div>
     </div>
   )
 }

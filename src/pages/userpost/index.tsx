@@ -8,6 +8,7 @@ import UserProfile from "@/components/UserProfile";
 
 const userpost = () => {
   const dispatch = useDispatch()
+  const initUserInfo = useSelector((state: StateType) => state.user.userInfo)
   const userInfo = useSelector((state: StateType) => state.user.userPostInfo)
   const userPostData = useSelector((state: StateType) => state.user.userPost)
   const userPostLoading = useSelector((state: StateType) => state.user.userPostLoading)
@@ -21,15 +22,15 @@ const userpost = () => {
     dispatch({
       type: USER_POST_REQUEST,
       data: {
-        memberId: userInfo.id,
+        memberId: initUserInfo.id,
         postId: userPostData.length > 0 ? userPostData[userPostData.length - 1].id : '',
       }
     })
   }
 
   useEffect(() => {
-    if (userInfo.id) fetchUserPost()
-  }, [userInfo])
+    if (initUserInfo.id) fetchUserPost()
+  }, [initUserInfo])
   
   if (!userInfo) return null
   return (

@@ -145,6 +145,7 @@ const PostCard = (props: PostProps) => {
       />
       <DeletePostPopup
         postId={ props.post.id }
+        postType={ props.type }
         display={ displayDeletePopup }
         onPrev={ () => toggleDisplayDeletePopup() }
       />

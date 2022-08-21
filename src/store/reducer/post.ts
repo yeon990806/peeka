@@ -42,7 +42,7 @@ export const UPDATE_MAINPOST = 'UPDATE_MAINPOST'
 export const DELETE_POST_REQUEST = 'DELETE_POST_REQUEST'
 export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS'
 export const DELETE_POST_FAILURE = 'DELETE_POST_FAILURE'
-export const DELETE_MAINPOST = 'UPDATE_MAINPOST'
+export const DELETE_MAINPOST = 'DELETE_MAINPOST'
 
 export const FETCH_POST_COMMENT = 'FETCH_POST_COMMENT'
 export const ADD_POST_COMMENT = 'ADD_POST_COMMENT'
@@ -152,7 +152,9 @@ const reducer = (state = initialState, action) => {
         
         break
       case DELETE_MAINPOST:
-        deletePostAction(action.data, draft.mainPost, action.data.onSuccess)
+        const filtered = deletePostAction(action.data.postId, draft.mainPost, action.data.onSuccess)
+
+        draft.mainPost = filtered
         
         break
       case FETCH_POST_COMMENT:
