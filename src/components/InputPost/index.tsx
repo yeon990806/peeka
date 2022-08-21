@@ -121,7 +121,7 @@ const InputPost = (props: InputPostProps) => {
   }, [uploadImage, inputValue, postCategory])
     
 
-  const removeImage = (clickedImage: PostImageType) => {
+  const removeImage = (clickedImage: PostImageType, idx?: number) => {
     setUploadImage(uploadImage.filter((v) => v.url !== clickedImage.url))
 
     if (clickedImage.image) {
@@ -137,7 +137,7 @@ const InputPost = (props: InputPostProps) => {
       setFileList(dataTransfer.files)
     } else {
       setPostImage(prev => prev.filter(v => v.url !== clickedImage.url))
-      setDeletedImage([ ...deletedImage, props.post.images[clickedImage.idx] ])
+      setDeletedImage([ ...deletedImage, props.post.images[idx]])
     }
   }
 
@@ -245,7 +245,7 @@ const InputPost = (props: InputPostProps) => {
       <div className={ classNames( style.PostImageContainer, mobile && style.MobileGrid ) }>
         { postImage.map((v, i) => (
           <div className={ style.PostImage } key={ `post-${i}` }>
-            <div className={ style.RemovePostImage } onClick={ () => removeImage(v) }>
+            <div className={ style.RemovePostImage } onClick={ () => removeImage(v, i) }>
               &times;
             </div>
             <img src={ v.url } />

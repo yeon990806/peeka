@@ -169,46 +169,48 @@ const InputInfo = (props: InputInfoProps) => {
             label="만 14세 이상입니다."
             block
           />
-          <Checkbox
-            id="serviceTerms"
-            value={ props.serviceTerms }
-            onClick={ () => props.setServiceTerms() }
-            label="[필수] 이용약관 동의"
-            block
-            postfix={
-              <Button
-                type="text"
-                theme="light"
-                onClick={ () => {
-                    setTermsType(0)
-                    onToggleDisplayPopup()
-                  } 
-                }
-              >
-                보기
-              </Button>
-            }
-          />
-          <Checkbox
-            id="privacyPolicy"
-            value={ props.privacyPolicy }
-            onClick={ () => props.setPrivacyPolicy() }
-            label="[필수] 개인정보취급 동의"
-            block
-            postfix={
-              <Button
-                type="text"
-                theme="light"
-                onClick={ () => {
-                    setTermsType(1)
-                    onToggleDisplayPopup()
-                  } 
-                }
-              >
-                보기
-              </Button>
-            }
-          />
+          { !props.googleEmail && <>
+            <Checkbox
+              id="serviceTerms"
+              value={ props.serviceTerms }
+              onClick={ () => props.setServiceTerms() }
+              label="[필수] 이용약관 동의"
+              block
+              postfix={
+                <Button
+                  type="text"
+                  theme="light"
+                  onClick={ () => {
+                      setTermsType(0)
+                      onToggleDisplayPopup()
+                    } 
+                  }
+                >
+                  보기
+                </Button>
+              }
+            />
+            <Checkbox
+              id="privacyPolicy"
+              value={ props.privacyPolicy }
+              onClick={ () => props.setPrivacyPolicy() }
+              label="[필수] 개인정보취급 동의"
+              block
+              postfix={
+                <Button
+                  type="text"
+                  theme="light"
+                  onClick={ () => {
+                      setTermsType(1)
+                      onToggleDisplayPopup()
+                    } 
+                  }
+                >
+                  보기
+                </Button>
+              }
+            />
+          </> }
           <Checkbox
             id="receiveMarketing"
             value={ props.receiveMarketing }

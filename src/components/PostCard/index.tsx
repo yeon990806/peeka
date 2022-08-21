@@ -212,7 +212,7 @@ const PostCard = (props: PostProps) => {
             </article>
           }
         </div>
-        <div className={ style.ImageContainer }>
+        { !activeModify && <div className={ style.ImageContainer }>
           <ImageSlide
             slideHeight={ 300 }
             imageArray={ props.post.images }
@@ -223,7 +223,7 @@ const PostCard = (props: PostProps) => {
             slidesToScroll={1}
             arrow
           />
-        </div>
+        </div> }
         <div className={ style.PostAction }>
           <div className={ style.PostReaction }>
             <Button type="icon" onClick={ () => toggleLikePost() }>

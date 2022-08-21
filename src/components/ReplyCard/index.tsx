@@ -25,7 +25,6 @@ const ReplyCard = (props: ReplyCardProps) => {
   const [activeModify, setActiveModify] = useState<boolean>(false)
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
-  const [modifyValue, setModifyValue] = useState<string>('')
   const [displayDeleteReply, setDisplayDeleteReply] = useState<boolean>(false)
 
   const atRegex = /@[^\s]+/g
@@ -141,7 +140,7 @@ const ReplyCard = (props: ReplyCardProps) => {
           </article>
           : <div className={ style.CommentInput }>
             <Textarea
-              value={ modifyValue }
+              value={ inputValue }
               row={ 3 }
               onInput={ (v) => onChangeInputValue(v) }
             />
