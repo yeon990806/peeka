@@ -1,0 +1,26 @@
+.PolicyPage {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: calc(100vh - 71px);
+  margin: 0;
+
+  header {
+    color: $light;
+    font-size: 18px;
+  }
+
+  section {
+    margin-top: 16px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.Mobile {
+    height: calc(100vh - 115px);
+    padding: 16px 24px;
+    font-size: 18px;
+  }
+}

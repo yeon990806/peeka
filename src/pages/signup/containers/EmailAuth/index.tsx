@@ -66,8 +66,12 @@ const EmailAuth = (props: EmailAuthProps) => {
                     return { state: false, msg: "이메일을 다시 한번 확인해주세요." }
                 },
                ]}
-              onInput={ (v) => { props.setUserEmail(v); } }
-              // existenceEmail(v)
+              onInput={ (v) => { 
+                props.setUserEmail(v); 
+              } }
+              onChange={ (v) => {
+                existenceEmail(v)
+              } }
               onError={ (v) => setEmailError(v) }
             />
             { duplicatedEmail && <div className={ style.EmailIssue }>

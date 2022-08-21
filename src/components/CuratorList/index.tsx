@@ -8,6 +8,7 @@ import { getTimeFromNow } from "@/common/defines/Format";
 import UserProfile from "../UserProfile";
 
 import style from "./style.module.scss"
+import Footer from "../Footer";
 
 const CuratorList = () => {
   const dispatch = useDispatch()
@@ -59,6 +60,7 @@ const CuratorList = () => {
           )) }
         </ul>
       </div>
+      <Footer />
     </div>
   )
 }

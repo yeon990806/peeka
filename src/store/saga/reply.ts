@@ -22,7 +22,7 @@ import {
 } from "../reducer/reply";
 import { ADD_USERPOST_COMMENT_REPLY, FETCH_USERPOST_COMMENT_REPLY } from "../reducer/user";
 import { APIHost } from '@/common/api';
-import { TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
+import { UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
 
 function fetchReplyAPI (param) {
@@ -51,7 +51,7 @@ function addReplyAPI (param) {
 
 function updateReplyAPI (param) {
   const paramData = {
-    id: param.id,
+    id: typeof param.id === 'string' ? parseInt(param.id) : param.id,
     member_image: param.memberImage,
     contents: param.contents,
   }

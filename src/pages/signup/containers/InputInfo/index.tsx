@@ -68,7 +68,7 @@ const InputInfo = (props: InputInfoProps) => {
           <Input
             value={ props.userName }
             placeholder="유저네임"
-            onChange={ async (v) => {
+            onChange={ (v) => {
               props.setUserName(v)
               existenceUsername(v)
             } }
