@@ -18,7 +18,7 @@ class MyDocument extends Document {
           <meta property="og:type" content="website"></meta>
           <meta property="og:title" content="피카"></meta>
           <meta property="og:description" content="영화, 드라마, 웹툰, 웹소설을 소재로 소통하는 공간"></meta>
-          <meta property="og:image" content="/images/peeka-logo.svg"></meta>
+          <meta property="og:image" content="/images/peeka-logo-dark.svg"></meta>
           <meta property="og:url" content="http://www.peeka.ai"></meta>
         </Head>
         <body>

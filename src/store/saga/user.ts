@@ -127,11 +127,13 @@ function* ReIssueAction (action) {
 
     if (result.status === 200) {
       yield put({
-        type: RE_ISSUE_SUCCESS
+        type: RE_ISSUE_SUCCESS,
+        data: result.data
       })
 
       yield put({
-        type: FETCH_USERINFO_REQUEST
+        type: FETCH_USERINFO_REQUEST,
+        daata: result.data
       })
     }
   } catch (err) {

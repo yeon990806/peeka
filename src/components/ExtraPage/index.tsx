@@ -11,9 +11,9 @@ interface ExtraPageProps {
   imgRotate?: boolean
   title: string
   postList: PostType[]
-  fetchDone: boolean
-  fetchLoading: boolean
-  fetchPost: () => void
+  fetchDone?: boolean
+  fetchLoading?: boolean
+  fetchPost?: () => void
   postType: StorePostType
   nullText: string | ReactNode
 }

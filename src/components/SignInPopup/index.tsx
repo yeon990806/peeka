@@ -1,4 +1,6 @@
 import { IsMobile } from "@/common/hooks/breakpoints"
+import { SIGN_OUT_REQUEST } from "@/store/reducer/user"
+import { useDispatch } from "react-redux"
 import SignIn from "src/pages/signin"
 import Popup from "../Popup"
 import Screen from "../Screen"
@@ -10,6 +12,15 @@ interface SignInPopupProps {
 
 const SignInPopup = (props: SignInPopupProps) => {
   const mobile = IsMobile()
+  const dispatch = useDispatch()
+
+  const closePopup = () => {
+    dispatch({
+      type: SIGN_OUT_REQUEST
+    })
+
+    props.onClose()
+  }
 
   if (mobile)
     return (
@@ -18,7 +29,7 @@ const SignInPopup = (props: SignInPopupProps) => {
         content={
           <SignIn popup/>
         }
-        onCancel={ props.onClose }
+        onCancel={ closePopup }
       />
     )
   return (
@@ -27,7 +38,7 @@ const SignInPopup = (props: SignInPopupProps) => {
       type={ "cancel" }
       content={ <SignIn popup/> }
       buttonAlign={"right"} 
-      onCancel={ props.onClose }
+      onCancel={ closePopup }
       block
     />
   )

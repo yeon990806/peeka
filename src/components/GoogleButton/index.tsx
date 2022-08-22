@@ -1,5 +1,6 @@
 import { GoogleSignIn } from "@/common/api"
-import { getCookie, setCookie } from "@/common/libs/Cookie"
+import { setCookie } from "@/common/libs/Cookie"
+import { TOGGLE_SIGN_IN_POPUP } from "@/store/reducer/popup"
 import { FETCH_USERINFO_REQUEST, SET_SIGN_UP_PARAMETER, UPDATE_USERINFO } from "@/store/reducer/user"
 import { useRouter } from "next/router"
 import { memo, useCallback, useEffect } from "react"
@@ -8,6 +9,7 @@ import style from "./style.module.scss"
 
 interface GoogleButtonProps {
   type: "signIn" | "signUp"
+  popup?: boolean
 }
 
 const GoogleButton = memo((props: GoogleButtonProps) => {
@@ -35,7 +37,13 @@ const GoogleButton = memo((props: GoogleButtonProps) => {
             })
 
           }
-          router.replace('/community')
+
+          if (props.popup)
+            dispatch({
+              type: TOGGLE_SIGN_IN_POPUP
+            })
+          else
+            router.replace('/community')
 
           break
         case 'signup':

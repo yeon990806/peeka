@@ -8,6 +8,14 @@
   font-weight: 500;
 }
 
+body {
+  height: 100vh;
+  height: -webkit-fill-available;
+  height: fill-available;
+  overflow: hidden;
+  touch-action: none;
+}
+
 #wrapper {
   height: 100vh;
   background-color: $background;
