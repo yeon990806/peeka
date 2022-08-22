@@ -24,7 +24,9 @@
     grid-template-rows: auto 1fr 56px;
 
     .Container {
-      margin-bottom: 56px;
+      .ContentContainer {
+        margin: 0 auto 56px 0;
+      }
     }
 
     .BottmNavigation {
