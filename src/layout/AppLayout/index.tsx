@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, createRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { FETCH_ALERT_REQUEST } from "@/store/reducer/user";
@@ -84,10 +83,10 @@ const AppLayout = (props: AppLayoutProps) => {
         <div className={ style.ContentContainer }>
           { props.children }
         </div>
+        { mobile && <PostCategory /> }
       </div>
       { wideScreen && <VideoList /> }
       { wideScreen && <CuratorList /> }
-      { mobile && <PostCategory /> }
       <SignInPopup
         display={ signInPopupDisplay }
         onClose={ toggleSignInPopup }
