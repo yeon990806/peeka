@@ -13,6 +13,7 @@ import SignInPopup from "@/components/SignInPopup";
 import style from "./style.module.scss"
 import PostCategory from '@/components/PrimaryHeader/components/PostCategory';
 import { IsMobile } from '@/common/hooks/breakpoints';
+import classNames from 'classnames';
 
 interface AppLayoutProps {
   children: React.ReactNode,
@@ -74,7 +75,7 @@ const AppLayout = (props: AppLayoutProps) => {
   }, [])
   if (!isShowing) return <></>
   return (
-    <div className={ style.AppLayout }>
+    <div className={ classNames(style.AppLayout, mobile && style.Mobile) }>
       <PrimaryHeader />
       { scrollY >= 1200 && <TopButton
         onClick={ () => onClickHandleTop() }
@@ -83,10 +84,10 @@ const AppLayout = (props: AppLayoutProps) => {
         <div className={ style.ContentContainer }>
           { props.children }
         </div>
-        { mobile && <PostCategory /> }
       </div>
       { wideScreen && <VideoList /> }
       { wideScreen && <CuratorList /> }
+      { mobile && <PostCategory /> }
       <SignInPopup
         display={ signInPopupDisplay }
         onClose={ toggleSignInPopup }
