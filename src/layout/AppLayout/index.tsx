@@ -85,7 +85,9 @@ const AppLayout = (props: AppLayoutProps) => {
           { props.children }
         </div>
       </div>
-      { mobile && <PostCategory /> }
+      { mobile && <div className={ style.BottmNavigation }>
+        <PostCategory />
+      </div> }
       { wideScreen && <VideoList /> }
       { wideScreen && <CuratorList /> }
       <SignInPopup

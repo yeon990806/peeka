@@ -19,7 +19,22 @@
   }
 
   &.Mobile {
+    position: relative;
     display: grid;
     grid-template-rows: auto 1fr 56px;
+
+    .Container {
+      padding-bottom: 56px;
+    }
+
+    .BottmNavigation {
+      position: fixed;
+      width: 100%;
+      height: 56px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 3;
+    }
   }
 }
