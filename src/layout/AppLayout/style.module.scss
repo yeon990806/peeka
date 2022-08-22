@@ -19,11 +19,7 @@
   }
 
   &.Mobile {
-    display: flex;
-    flex-direction: column;
-
-    .Container {
-      flex: 1;
-    }
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
   }
 }

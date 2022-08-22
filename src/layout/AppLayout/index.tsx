@@ -85,9 +85,9 @@ const AppLayout = (props: AppLayoutProps) => {
           { props.children }
         </div>
       </div>
+      { mobile && <PostCategory /> }
       { wideScreen && <VideoList /> }
       { wideScreen && <CuratorList /> }
-      { mobile && <PostCategory /> }
       <SignInPopup
         display={ signInPopupDisplay }
         onClose={ toggleSignInPopup }
