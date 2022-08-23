@@ -95,9 +95,9 @@
   }
   
   .PostImageContainer {
-    margin-top: 8px;
-    display: grid;
+    display: grid; 
     grid-gap: 8px;
+    margin-top: 8px;
     grid-template-columns: repeat(6, 1fr);
 
     &.MobileGrid {

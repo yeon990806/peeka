@@ -167,8 +167,10 @@ const InputPost = (props: InputPostProps) => {
       setUploadImage([])
       Array.from(fileList).forEach(async (image) => {
         await encodeFileToBase64(image)
-          .then((data: File) => setUploadImage((prev) => [...prev, { image: image, url: data, lastModified: image.lastModified }]))
-      })
+          .then((data: File) => {
+            return setUploadImage((prev) => [...prev, { image: image, url: data, lastModified: image.lastModified }])
+          }
+      )})
     }
   }, [fileList])
 
@@ -260,7 +262,7 @@ const InputPost = (props: InputPostProps) => {
           </div>
         )) }
         { uploadImage.map((v, i) => (
-          <div className={ style.PostImage } key={ i }>
+          <div className={ style.PostImage } key={ i }  style={{ order: parseInt(v.image.idx) }}>
             <div className={ style.RemovePostImage } onClick={ () => removeImage(v) }>
               &times;
             </div>

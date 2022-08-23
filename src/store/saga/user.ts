@@ -128,10 +128,7 @@ function* ReIssueAction (action) {
     if (result.status === 200) {
       yield put({
         type: RE_ISSUE_SUCCESS,
-        data: {
-          result: result.data,
-          payload: action.data
-        }
+        data: result.data
       })
 
       yield put({

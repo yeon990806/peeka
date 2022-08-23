@@ -175,12 +175,6 @@ function* AddComment (action) {
     if (err.response && err.response.status === 401)
       yield put({
         type: RE_ISSUE_REQUEST,
-        data: {
-          callback: yield put({
-            type: ADD_COMMENT_REQUEST,
-            data: action
-          })
-        }
       })
   }
 }

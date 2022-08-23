@@ -11,9 +11,9 @@ import { useDispatch, useSelector } from "react-redux"
 import style from './style.module.scss'
 
 const PostCategory = () => {
+  const dispatch = useDispatch()
   const mobile = IsMobile()
   const router = useRouter()
-  const dispatch = useDispatch()
   const category = useSelector((state: StateType) => state.post.postCategory)
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(category || CategoryType.전체)
 
@@ -43,7 +43,7 @@ const PostCategory = () => {
   useEffect(() => {
     if (selectedCategory && router.pathname.indexOf('community') < 0) setSelectedCategory(null)
     else {
-      if (category !== selectedCategory) onClickCategoryButton(category)
+      if (category !== selectedCategory) onClickCategoryButton(category || selectedCategory)
     }
   }, [router.pathname, category])
 
