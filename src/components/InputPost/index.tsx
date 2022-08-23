@@ -13,6 +13,7 @@ import { ImageType, PostType, StateType, StorePostType } from "@/common/defines/
 import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
 import { DefaultProps } from "@/common/defines/Props";
+import { FormatNumber } from "@/common/libs/Format";
 
 interface InputPostProps extends DefaultProps {
   placeholder?: string;
@@ -205,6 +206,7 @@ const InputPost = (props: InputPostProps) => {
             additionalClass={ style.InputForm }
             onInput={ (v: string) => onInputContent(v) }
             placeholder={ props.placeholder }
+            maxLength={ 5000 }
           />
         </div>
       </div>
@@ -220,6 +222,12 @@ const InputPost = (props: InputPostProps) => {
           />
         </div>
         <div>
+          <div className={ style.PostLength }>
+            <span className={ inputValue.length >= 5000 ? style.MaxLength : '' }>
+              { FormatNumber(inputValue.length) + ' ' }
+            </span>
+            / 5,000
+          </div>
           <Button type="icon" onClick={ (e) => onClickImageUpload(e) }>
             <img src="/images/image-upload.svg" tabIndex={-1} />
           </Button>

@@ -23,6 +23,7 @@ interface TextareaProps extends DefaultProps {
   block?: boolean;
   borderless?: boolean;
   paddingless?: boolean;
+  maxLength?: number;
 
   onInput?: (value: TextareaProps['value']) => void;
   onChange?: (value: TextareaProps['value']) => void;
@@ -40,7 +41,7 @@ const Textarea = memo((props: TextareaProps) => {
 
   const resizeTextarea = () => {
     TextareaRef.current.style.height = '0px'
-    TextareaRef.current.style.height = (12 + TextareaRef.current.scrollHeight) + 'px'
+    TextareaRef.current.style.height = (12 + TextareaRef.current.scrollHeight >= 500 ? 500 : TextareaRef.current.scrollHeight) + 'px'
   }
 
   useEffect(() => setInputValue(props.value), [props.value])
@@ -67,6 +68,7 @@ const Textarea = memo((props: TextareaProps) => {
           disabled={ props.disabled }
           placeholder={ props.placeholder }
           draggable={ props.draggable }
+          maxLength={ props.maxLength }
           style={ props.style }
           rows={ props.row || 5 }
           onFocus={ (e) => setFocus(true) }

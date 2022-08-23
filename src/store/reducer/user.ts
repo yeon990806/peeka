@@ -181,15 +181,17 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.reIssueLoading = false
       draft.reIssueSuccess = true
 
-      setCookie('accessToken', action.data.access_token, { 
+      setCookie('accessToken', action.data.result.access_token, { 
         path: '/',
         secure: true,
         expires: new Date(Date.now() + (6 * 3600 * 1000)),
       })
-      setCookie('refreshToken', action.data.refresh_token, {
+      setCookie('refreshToken', action.data.result.refresh_token, {
         path: '/',
         secure: true,
       })
+
+      if (action.data.payload.callback) action.data.payload.callback()
 
       break
     case RE_ISSUE_FAILURE:

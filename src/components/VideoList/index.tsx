@@ -24,22 +24,23 @@ const VideoList = () => {
   return (
     <div className={ style.VideoList }>
       <ul className={ style.VideoItemContainer }>
-        { bannerList.map(video => (
-          <li 
+        { bannerList.map(video => {
+          const temp = video.source.replace('https://', '').split('/')
+          const videoId = temp[temp.length - 1]
+          
+          
+          return <li 
             className={ style.VideoListItem }
             key={ video.id }
           >
-            <iframe
-              width="320"
-              height="180"
-              src={ video.source }
-              title={ video.id.toString() }
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen>
-              </iframe>
+            <a href={ `https://youtu.be/${ videoId }` } target="_blank">
+              <div className={ style.VideoTitle }>
+                { video.title || "제목을 입력하세요." }
+              </div>
+              <img src={ `https://img.youtube.com/vi/${ videoId }/mqdefault.jpg` } alt={ "제목을 입력해주세요." } />
+            </a>
           </li>
-        )) }
+        }) }
       </ul>
     </div>
   )

@@ -38,7 +38,7 @@ const InputComment = (props: InputCommentProps) => {
           toUserName: props.toUserName ? props.toUserName : '',
           postType: props.type,
           onSuccess: () => {
-            setInputValue('')
+            onInputContent('')
             if (props.callback) props.callback()
           }
         }
@@ -53,7 +53,7 @@ const InputComment = (props: InputCommentProps) => {
           author: props.author,
           postType: props.type,
           onSuccess: () => {
-            setInputValue('')
+            onInputContent('')
             if (props.callback) props.callback()
           }
         }
@@ -66,16 +66,25 @@ const InputComment = (props: InputCommentProps) => {
     encType="application/x-www-form-urlencoded"
   >
     <div className={ style.InputFormContainer }>
-      <Textarea
-        block
-        borderless
-        paddingless
-        row={ 1 }
-        placeholder={ props.placeholder }
-        value={ inputValue }
-        additionalClass={ style.InputForm }
-        onInput={ (v: string) => onInputContent(v) }
-      />
+      <div className={ style.TextForm }>
+        <Textarea
+          block
+          borderless
+          paddingless
+          row={ 1 }
+          placeholder={ props.placeholder }
+          maxLength={ 3000 }
+          value={ inputValue }
+          additionalClass={ style.InputForm }
+          onInput={ (v: string) => onInputContent(v) }
+        />
+        <div className={ style.CommentLength }>
+          <span className={ inputValue.length >= 3000 ? style.MaxLength : '' }>
+            { inputValue.length + ' ' }
+          </span>
+          / 3000
+        </div>
+      </div>
       <Button type="text" theme="light" onClick={ () => onSubmitComment() }>
         { props.commentId ? '답글' : '댓글' }
       </Button>

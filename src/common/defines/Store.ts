@@ -221,6 +221,7 @@ export type CommentType = {
 
 export type VideoType = {
   id: number
+  title?: string
   banner_code: string
   category_code: string
   source: string

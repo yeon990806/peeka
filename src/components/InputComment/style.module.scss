@@ -4,9 +4,19 @@
   .InputFormContainer {
     display: grid;
     grid-template-columns: 1fr auto;
+    align-items: flex-end;
+    grid-gap: 8px;
 
-    textarea {
-      margin-top: 5px;
+    .TextForm {
+      .CommentLength {
+        padding: 16px 0 8px;
+        text-align: right;
+        color: $light;
+
+        .MaxLength {
+          color: $danger;
+        }
+      }
     }
   }
 }

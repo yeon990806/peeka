@@ -105,7 +105,7 @@ const SignIn = (props: SignInProps) => {
           <p className={ style.SignInText }>
             또는
           </p>
-          <GoogleButton type="signIn" />
+          <GoogleButton type="signIn" popup={ props.popup } />
         </div>
       </div>
       <div className={ style.NewMember }>
