@@ -6,6 +6,7 @@ import Button from "../Button";
 import Textarea from "../Textarea";
 import style from "./style.module.scss"
 import { StateType, StorePostType } from "@/common/defines/Store";
+import { FormatNumber } from "@/common/libs/Format";
 
 interface InputCommentProps {
   onSubmit?: () => void;
@@ -80,9 +81,9 @@ const InputComment = (props: InputCommentProps) => {
         />
         <div className={ style.CommentLength }>
           <span className={ inputValue.length >= 3000 ? style.MaxLength : '' }>
-            { inputValue.length + ' ' }
+            { FormatNumber(inputValue.length) + ' ' }
           </span>
-          / 3000
+          / 3,000
         </div>
       </div>
       <Button type="text" theme="light" onClick={ () => onSubmitComment() }>
