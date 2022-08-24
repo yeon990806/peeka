@@ -1,9 +1,7 @@
-import { CodeCategoryType } from '@/common/defines/Category'
+import { useMemo } from 'react'
 import { IsMobile } from '@/common/hooks/breakpoints'
 import Button from '@/components/Button'
 import Input from '@/components/Input'
-import MenuPopup, { PopupItemProps } from '@/components/MenuPopup'
-import { useCallback, useMemo, useRef, useState } from 'react'
 import style from './style.module.scss'
 
 interface InputSearchProps {
@@ -20,32 +18,6 @@ const InputSearch = (props: InputSearchProps) => {
   const mobile = IsMobile()
   
   const InputStyle = useMemo(() => ({ height: 28 }), [])
-
-  const SetCategoryPopup = () => {
-    return (
-      <ul className={ style.CategoryPopup }>
-        { Object.keys(CodeCategoryType).map((v) => (
-          <li
-            className={ style.SelectCategoryButton }
-            key={ v }
-            onClick={ (e) => {
-              e.preventDefault()
-              e.stopPropagation()
-
-              props.onChangeCategory(v)
-            } }
-          >
-            <div>
-              { v }
-            </div>
-            <div>
-              { CodeCategoryType[v] }
-            </div>
-          </li>
-        )) }
-      </ul>
-    )
-  }
 
   if (!props.displaySearch) return null
   

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { FETCH_CURATOR_REQUEST } from "@/store/reducer/content";
@@ -14,7 +14,6 @@ const CuratorList = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const curatorList = useSelector((state: StateType) => state.content.curatorList)
-  const [title, setTitle] = useState<string>('')
 
   useEffect(() => {
     dispatch({

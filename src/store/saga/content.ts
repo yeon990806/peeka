@@ -6,7 +6,7 @@ import { FETCH_CURATOR_SUCCESS } from "../reducer/content";
 import { APIHost } from '@/common/api';
 
 function fetchCuratorAPI (param) {
-  return axios.get(`${ APIHost }/public/curator/news?category_code=${ param.category }&id=${ param.id }&paging_number=0&paging_size=10`, {
+  return axios.get(`${ APIHost }/public/curator/news?category_code=${ param.category || '' }&id=${ param.id }&paging_number=0&paging_size=10`, {
     headers: {
       Authorization: `Bearer ${ getCookie('accessToken') }`
     }
@@ -14,7 +14,7 @@ function fetchCuratorAPI (param) {
 }
 
 function fetchVideoAPI (param) {
-  return axios.get(`${ APIHost }/public/banners?category_code=${ param.category }&id=${ param.id }&paging_number=0&paging_size=3`, {
+  return axios.get(`${ APIHost }/public/banners?category_code=${ param.category || '' }&id=${ param.id }&paging_number=0&paging_size=3`, {
     headers: {
       Authorization: `Bearer ${ getCookie('accessToken') }`
     }

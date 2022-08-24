@@ -14,6 +14,7 @@ const search = () => {
   const searchContent = useSelector((state: StateType) => state.extra.extraList)
   const searchLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
   const searchDone = useSelector((state: StateType) => state.extra.fetchDone)
+  const searchError = useSelector((state: StateType) => state.extra.fetchExtraListError)
 
   const fetchSearchContent = () => {
     if (!category && !text) return
@@ -55,6 +56,7 @@ const search = () => {
       postList={ searchContent }
       fetchDone={ searchDone }
       fetchLoading={ searchLoading }
+      fetchError={ searchError }
       fetchPost={ fetchSearchContent }
       postType={ StorePostType.ExtraPost }
       nullText="검색 결과가 없어요."

@@ -48,7 +48,7 @@ const PrimaryHeader = () => {
       ? <div className={ style.MobileHeader }>
         <div className={ style.tp }>
           <div className={ style.logo } onClick={ () => onClickLogo() }>
-            Peeka
+            <img src="/images/peeka-text.svg" alt="logo" tabIndex={-1} />
           </div>
           <InputSearch
             displaySearch={ displaySearch }
@@ -68,9 +68,9 @@ const PrimaryHeader = () => {
       : <>
         <div className={ style.ScreenHeader }>
           <div className={ style.Container }>
-            <div className={ style.logo } onClick={ () => onClickLogo() }>
-              Peeka
-            </div>
+          <div className={ style.logo } onClick={ () => onClickLogo() }>
+            <img src="/images/peeka-text.svg" alt="logo" tabIndex={-1} />
+          </div>
             <div className={ style.DeskCategory }>
             <PostCategory />
             </div>

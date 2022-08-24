@@ -12,6 +12,7 @@ interface ExtraPageProps {
   title: string
   postList: PostType[]
   fetchDone?: boolean
+  fetchError?: any
   fetchLoading?: boolean
   fetchPost?: () => void
   postType: StorePostType
@@ -51,6 +52,7 @@ const ExtraPage = memo((props: ExtraPageProps) => {
             postList={ props.postList }
             fetchDone={ props.fetchDone }
             fetchLoading={ props.fetchLoading }
+            fetchError={ props.fetchError }
             fetchList={ props.fetchPost }
             postType={ props.postType }
           />

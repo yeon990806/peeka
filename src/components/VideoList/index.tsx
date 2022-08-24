@@ -11,14 +11,15 @@ const VideoList = () => {
   const bannerList = useSelector((state: StateType) => state.content.videoList)
 
   useEffect(() => {
-    dispatch({
-      type: FETCH_VIDEO_REQUEST,
-      data: {
-        category: (category && category === CategoryType.전체) ? '' : category,
-        id: '',
-        // id: currentList.length > 0 ? currentList[0].id : '' ,
-      }
-    })
+    if (category)
+      dispatch({
+        type: FETCH_VIDEO_REQUEST,
+        data: {
+          category: (category && category === CategoryType.전체) ? '' : category,
+          id: '',
+          // id: currentList.length > 0 ? currentList[0].id : '' ,
+        }
+      })
   }, [category])
 
   return (

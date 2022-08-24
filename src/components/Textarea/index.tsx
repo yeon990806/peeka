@@ -41,7 +41,7 @@ const Textarea = memo((props: TextareaProps) => {
 
   const resizeTextarea = () => {
     TextareaRef.current.style.height = '0px'
-    TextareaRef.current.style.height = (12 + TextareaRef.current.scrollHeight >= 500 ? 500 : TextareaRef.current.scrollHeight) + 'px'
+    TextareaRef.current.style.height = (12 + TextareaRef.current.scrollHeight >= 300 ? 300 : TextareaRef.current.scrollHeight) + 'px'
   }
 
   useEffect(() => setInputValue(props.value), [props.value])

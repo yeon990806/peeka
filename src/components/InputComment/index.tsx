@@ -74,13 +74,13 @@ const InputComment = (props: InputCommentProps) => {
           paddingless
           row={ 1 }
           placeholder={ props.placeholder }
-          maxLength={ 3000 }
+          maxLength={ 2000 }
           value={ inputValue }
           additionalClass={ style.InputForm }
           onInput={ (v: string) => onInputContent(v) }
         />
         <div className={ style.CommentLength }>
-          <span className={ inputValue.length >= 3000 ? style.MaxLength : '' }>
+          <span className={ inputValue.length >= 2000 ? style.MaxLength : '' }>
             { FormatNumber(inputValue.length) + ' ' }
           </span>
           / 3,000

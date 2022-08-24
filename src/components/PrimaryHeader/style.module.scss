@@ -24,6 +24,12 @@
     font-weight: bold;
     cursor: pointer;
     user-select: none;
+
+    img {
+      width: auto;
+      min-height: 18px;
+      height: 26px;
+    }
   }
 
   .ScreenHeader {

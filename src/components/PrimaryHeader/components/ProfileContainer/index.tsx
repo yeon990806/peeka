@@ -183,6 +183,9 @@ const ProfileContainer = (props: ProfileContainerProps) => {
         content={
           <div className={ style.ScreenAlertList }>
             { getAlertList() }
+            <Button type="text" theme="light-gray" onClick={ () => fetchAlertList(false) }>
+              알림 더 불러오기
+            </Button>
           </div>
         }
         onCancel={ () => onPrevEvent() }
@@ -195,17 +198,20 @@ const ProfileContainer = (props: ProfileContainerProps) => {
               <NotificationButton />
               <ProfileButton />
             </div>
-            : <Button theme="primary" type="text" onClick={ () => Router.push("/signin") }>로그인</Button>
+            : <div className={ style.ButtoncContainer }>
+              <SearchButton />
+              <Button theme="primary" type="text" onClick={ () => Router.push("/signin") }>로그인</Button>
+            </div>
           }
         </Mobile>
         <Desktop>
           <div className={ style.ButtoncContainer }>
+            { !props.displaySearch
+              ? <SearchButton />
+              : props.search 
+            }
             { userInfo.id
               ? <>
-                { !props.displaySearch
-                  ? <SearchButton />
-                  : props.search 
-                }
                 <NotificationButton />
                 <ProfileButton />
               </>

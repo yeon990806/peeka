@@ -20,13 +20,13 @@ const Community = () => {
   const [showing, setShowing] = useState<boolean>(false);
 
   const fetchPost = () => {
-    if (!id) return
-    dispatch({
-      type: FETCH_LINKEDPOST_REQUEST,
-      data: {
-        id,
-      }
-    })
+    if (id)
+      dispatch({
+        type: FETCH_LINKEDPOST_REQUEST,
+        data: {
+          id,
+        }
+      })
   }
 
   useEffect(() => {

@@ -15,6 +15,7 @@ const userpost = () => {
   const userPost = useSelector((state: StateType) => state.extra.extraList)
   const userInfo = useSelector((state: StateType) => state.extra.extraUserInfo)
   const userPostLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
+  const userPostError = useSelector((state: StateType) => state.extra.fetchExtraListError)
   const userDone = useSelector((state: StateType) => state.extra.fetchDone)
 
   const fetchUserPost = () => {
@@ -57,6 +58,7 @@ const userpost = () => {
       title={ `${ userInfo.nickname || "" }님의 포스트` }
       postList={ userPost }
       fetchDone={ userDone }
+      fetchError={ userPostError }
       fetchLoading={ userPostLoading }
       fetchPost={ fetchUserPost }
       postType={ StorePostType.ExtraPost }

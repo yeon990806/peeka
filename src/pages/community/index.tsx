@@ -20,6 +20,7 @@ const Community = () => {
   const postCategory = useSelector((state: StateType, ) => state.post.postCategory)
   const postLoading = useSelector((state: StateType) => state.post.fetchPostLoading)
   const postDone = useSelector((state: StateType) => state.post.fetchDone)
+  const postError = useSelector((state: StateType) => state.post.fetchPostError)
   const postList = useSelector((state: StateType) => state.post.mainPost)
   const isLogin = useSelector((state: StateType) => state.user.userInfo)
   
@@ -88,6 +89,7 @@ const Community = () => {
         <div className={ style.CommunityPost }>
           { postList.length > 0 && <PostContainer
             fetchDone={ postDone }
+            fetchError={ postError }
             fetchList={() => fetchPost(false, postLoading)}
             fetchLoading={ postLoading }
             postList={postList}

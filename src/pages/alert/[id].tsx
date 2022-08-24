@@ -1,11 +1,7 @@
 import { LayoutType } from "../_app"
-import style from "./style.module.scss"
 import { StateType, StorePostType } from '@/common/defines/Store';
-import PostCard from "@/components/PostCard";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import PostContainer from "@/components/PostContainer";
 import ExtraPage from "@/components/ExtraPage";
 
 const alert = () => {

@@ -12,6 +12,7 @@ const userpost = () => {
   const userInfo = useSelector((state: StateType) => state.user.userPostInfo)
   const userPostData = useSelector((state: StateType) => state.user.userPost)
   const userPostLoading = useSelector((state: StateType) => state.user.userPostLoading)
+  const userPostError = useSelector((state: StateType) => state.extra.fetchExtraListError)
   const userDone = useSelector((state: StateType) => state.user.fetchDone)
 
   const ImageStyle = useMemo(() => ({
@@ -46,6 +47,7 @@ const userpost = () => {
       title="내 포스트"
       postList={ userPostData }
       fetchDone={ userDone }
+      fetchError={ userPostError }
       fetchLoading={ userPostLoading }
       fetchPost={ fetchUserPost }
       postType={ StorePostType.UserPost }
