@@ -83,7 +83,7 @@ const InputComment = (props: InputCommentProps) => {
           <span className={ inputValue.length >= 2000 ? style.MaxLength : '' }>
             { FormatNumber(inputValue.length) + ' ' }
           </span>
-          / 3,000
+          / 2,000
         </div>
       </div>
       <Button type="text" theme="light" onClick={ () => onSubmitComment() }>

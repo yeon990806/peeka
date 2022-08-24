@@ -1,4 +1,4 @@
-import { addReplyAction, deletePostAction, fetchReplyAction, likeContentAction, scrapContentAction, unlikeContentAction, unscrapContentAction, updatePostAction, updateReplyAction } from '@/common/defines/Action';
+import { addReplyAction, deletePostAction, deleteReplyAction, fetchReplyAction, likeContentAction, scrapContentAction, unlikeContentAction, unscrapContentAction, updatePostAction, updateReplyAction } from '@/common/defines/Action';
 import { addCommentAction, deleteCommentAction, updateCommentAction } from '@/common/defines/Action';
 import { fetchCommentAction } from '@/common/defines/Action';
 import { ExtraStateType } from '@/common/defines/Store';
@@ -126,7 +126,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case ADD_EXTRAPOST_COMMENT:
-      addCommentAction({ ...action.data }, draft.extraList)
+      addCommentAction({ ...action.data }, draft.extraList, action.data.onSuccess)
 
       break
     case UPDATE_EXTRAPOST_COMMENT:
@@ -142,7 +142,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case ADD_EXTRAPOST_COMMENT_REPLY:
-      addReplyAction({ ...action.data }, draft.extraList)
+      addReplyAction({ ...action.data }, draft.extraList, action.data.onSuccess)
 
       break
     case UPDATE_EXTRAPOST_COMMENT_REPLY:
@@ -150,7 +150,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case DELETE_EXTRAPOST_COMMENT_REPLY:
-      deleteCommentAction({ ...action.data }, draft.extraList, action.data.onSuccess)
+      deleteReplyAction({ ...action.data }, draft.extraList, action.data.onSuccess)
 
       break
     case LIKE_EXTRAPOST_CONTENT:

@@ -66,7 +66,7 @@ function updateReplyAPI (param) {
 function deleteReplyAPI (param) {
   const paramData = {
     data: {
-      id: param.id,
+      id: typeof param.id === 'string' ? parseInt(param.id) : param.id,
       contents: param.contents
     },
     headers: {

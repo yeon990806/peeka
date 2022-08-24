@@ -450,7 +450,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case ADD_ALERT_COMMENT:
-      addCommentAction({ ...action.data }, draft.userInfo.alertDetail)
+      addCommentAction({ ...action.data }, draft.userInfo.alertDetail, action.data.onSuccess)
 
       break
     case UPDATE_ALERT_COMMENT:
@@ -466,7 +466,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case ADD_ALERT_COMMENT_REPLY:
-      addReplyAction({ ...action.data }, draft.userInfo.alertDetail)
+      addReplyAction({ ...action.data }, draft.userInfo.alertDetail, action.data.onSuccess)
 
       break
     case UPDATE_ALERT_COMMENT_REPLY:
@@ -474,7 +474,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case DELETE_ALERT_COMMENT_REPLY:
-      deleteCommentAction({ ...action.data }, draft.userInfo.alertDetail, action.data.onSuccess)
+      deleteReplyAction({ ...action.data }, draft.userInfo.alertDetail, action.data.onSuccess)
 
       break
     case LIKE_ALERT:
