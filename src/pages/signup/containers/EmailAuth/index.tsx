@@ -88,6 +88,7 @@ const EmailAuth = (props: EmailAuthProps) => {
               value={ props.authCode }
               placeholder="인증코드 4자리"
               maxLength={4}
+              inputmode="numeric"
               onInput={ (v) => props.setAuthCode(v) }
               onEnter={ (v) => props.onClickAuthButton() }
               description={ props.codeError || (props.sentCode && "인증번호가 전송되었어요. (제한시간 5분)") }

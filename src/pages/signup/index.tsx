@@ -226,7 +226,9 @@ const SignUp = () => {
             <a className={ style.Logo }>Peeka</a>
           </Link>
         </Desktop>
-        { pagecontent() }
+        <div>
+          { pagecontent() }
+        </div>
         <Button
           type="action"
           theme="primary"

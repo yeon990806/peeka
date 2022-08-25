@@ -106,15 +106,15 @@ const SignIn = (props: SignInProps) => {
             또는
           </p>
           <GoogleButton type="signIn" popup={ props.popup } />
+          <div className={ style.NewMember }>
+            회원이 아니신가요?
+            <Button type="text" theme="primary">
+              <Link href="/signup">
+                <a>가입하기</a>
+              </Link>
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className={ style.NewMember }>
-        회원이 아니신가요?
-        <Button type="text" theme="primary">
-          <Link href="/signup">
-            <a>가입하기</a>
-          </Link>
-        </Button>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 .SignUpContainer {
   width: 100%;
   max-width: 480px;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   padding: 32px 32px 48px;
 
@@ -14,6 +14,7 @@
   }
 
   .SignUp {
+    height: 100%;
     display: flex;
     flex-direction: column;
 
