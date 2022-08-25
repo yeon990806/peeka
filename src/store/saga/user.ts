@@ -126,7 +126,7 @@ function* ReIssueAction (action) {
     const loading = yield select(state => state.user.reIssueLoading)
     const error = yield select(state => state.user.reIssueError)
 
-    if (loading !== undefined && error !== undefined && (!loading || error)) {
+    if (!loading || error) {
       yield put({
         type: RE_ISSUE_FAILURE,
         error: 'Duplicated request'
