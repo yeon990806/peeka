@@ -54,7 +54,7 @@ const InputPost = (props: InputPostProps) => {
     { display: "웹소설", value: "WN" }
   ]
 
-  const SelectboxStyle = useMemo(() => ({ marginRight: 8 }), [])
+  const SelectboxStyle = useMemo(() => ({ marginRight: mobile ? 0 : 8 }), [])
 
   const onInputContent = useCallback((v: string) => setInputValue(v), [inputValue])
   const onClickImageUpload = useCallback((e) => {
@@ -210,26 +210,26 @@ const InputPost = (props: InputPostProps) => {
             placeholder={ props.placeholder }
             maxLength={ 5000 }
           />
-        </div>
-      </div>
-      <div className={ style.InputPostAction }>
-        <div>
-          <SelectBox
-            width={ 96 }
-            placeholder="카테고리"
-            value={ postCategory }
-            items={ selectArray }
-            style={ SelectboxStyle }
-            onClick={ (v) => setPostCategory(v) }
-          />
-        </div>
-        <div>
           <div className={ style.PostLength }>
             <span className={ inputValue.length >= 5000 ? style.MaxLength : '' }>
               { FormatNumber(inputValue.length) + ' ' }
             </span>
             / 5,000
           </div>
+        </div>
+      </div>
+      <div className={ style.InputPostAction }>
+        <div className={ mobile && style.MobileCategory }>
+          { !props.modify && <SelectBox
+            width={ 96 }
+            placeholder="카테고리"
+            value={ postCategory }
+            items={ selectArray }
+            style={ SelectboxStyle }
+            onClick={ (v) => setPostCategory(v) }
+          /> }
+        </div>
+        <div>
           <Button type="icon" onClick={ (e) => onClickImageUpload(e) }>
             <img src="/images/image-upload.svg" tabIndex={-1} />
           </Button>

@@ -149,11 +149,17 @@ function* AddPost (action) {
 function* UpdatePost (action) {
   try {
     const result = yield call(updatePostAPI, action.data)
+
     const responseData = {
       id: action.data.id,
       post: result.data,
       onSuccess: action.data.onSuccess,
     }
+
+    yield put({
+      type: CHANGE_POST_CATEGORY,
+      data: CategoryType[action.data.category]
+    })
 
     if (result.status === 200) {
       yield put({

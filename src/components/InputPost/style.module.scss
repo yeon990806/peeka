@@ -17,6 +17,7 @@
     padding: 16px 0 0;
     display: flex;
     flex-direction: column;
+    background: none;
 
     .InputFormContainer {
       display: flex;
@@ -35,7 +36,9 @@
 
     .InputPostAction {
       display: flex;
+      grid-column-gap: 8px;
       align-items: center;
+      flex-wrap: wrap;
       justify-content: flex-end;
     }
   }
@@ -60,6 +63,16 @@
         padding: 0;
         color: $light;
       }
+
+      .PostLength {
+        padding-right: 8px;
+        text-align: right;
+        color: $light;
+  
+        .MaxLength {
+          color: $danger;
+        }
+      }
     }
 
   }
@@ -73,15 +86,6 @@
     > div {
       display: inline-flex;
       align-items: center; 
-    }
-
-    .PostLength {
-      padding-right: 8px;
-      color: $light;
-
-      .MaxLength {
-        color: $danger;
-      }
     }
     
     .PostSubmitButton {
@@ -138,4 +142,8 @@
       }
     }
   }
+}
+
+.MobileCategory {
+  margin-bottom: 8px;
 }

@@ -123,7 +123,6 @@ const reducer = (state = initialState, action) => {
         draft.updatePostLoading = false
         draft.updatePostSuccess = true
 
-        
         break
       case UPDATE_MAINPOST:
         updatePostAction(action.data, draft.mainPost, action.data.onSuccess)

@@ -1,4 +1,4 @@
-import { getLongDateFormat, getTimeFromNow } from '@/common/defines/Format';
+import { getTimeFromNow } from '@/common/defines/Format';
 import { PostType, StateType, StorePostType } from "@/common/defines/Store";
 import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
 import { PopupItemProps } from '@/components/MenuPopup';

@@ -3,7 +3,6 @@
   list-style: none;
   width: 100vw;
   max-width: 720px;
-  overflow-x: hidden;
 
   & + .Post {
     margin-top: 16px;
@@ -28,10 +27,6 @@
 
     .PostContentContainer {
       padding: 0;
-    }
-
-    .ImageContainer {
-      margin-top: 12px;
     }
 
     .PostAction {
@@ -86,8 +81,13 @@
       margin-top: 16px;
       color: $light;
       font-size: 16px;
-    }
-    
+    } 
+  }
+
+  .ImageContainer {
+    width: 100%;
+    margin-top: 12px;
+    overflow-x: hidden;
   }
   
   .PostAction {
