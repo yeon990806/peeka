@@ -1,13 +1,13 @@
+import axios from "axios";
+import router from "next/router";
 import Button from "@/components/Button";
 import GoogleButton from "@/components/GoogleButton";
 import Input from "@/components/Input";
-import axios from "axios";
-import { useCallback, useState } from "react";
 import SignUpContainer from "../../components/SignUpContainer";
-import router from "next/router";
+import { useCallback, useState } from "react";
+import { APIHost } from "@/common/api";
 
 import style from "../../style.module.scss";
-import { APIHost } from "@/common/api";
 
 interface EmailAuthProps {
   userEmail: string;

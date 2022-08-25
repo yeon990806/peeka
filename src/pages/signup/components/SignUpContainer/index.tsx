@@ -1,16 +1,16 @@
-import { SIGN_UP_REQUEST } from "@/store/reducer/user";
-import React, { useEffect } from "react"
-import { useDispatch } from "react-redux";
+import React from "react"
+import classNames from "classnames";
 import style from "./style.module.scss"
 
 interface SignUpContainerProps {
   content: React.ReactNode;
   option?: React.ReactNode;
+  notStretch?: boolean
 }
 
 const SignUpContainer = (props: SignUpContainerProps) => {
   return (
-    <div className={ style.SignupContentContainer }>
+    <div className={ classNames(style.SignupContentContainer, props.notStretch && style.NotStretch) }>
       <section className={ style.SignupContent }>
         { props.content }
       </section>

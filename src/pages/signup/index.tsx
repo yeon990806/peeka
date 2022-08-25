@@ -1,5 +1,5 @@
 import { SignupStepType, userType } from "@/common/defines/Signup";
-import { Mobile, Desktop, IsDesktop } from "@/common/hooks/breakpoints";
+import { Mobile, Desktop, IsDesktop, IsMobile } from "@/common/hooks/breakpoints";
 import Button from "@/components/Button";
 import Link from "next/link";
 import router from "next/router";
@@ -10,15 +10,17 @@ import SignupTitle from "./components/SignupTitle";
 import EmailAuth from "./containers/EmailAuth";
 import InputInfo from "./containers/InputInfo";
 import { genderType } from '@/common/defines/Signup';
-
-import style from "./style.module.scss";
 import axios, { AxiosResponse } from "axios";
 import { SET_SIGN_UP_PARAMETER, SIGN_UP_REQUEST } from "@/store/reducer/user";
 import { APIHost, AxiosResponseType } from "@/common/api";
 import { StateType } from "@/common/defines/Store";
+import classNames from "classnames";
+
+import style from "./style.module.scss";
 
 const SignUp = () => {
   const dispatch = useDispatch()
+  const mobile = IsMobile()
   const googleEmail = useSelector((state: StateType) => state.user.signupData)
 
   const [userId, setUserId] = useState<number | null>(null) // 이메일 인증했을 때 부여받는 유저의 아이디
@@ -226,7 +228,7 @@ const SignUp = () => {
             <a className={ style.Logo }>Peeka</a>
           </Link>
         </Desktop>
-        <div>
+        <div className={ classNames(style.SignUpContent, mobile && style.Stretch) }>
           { pagecontent() }
         </div>
         <Button

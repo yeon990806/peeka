@@ -13,6 +13,15 @@
     text-align: center;
   }
 
+  .SignUpContent {
+    flex: none;
+    overflow: auto;
+
+    &.Stretch {
+      flex: 1
+    }
+  }
+
   .SignUp {
     height: 100%;
     display: flex;
