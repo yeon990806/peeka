@@ -128,7 +128,7 @@ const ProfileContainer = (props: ProfileContainerProps) => {
       // },
       {
         text: '내 포스트',
-        onClick: () => Router.push('/userpost')
+        onClick: () => Router.push(`/userpost/${ userInfo.id }`)
       },
       {
         text: '스크랩',

@@ -4,7 +4,7 @@ import { PopupCode } from '@/common/defines/Popup';
 import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
 import router from 'next/router';
-import { all, call, fork, put, takeLatest } from 'redux-saga/effects'
+import { all, call, fork, put, select, takeLatest, throttle } from 'redux-saga/effects'
 import { getCookie, setCookie } from '../../common/libs/Cookie';
 import { openPopup, TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
 import { 
@@ -123,18 +123,29 @@ function* FetchUserInfo () {
 
 function* ReIssueAction (action) {
   try {
-    const result = yield call(onSilentRefresh)
+    const loading = yield select(state => state.user.reIssueLoading)
+    const error = yield select(state => state.user.reIssueError)
+    debugger
 
-    if (result.status === 200) {
+    if (loading !== undefined && error !== undefined && (!loading || error)) {
       yield put({
-        type: RE_ISSUE_SUCCESS,
-        data: result.data
+        type: RE_ISSUE_FAILURE,
+        error: 'Duplicated request'
       })
-
-      yield put({
-        type: FETCH_USERINFO_REQUEST,
-        daata: result.data
-      })
+    } else {
+      const result = yield call(onSilentRefresh)
+  
+      if (result.status === 200) {
+        yield put({
+          type: RE_ISSUE_SUCCESS,
+          data: result.data
+        })
+  
+        yield put({
+          type: FETCH_USERINFO_REQUEST,
+          daata: result.data
+        })
+      }
     }
   } catch (err) {
     yield put({
@@ -327,7 +338,7 @@ function* watchFetchUserInfo () {
 }
 
 function* watchReIssue () {
-  yield takeLatest(RE_ISSUE_REQUEST, ReIssueAction)
+  yield throttle(3000, RE_ISSUE_REQUEST, ReIssueAction)
 }
 
 function* watchSignIn () {

@@ -11,13 +11,13 @@ const Footer = () => {
       <div className={ style.Policy }>
         <Link href="/policy">
           <a>
-            서비스 이용약관
+            이용약관
           </a>
         </Link>
         <span>|</span>
         <Link href="/privacy">
           <a>
-            개인정보 처리방침
+            개인정보처리방침
           </a>
         </Link>
       </div>

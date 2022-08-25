@@ -24,7 +24,7 @@ const PrimaryHeader = () => {
 
   const onChangeSearchText = useCallback((v) => setSearchText(v), [searchText])
   const onChangeSearchCategory = useCallback((v) => setSearchCategory(v), [[searchCategory]])
-  const submitSearch = useCallback(() => router.push(`/search/${searchCategory}/${searchText}`), [searchText, searchCategory])
+  const submitSearch = useCallback(() => router.push(`/search/${searchText}`), [searchText, searchCategory])
   const onClickLogo = useCallback(() => {
     if (category !== CategoryType.전체) dispatch({
       type: CHANGE_POST_CATEGORY,

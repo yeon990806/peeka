@@ -20,7 +20,7 @@ const CuratorList = () => {
       type: FETCH_CURATOR_REQUEST,
       data: {
         category: '',
-        id: curatorList.length > 0 ? curatorList[0].id : ''
+        id: ''
       }
     })
   }, [])
@@ -30,8 +30,9 @@ const CuratorList = () => {
       <div className={ style.CuratorList }>
         <header className={ style.CuratorHeader }>
           <h1>
+            <img src="/images/peeka-paint.svg" alt="peeka" tabIndex={-1} role="presentation" />
             <span>
-              피카 큐레이터
+              큐레이터 포스트
             </span>
           </h1>
         </header>

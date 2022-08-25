@@ -137,6 +137,8 @@ export const UNSCRAP_ALERT = 'UNSCRAP_ALERT'
 
 export const SET_SIGN_UP_PARAMETER = 'SET_SIGN_UP_PARAMETER'
 
+export const getReIssueLoading = (state) => state.reIssueLoading
+
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case TOGGLE_ALWAYS_SIGN_IN:
@@ -151,9 +153,9 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       
       break;
     case FETCH_USERINFO_REQUEST:
-      draft.fetchUserInfoLoading = true
-      draft.fetchUserInfoSuccess = false
-      draft.fetchUserInfoError = null
+        draft.fetchUserInfoLoading = true
+        draft.fetchUserInfoSuccess = false
+        draft.fetchUserInfoError = null
 
       break
     case FETCH_USERINFO_SUCCESS:
@@ -165,6 +167,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       
       break
     case FETCH_USERINFO_FAILURE:
+
       draft.fetchUserInfoLoading = false
       draft.fetchUserInfoError = action.error
 
@@ -172,9 +175,15 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case RE_ISSUE_REQUEST:
+      if (draft.reIssueLoading || draft.reIssueError === 'Already Requested' || draft.reIssueError === 'Duplicated request') {
+        draft.reIssueLoading = false
+        draft.reIssueSuccess = false
+        draft.reIssueError = 'Already Requested'
+      } else {
       draft.reIssueLoading = true
       draft.reIssueSuccess = false
       draft.reIssueError = null
+    }
 
       break
     case RE_ISSUE_SUCCESS:
@@ -326,7 +335,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       break
     case USER_POST_SUCCESS:
       draft.userPostLoading = false
-      draft.userPostSuccess = true 
+      draft.userPostSuccess = true
 
       if (action.data.posts.length > 0) {
         const _post = draft.userPost.findIndex(v => v.id === action.data.posts[0].id)
@@ -337,6 +346,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       if (action.data.length === 0) draft.fetchDone = true
 
       draft.userPost = [ ...draft.userPost, ...action.data.posts ]
+      draft.userPostInfo = action.data.member
 
       break
     case USER_POST_FAILURE:

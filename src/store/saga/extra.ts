@@ -18,7 +18,7 @@ function FetchExtraPostAPI (param) {
 
       break
     case 'search':
-      api = api + `/search?category_code=${ param.category }&search_contents=${ param.text }&` + option
+      api = api + `/search?search_contents=${ param.text }&` + option
 
       break
     default:

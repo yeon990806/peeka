@@ -9,7 +9,7 @@ import ExtraPage from "@/components/ExtraPage";
 const search = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const [category, text] = router.query.params || []
+  const text = router.query.text || ''
 
   const searchContent = useSelector((state: StateType) => state.extra.extraList)
   const searchLoading = useSelector((state: StateType) => state.extra.fetchExtraListRequest)
@@ -17,14 +17,13 @@ const search = () => {
   const searchError = useSelector((state: StateType) => state.extra.fetchExtraListError)
 
   const fetchSearchContent = () => {
-    if (!category && !text) return
+    if (!text) return
     dispatch({
       type: FETCH_EXTRAPOST_REQUEST,
       data: {
         type: 'search',
         id: searchContent.length > 0 ? searchContent[searchContent.length - 1].id : '',
         public: true,
-        category,
         text,
       }
     })
@@ -42,7 +41,7 @@ const search = () => {
 
   useEffect(() => {
     fetchSearchContent()
-  }, [category, text])
+  }, [text])
   
   return (
     <ExtraPage

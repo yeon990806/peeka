@@ -21,7 +21,7 @@ const HashContainer = () => {
         type: FETCH_CURATOR_REQUEST,
         data: {
           category: category === CategoryType.전체 ? '' : category,
-          id: curatorList.length > 0 ? curatorList[0].id : ''
+          id: ''
         }
       })
   }, [category])
@@ -44,7 +44,7 @@ const HashContainer = () => {
               { v.nickname.replaceAll('@', '') }
             </div>
             <div className={ style.HashText }>
-              { CodeCategoryType[v.category_code] || "웹툰" }
+              {/* { CodeCategoryType[v.category_code] || "웹툰" } */}
               {/* <span> | </span> */}
               {/* { getTimeFromNow(v.created_at.toString()) } */}
             </div>

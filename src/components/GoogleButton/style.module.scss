@@ -1,11 +1,11 @@
 .GoogleButton {
   width: 100%;
   display: flex;
+  padding: 16px 0;
   align-items: center;
   justify-content: center;
-  padding: 10px 0;
-  color: $semi-light;
-  border: 1px solid $background-gray;
+  color: $dark-gray;
+  background-color: $light;
   border-radius: 10px;
   vertical-align: text-top;
   cursor: pointer;
