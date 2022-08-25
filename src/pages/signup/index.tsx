@@ -164,7 +164,7 @@ const SignUp = () => {
     if (pageStep === SignupStepType.EmailAuth) {
       return setEnableClick( googleEmail.email ? true : (sentCode && authCode.length === 4))
     } else {
-      return setEnableClick(userEmail && username && (googleEmail.email || password) && !inputError && birthDate && typeof gender === 'number' && gender >= 0 && (googleEmail.email && serviceTerms) && (googleEmail.email && privacyPolicy))
+      return setEnableClick(userEmail && username && (googleEmail.email || password) && !inputError && birthDate && typeof gender === 'number' && gender >= 0 && (googleEmail.email ? true : serviceTerms) && (googleEmail.email ? true : privacyPolicy))
     }
   }, [pageStep, userEmail, sentCode, authCode, googleEmail, userEmail, username, password, birthDate, gender, serviceTerms, privacyPolicy, inputError])
 
