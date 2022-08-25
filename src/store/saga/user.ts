@@ -125,7 +125,6 @@ function* ReIssueAction (action) {
   try {
     const loading = yield select(state => state.user.reIssueLoading)
     const error = yield select(state => state.user.reIssueError)
-    debugger
 
     if (loading !== undefined && error !== undefined && (!loading || error)) {
       yield put({
