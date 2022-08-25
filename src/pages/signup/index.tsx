@@ -228,7 +228,7 @@ const SignUp = () => {
             <a className={ style.Logo }>Peeka</a>
           </Link>
         </Desktop>
-        <div className={ classNames(style.SignUpContent, mobile && style.Stretch) }>
+        <div className={ classNames(style.SignUpContent, (mobile && pageStep === SignupStepType.InputInfo) && style.Stretch) }>
           { pagecontent() }
         </div>
         <Button
