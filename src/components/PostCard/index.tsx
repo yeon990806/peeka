@@ -189,13 +189,13 @@ const PostCard = (props: PostProps) => {
                 </p>
               </div>
             </div>
-            <MenuPopup
+            { !activeModify && <MenuPopup
               type="icon"
               theme="gray"
               menuList={ postMenuList }
             >
               <img role="presentation" src="/images/more.svg" alt="more" tabIndex={-1} />
-            </MenuPopup>
+            </MenuPopup> }
           </div>
           { activeModify
             ? <InputPost

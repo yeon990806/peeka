@@ -65,10 +65,13 @@ function signUpAPI (param) {
   })
 }
 
-export async function onSilentRefresh () {
+export async function onSilentRefresh (_access?: string, _refresh?: string) {
+  const access = _access || getCookie('accessToken')
+  const refresh = _refresh || getCookie('refreshToken')
+
   return axios.post(`${ APIHost }/public/auth/reissue`, {
-    access_token: getCookie('accessToken'),
-    refresh_token: getCookie('refreshToken')
+    access_token: access,
+    refresh_token: refresh,
   })
 }
 
