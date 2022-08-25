@@ -21,9 +21,9 @@ const TermsPopup = (props: TermsPopupProps) => {
   const renderHeader = () => {
     switch (props.termsType) {
       case termstype.ServiceTerm:
-        return <h1>서비스 이용약관</h1>
+        return <h1>이용약관</h1>
       case termstype.PrivacyTerm:
-        return <h1>개인정보 수집 동의 약관</h1>
+        return <h1>개인정보처리방침</h1>
     }
   }
 

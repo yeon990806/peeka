@@ -194,7 +194,7 @@ const InputInfo = (props: InputInfoProps) => {
               id="privacyPolicy"
               value={ props.privacyPolicy }
               onClick={ () => props.setPrivacyPolicy() }
-              label="[필수] 개인정보취급 동의"
+              label="[필수] 개인정보처리방침 동의"
               block
               postfix={
                 <Button
