@@ -9,7 +9,7 @@ import { LIKE_USERPOST_CONTENT, SCRAP_USERPOST, UNLIKE_USERPOST_CONTENT, UNSCRAP
 import { LIKE_EXTRAPOST_CONTENT, SCRAP_EXTRAPOST, UNLIKE_EXTRAPOST_CONTENT, UNSCRAP_EXTRAPOST } from '../reducer/extra';
 import { getCookie } from '@/common/libs/Cookie';
 import { APIHost } from '@/common/api';
-import { TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
+import { UPDATE_POPUP } from '../reducer/popup';
 import { PopupCode } from '@/common/defines/Popup';
 
 function likePostAPI (param) {
