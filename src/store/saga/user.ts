@@ -44,7 +44,7 @@ function fetchUserInfoAPI () {
 function signInAPI (param) {
   return axios.post(`${ APIHost }/public/auth/login`, param, {
     headers: {
-      'Authorization': '',
+      'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
   })
 }
@@ -60,7 +60,7 @@ function signUpAPI (param) {
   }
   return axios.post(`${ APIHost }/public/auth/signup${ param.signup_type === userType.google ? '/google' : '' }`, parameter, {
     headers: {
-      'Authorization': '',
+      'Authorization': `Bearer ${ getCookie('accessToken') }`,
     }
   })
 }

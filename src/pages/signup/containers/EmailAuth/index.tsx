@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import { APIHost } from "@/common/api";
 
 import style from "../../style.module.scss";
+import { getCookie } from "@/common/libs/Cookie";
 
 interface EmailAuthProps {
   userEmail: string;
@@ -26,7 +27,11 @@ const EmailAuth = (props: EmailAuthProps) => {
   const onSetDuplicatedEmail = useCallback((v) => setDuplicatedEmail(v), [props.userEmail, duplicatedEmail])
 
   const existenceEmail = async (email: string) => {
-    const result = await axios.get(`${ APIHost }/public/auth/email/existence?email=${ email }`)
+    const result = await axios.get(`${ APIHost }/public/auth/email/existence?email=${ email }`, {
+      headers: {
+        Authorization: `Bearer ${ getCookie('accessToken') }`,
+      }
+    })
 
     onSetDuplicatedEmail(result.data.statement)
 

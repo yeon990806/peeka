@@ -17,6 +17,7 @@ import { StateType } from "@/common/defines/Store";
 import classNames from "classnames";
 
 import style from "./style.module.scss";
+import { getCookie } from "@/common/libs/Cookie";
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -85,6 +86,10 @@ const SignUp = () => {
 
     axios.post(`${ APIHost }/public/auth/email/validation/code`, {
       email: userEmail
+    }, {
+      headers: {
+        Authorization: `Bearer ${ getCookie('accessToken') }`,
+      }
     }).then((resp: AxiosResponseType<{
       id: number;
       code: null | number;
@@ -95,7 +100,11 @@ const SignUp = () => {
   }
 
   const fetchValidateAuthCode = () => {
-    axios.get(`${ APIHost }/public/auth/email/validation/code?id=${ userId }&code=${ authCode }`)
+    axios.get(`${ APIHost }/public/auth/email/validation/code?id=${ userId }&code=${ authCode }`, {
+      headers: {
+        Authorization: `Bearer ${ getCookie('accessToken') }`,
+      }
+    })
       .then((resp: AxiosResponse<{
         id: number;
         code: number;

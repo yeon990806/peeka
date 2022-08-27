@@ -10,6 +10,7 @@ import { genderType } from '@/common/defines/Signup';
 import TermsPopup from '../../components/TermsPopup';
 import axios from 'axios';
 import { APIHost } from '@/common/api';
+import { getCookie } from '@/common/libs/Cookie';
 
 interface InputInfoProps {
   userName: string;
@@ -45,7 +46,11 @@ const InputInfo = (props: InputInfoProps) => {
   const onToggleDisplayPopup = useCallback(() => setDisplayPopup(prev => !prev), [displayPopup, termsType])
 
   const existenceUsername = async (v: string) => {
-    const result = await axios.get(`${ APIHost }/public/auth/nickname/existence?nickname=${ v }`)
+    const result = await axios.get(`${ APIHost }/public/auth/nickname/existence?nickname=${ v }`, {
+      headers: {
+        Authorization: `Bearer ${ getCookie('accessToken') }`,
+      }
+    })
 
     onToggleExistenceUsername(result.data.statement)
 

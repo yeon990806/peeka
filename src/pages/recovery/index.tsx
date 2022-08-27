@@ -11,6 +11,7 @@ import { APIHost } from '@/common/api'
 import { openPopup } from '@/store/reducer/popup'
 import { PopupCode } from '@/common/defines/Popup'
 import { useDispatch } from 'react-redux'
+import { getCookie } from '@/common/libs/Cookie'
 
 const Recover = () => {
   const dispatch = useDispatch()
@@ -29,7 +30,7 @@ const Recover = () => {
       }
       const result = await axios.patch(`${ APIHost }/public/auth/password`, data, {
         headers: {
-          Authorization: ''
+          Authorization: `Bearer ${ getCookie('accessToken') }`,
         }
       })
 
