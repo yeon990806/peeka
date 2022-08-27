@@ -45,7 +45,7 @@ export function getTimeFromNow (time: string): string {
   const currentDate = new Date()
 
   const diffM = Math.floor((currentDate.getTime() - valueDate.getTime()) / 1000 / 60)
-  if (diffM < 1) return '방금전'
+  if (diffM < 1) return '방금 전'
   else if (diffM < 60) return `${ diffM }분 전`
   
   const diffH = Math.floor(diffM / 60)
