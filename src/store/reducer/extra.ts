@@ -1,4 +1,4 @@
-import { addReplyAction, deletePostAction, deleteReplyAction, fetchReplyAction, likeContentAction, scrapContentAction, unlikeContentAction, unscrapContentAction, updatePostAction, updateReplyAction } from '@/common/defines/Action';
+import { addReplyAction, deletePostAction, deleteReplyAction, fetchReplyAction, toggleLikeContentAction, toggleScrapContentAction, updatePostAction, updateReplyAction } from '@/common/defines/Action';
 import { addCommentAction, deleteCommentAction, updateCommentAction } from '@/common/defines/Action';
 import { fetchCommentAction } from '@/common/defines/Action';
 import { ExtraStateType } from '@/common/defines/Store';
@@ -50,10 +50,8 @@ export const ADD_EXTRAPOST_COMMENT_REPLY = 'ADD_EXTRAPOST_COMMENT_REPLY'
 export const UPDATE_EXTRAPOST_COMMENT_REPLY = 'UPDATE_EXTRAPOST_COMMENT_REPLY'
 export const DELETE_EXTRAPOST_COMMENT_REPLY = 'DELETE_EXTRAPOST_COMMENT_REPLY'
 
-export const LIKE_EXTRAPOST_CONTENT = 'LIKE_EXTRAPOST_CONTENT'
-export const UNLIKE_EXTRAPOST_CONTENT = 'UNLIKE_EXTRAPOST_CONTENT'
-export const SCRAP_EXTRAPOST = 'SCRAP_EXTRAPOST'
-export const UNSCRAP_EXTRAPOST = 'UNSCRAP_EXTRAPOST'
+export const TOGGLE_LIKE_EXTRAPOST = 'TOGGLE_LIKE_EXTRAPOST'
+export const TOGGLE_SCRAP_EXTRAPOST = 'TOGGLE_SCRAP_EXTRAPOST'
 
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -153,20 +151,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       deleteReplyAction({ ...action.data }, draft.extraList, action.data.onSuccess)
 
       break
-    case LIKE_EXTRAPOST_CONTENT:
-      likeContentAction({ ...action.data }, draft.extraList)
+    case TOGGLE_LIKE_EXTRAPOST:
+      toggleLikeContentAction({ ...action.data }, draft.extraList)
 
       break
-    case UNLIKE_EXTRAPOST_CONTENT:
-      unlikeContentAction({ ...action.data }, draft.extraList)
-
-      break
-    case SCRAP_EXTRAPOST:
-      scrapContentAction({ ...action.data }, draft.extraList)
-
-      break
-    case UNSCRAP_EXTRAPOST:
-      unscrapContentAction({ ...action.data }, draft.extraList)
+    case TOGGLE_SCRAP_EXTRAPOST:
+      toggleScrapContentAction({ ...action.data }, draft.extraList)
 
       break
     default:

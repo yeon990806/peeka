@@ -1,12 +1,12 @@
-import { getTimeFromNow } from '@/common/defines/Format';
-import { PostType, StateType, StorePostType } from "@/common/defines/Store";
-import { LIKE_CONTENT_REQUEST, SCRAP_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST, UNSCRAP_CONTENT_REQUEST } from '@/store/reducer/reaction';
-import { PopupItemProps } from '@/components/MenuPopup';
-import { IsDesktop } from "@/common/hooks/breakpoints";
-import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router'
+import { PostType, StateType, StorePostType } from "@/common/defines/Store";
+import { PopupItemProps } from '@/components/MenuPopup';
+import { TOGGLE_LIKE_REQUEST, TOGGLE_SCRAP_REQUEST } from '@/store/reducer/reaction';
+import { IsDesktop } from "@/common/hooks/breakpoints";
+import { FETCH_COMMENT_REQUEST } from '../../store/reducer/comment';
+import { getTimeFromNow } from '@/common/defines/Format';
 import classnames from "classnames"
 import Button from "../Button";
 import CommentCard from "../CommentCard";
@@ -16,9 +16,9 @@ import InputComment from "../InputComment";
 import UserProfile from "../UserProfile";
 import MenuPopup from "../MenuPopup";
 import ReportPopup from "./components/ReportPopup";
+import InputPost from '../InputPost';
 
 import style from "./style.module.scss"
-import InputPost from '../InputPost';
 interface PostProps {
   post: PostType,
   type: StorePostType,
@@ -67,7 +67,7 @@ const PostCard = (props: PostProps) => {
   }, [displayCommentContainer, props.post.comment_list])
 
   const toggleLikePost = () => dispatch({
-      type: props.post.like_yn == 'Y' ? UNLIKE_CONTENT_REQUEST : LIKE_CONTENT_REQUEST,
+      type: TOGGLE_LIKE_REQUEST,
       data: {
         type: 'post',
         postId: props.post.id,
@@ -76,7 +76,7 @@ const PostCard = (props: PostProps) => {
     })
   
   const toggleClippingPost = () => dispatch({
-    type: props.post.scrap_yn == 'Y' ? UNSCRAP_CONTENT_REQUEST : SCRAP_CONTENT_REQUEST,
+    type: TOGGLE_SCRAP_REQUEST,
     data: {
       id: props.post.id,
       postType: props.type,

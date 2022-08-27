@@ -127,18 +127,12 @@ export type ReplyStateType = {
 }
 
 export type ReactionStateType = {
-  likeContentLoading: boolean,
-  likeContentSuccess: boolean,
-  likeContentError: any,
-  unlikeContentLoading: boolean,
-  unlikeContentSuccess: boolean,
-  unlikeContentError: any,
-  scrapContentLoading: boolean,
-  scrapContentSuccess: boolean,
-  scrapContentError: any,
-  unscrapContentLoading: boolean,
-  unscrapContentSuccess: boolean,
-  unscrapContentError: any,
+  toggleLikeLoading: boolean
+  toggleLikeSuccess: boolean
+  toggleLikeError: any
+  toggleScrapLoading: boolean
+  toggleScrapSuccess: boolean
+  toggleScrapError: any
 }
 
 export type PopupStateType = {

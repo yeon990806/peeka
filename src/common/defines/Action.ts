@@ -100,25 +100,25 @@ export function deleteReplyAction ({ postId, commentId, id}, target, callback?) 
   if (callback) callback()
 }
 
-export function likeContentAction ({ type, postId, commentId, replyId }, target) {
+export function toggleLikeContentAction ({ type, postId, commentId, replyId, like }, target) {
   const post = target.find(v => v.id === postId)
   const comment = commentId ? post.comment_list.find(v => v.id === commentId) : null
   const reply = comment && replyId ? comment.reply_list.find(v => v.id === replyId) : null
 
   switch (type) {
     case 'post':
-      post.like_count += 1
-      post.like_yn = 'Y'
+      like === 'Y' ? post.like_count += 1 : post.like_count -= 1
+      post.like_yn = like
 
       break
     case 'comment':
-      comment.like_count += 1
-      comment.like_yn = 'Y'
+      like === 'Y' ? comment.like_count += 1 : comment.like_count -= 1
+      comment.like_yn = like
 
       break
     case 'reply':
-      reply.like_count += 1
-      reply.like_yn = 'Y'
+      like === 'Y' ? reply.like_count += 1 : reply.like_count -= 1
+      reply.like_yn = like
 
       break
     default:
@@ -126,40 +126,8 @@ export function likeContentAction ({ type, postId, commentId, replyId }, target)
   }
 }
 
-export function unlikeContentAction ({ type, postId, commentId, replyId }, target) {
-  const post = target.find(v => v.id === postId)
-  const comment = commentId ? post.comment_list.find(v => v.id === commentId) : null
-  const reply = comment && replyId ? comment.reply_list.find(v => v.id === replyId) : null
-
-  switch (type) {
-    case 'post':
-      post.like_count -= 1
-      post.like_yn = 'N'
-
-      break
-    case 'comment':
-      comment.like_count -= 1
-      comment.like_yn = 'N'
-
-      break
-    case 'reply':
-      reply.like_count -= 1
-      reply.like_yn = 'N'
-      
-      break
-    default:
-      return
-  }
-}
-
-export function scrapContentAction ({ id }, target) {
+export function toggleScrapContentAction ({ id, scrap }, target) {
   const post = target.find(v => v.id === id)
 
-  post.scrap_yn = 'Y'
-}
-
-export function unscrapContentAction ({ id }, target) {
-  const post = target.find(v => v.id === id)
-
-  post.scrap_yn = 'N'
+  post.scrap_yn = scrap
 }

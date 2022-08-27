@@ -2,7 +2,7 @@ import produce from "immer";
 
 import { CategoryType } from "@/common/defines/Category";
 import { PostStateType } from "@/common/defines/Store";
-import { addCommentAction, addReplyAction, deleteCommentAction, deletePostAction, deleteReplyAction, fetchCommentAction, fetchReplyAction, likeContentAction, scrapContentAction, unlikeContentAction, unscrapContentAction, updateCommentAction, updatePostAction, updateReplyAction } from "@/common/defines/Action"
+import { addCommentAction, addReplyAction, deleteCommentAction, deletePostAction, deleteReplyAction, fetchCommentAction, fetchReplyAction, toggleLikeContentAction, toggleScrapContentAction, updateCommentAction, updatePostAction, updateReplyAction } from "@/common/defines/Action"
 
 export const initialState: PostStateType = {
   mainPost: [],
@@ -49,10 +49,8 @@ export const ADD_POST_COMMENT = 'ADD_POST_COMMENT'
 export const UPDATE_POST_COMMENT = 'UPDATE_POST_COMMENT'
 export const DELETE_POST_COMMENT = 'DELETE_POST_COMMENT'
 
-export const LIKE_MAINPOST_CONTENT = 'LIKE_MAINPOST_CONTENT'
-export const UNLIKE_MAINPOST_CONTENT = 'UNLIKE_MAINPOST_CONTENT'
-export const SCRAP_MAINPOST = 'SCRAP_MAINPOST'
-export const UNSCRAP_MAINPOST = 'UNSCRAP_MAINPOST'
+export const TOGGLE_LIKE_MAINPOST = 'TOGGLE_LIKE_MAINPOST'
+export const TOGGLE_SCRAP_MAINPOST = 'TOGGLE_SCRAP_MAINPOST'
 
 export const FETCH_POST_COMMENT_REPLY = 'FETCH_POST_COMMENT_REPLY'
 export const ADD_POST_COMMENT_REPLY = 'ADD_POST_COMMENT_REPLY'
@@ -188,19 +186,11 @@ const reducer = (state = initialState, action) => {
         deleteReplyAction({ ...action.data }, draft.mainPost, action.data.onSuccess)
 
         break
-      case LIKE_MAINPOST_CONTENT:
-        likeContentAction({ ...action.data }, draft.mainPost)
+      case TOGGLE_LIKE_MAINPOST:
+        toggleLikeContentAction({ ...action.data }, draft.mainPost)
         break
-      case UNLIKE_MAINPOST_CONTENT:
-        unlikeContentAction({ ...action.data }, draft.mainPost)
-
-        break
-      case SCRAP_MAINPOST:
-        scrapContentAction({ ...action.data }, draft.mainPost)
-
-        break
-      case UNSCRAP_MAINPOST:
-        unscrapContentAction({ ...action.data }, draft.mainPost)
+      case TOGGLE_SCRAP_MAINPOST:
+        toggleScrapContentAction({ ...action.data }, draft.mainPost)
 
         break
       case CHANGE_POST_CATEGORY:

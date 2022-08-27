@@ -2,7 +2,7 @@ import produce from "immer"
 
 import { UserType } from "@/common/defines/Store"
 import { setCookie, removeCookie } from "@/common/libs/Cookie"
-import { fetchCommentAction, addCommentAction, updateCommentAction, deleteCommentAction, fetchReplyAction, addReplyAction, updateReplyAction, deleteReplyAction, likeContentAction, unlikeContentAction, scrapContentAction, unscrapContentAction, deletePostAction, updatePostAction } from "@/common/defines/Action"
+import { fetchCommentAction, addCommentAction, updateCommentAction, deleteCommentAction, fetchReplyAction, addReplyAction, updateReplyAction, deleteReplyAction, deletePostAction, updatePostAction, toggleLikeContentAction, toggleScrapContentAction } from "@/common/defines/Action"
 
 export const initialState: UserType = {
   alwaysSignIn: false,
@@ -104,10 +104,8 @@ export const DELETE_USERPOST_COMMENT_REPLY = 'DELETE_USERPOST_COMMENT_REPLY'
 
 export const RESET_USER_POST = 'RESET_USER_POST'
 
-export const LIKE_USERPOST_CONTENT = 'LIKE_USERPOST_CONTENT'
-export const UNLIKE_USERPOST_CONTENT = 'UNLIKE_USERPOST_CONTENT'
-export const SCRAP_USERPOST = 'SCRAP_USERPOST'
-export const UNSCRAP_USERPOST = 'UNSCRAP_USERPOST'
+export const TOGGLE_LIKE_USERPOST = 'TOGGLE_LIKE_USERPOST'
+export const TOGGLE_SCRAP_USERPOST = 'TOGGLE_SCRAP_USERPOST'
 
 export const FETCH_ALERT_REQUEST = 'FETCH_ALERT_REQUEST'
 export const FETCH_ALERT_SUCCESS = 'FETCH_ALERT_SUCCESS'
@@ -130,10 +128,8 @@ export const READ_ALERT_REQUEST = 'READ_ALERT_REQUEST'
 export const READ_ALERT_SUCCESS = 'READ_ALERT_SUCCESS'
 export const READ_ALERT_FAILURE = 'READ_ALERT_FAILURE'
 
-export const LIKE_ALERT = 'LIKE_ALERT'
-export const UNLIKE_ALERT = 'UNLIKE_ALERT'
-export const SCRAP_ALERT = 'SCRAP_ALERT'
-export const UNSCRAP_ALERT = 'UNSCRAP_ALERT'
+export const TOGGLE_LIKE_ALERT = 'TOGGLE_LIKE_ALERT'
+export const TOGGLE_SCRAP_ALERT = 'TOGGLE_SCRAP_ALERT'
 
 export const SET_SIGN_UP_PARAMETER = 'SET_SIGN_UP_PARAMETER'
 
@@ -396,20 +392,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       deleteReplyAction({ ...action.data }, draft.userPost, action.data.onSuccess)
 
       break
-    case LIKE_USERPOST_CONTENT:
-      likeContentAction({ ...action.data }, draft.userPost)
+    case TOGGLE_LIKE_USERPOST:
+      toggleLikeContentAction({ ...action.data }, draft.userPost)
 
       break
-    case UNLIKE_USERPOST_CONTENT:
-      unlikeContentAction({ ...action.data }, draft.userPost)
-      
-      break
-    case SCRAP_USERPOST:
-      scrapContentAction({ ...action.data }, draft.userPost)
-
-      break
-    case UNSCRAP_USERPOST:
-      unscrapContentAction({ ...action.data }, draft.userPost)
+    case TOGGLE_SCRAP_USERPOST:
+      toggleScrapContentAction({ ...action.data }, draft.userPost)
 
       break
     case FETCH_ALERT_REQUEST:
@@ -487,20 +475,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       deleteReplyAction({ ...action.data }, draft.userInfo.alertDetail, action.data.onSuccess)
 
       break
-    case LIKE_ALERT:
-      likeContentAction({ ...action.data }, draft.userInfo.alertDetail)
+    case TOGGLE_LIKE_ALERT:
+      toggleLikeContentAction({ ...action.data }, draft.userInfo.alertDetail)
 
       break
-    case UNLIKE_ALERT:
-      unlikeContentAction({ ...action.data }, draft.userInfo.alertDetail)
-
-      break
-    case SCRAP_ALERT:
-      scrapContentAction({ ...action.data }, draft.userInfo.alertDetail)
-
-      break
-    case UNSCRAP_ALERT:
-      unscrapContentAction({ ...action.data }, draft.userInfo.alertDetail)
+    case TOGGLE_SCRAP_ALERT:
+      toggleScrapContentAction({ ...action.data }, draft.userInfo.alertDetail)
 
       break
     case READ_ALERT_REQUEST:

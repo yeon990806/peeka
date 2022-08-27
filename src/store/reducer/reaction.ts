@@ -1,103 +1,55 @@
-import { likeContentAction } from '@/common/defines/Action';
 import { ReactionStateType } from '@/common/defines/Store';
 import produce from "immer"
 
 export const initialState: ReactionStateType = {
-  likeContentLoading: false,
-  likeContentSuccess: false,
-  likeContentError: false,
-  unlikeContentLoading: false,
-  unlikeContentSuccess: false,
-  unlikeContentError: false,
-  scrapContentLoading: false,
-  scrapContentSuccess: false,
-  scrapContentError: false,
-  unscrapContentLoading: false,
-  unscrapContentSuccess: false,
-  unscrapContentError: false,
+  toggleLikeLoading: false,
+  toggleLikeSuccess: false,
+  toggleLikeError: null,
+  toggleScrapLoading: false,
+  toggleScrapSuccess: false,
+  toggleScrapError: null,
 }
 
-export const LIKE_CONTENT_REQUEST = 'LIKE_CONTENT_REQUEST'
-export const LIKE_CONTENT_SUCCESS = 'LIKE_CONTENT_SUCCESS'
-export const LIKE_CONTENT_FAILURE = 'LIKE_CONTENT_FAILURE'
-
-export const UNLIKE_CONTENT_REQUEST = 'UNLIKE_CONTENT_REQUEST'
-export const UNLIKE_CONTENT_SUCCESS = 'UNLIKE_CONTENT_SUCCESS'
-export const UNLIKE_CONTENT_FAILURE = 'UNLIKE_CONTENT_FAILURE'
-
-export const SCRAP_CONTENT_REQUEST = 'SCRAP_CONTENT_REQUEST'
-export const SCRAP_CONTENT_SUCCESS = 'SCRAP_CONTENT_SUCCESS'
-export const SCRAP_CONTENT_FAILURE = 'SCRAP_CONTENT_FAILURE'
-
-export const UNSCRAP_CONTENT_REQUEST = 'UNSCRAP_CONTENT_REQUEST'
-export const UNSCRAP_CONTENT_SUCCESS = 'UNSCRAP_CONTENT_SUCCESS'
-export const UNSCRAP_CONTENT_FAILURE = 'UNSCRAP_CONTENT_FAILURE'
+export const TOGGLE_LIKE_REQUEST = 'TOGGLE_LIKE_REQUEST'
+export const TOGGLE_LIKE_SUCCESS = 'TOGGLE_LIKE_SUCCESS'
+export const TOGGLE_LIKE_FAILURE = 'TOGGLE_LIKE_FAILURE'
+export const TOGGLE_SCRAP_REQUEST = 'TOGGLE_SCRAP_REQUEST'
+export const TOGGLE_SCRAP_SUCCESS = 'TOGGLE_SCRAP_SUCCESS'
+export const TOGGLE_SCRAP_FAILURE = 'TOGGLE_SCRAP_FAILURE'
 
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
-      case LIKE_CONTENT_REQUEST:
-        draft.likeContentLoading = true
-        draft.likeContentSuccess = false
-        draft.likeContentError = null
+      case TOGGLE_LIKE_REQUEST:
+        draft.toggleLikeLoading = true
+        draft.toggleLikeSuccess = false
+        draft.toggleLikeError = null
 
         break
-      case LIKE_CONTENT_SUCCESS:
-        draft.likeContentLoading = false
-        draft.likeContentSuccess = true
+      case TOGGLE_LIKE_SUCCESS:
+        draft.toggleLikeLoading = false
+        draft.toggleLikeSuccess = true
+        
+        break
+      case TOGGLE_LIKE_FAILURE:
+        draft.toggleLikeLoading = false
+        draft.toggleLikeError = action.error
 
         break
-      case LIKE_CONTENT_FAILURE:
-        draft.likeContentLoading = false
-        draft.likeContentError = action.error
+      case TOGGLE_SCRAP_REQUEST:
+        draft.toggleScrapLoading = true
+        draft.toggleScrapSuccess = false
+        draft.toggleScrapError = null
 
         break
-      case UNLIKE_CONTENT_REQUEST:
-        draft.unlikeContentLoading = true
-        draft.unlikeContentSuccess = false
-        draft.unlikeContentError = null
+      case TOGGLE_SCRAP_SUCCESS:
+        draft.toggleScrapLoading = false
+        draft.toggleScrapSuccess = true
 
         break
-      case UNLIKE_CONTENT_SUCCESS:
-        draft.unlikeContentLoading = false
-        draft.unlikeContentSuccess = true
-
-        break
-      case UNLIKE_CONTENT_FAILURE:
-        draft.unlikeContentLoading = false
-        draft.unlikeContentError = action.error
-
-        break
-      case SCRAP_CONTENT_REQUEST:
-        draft.scrapContentLoading = true
-        draft.scrapContentSuccess = false
-        draft.scrapContentError = null
-
-        break
-      case SCRAP_CONTENT_SUCCESS:
-        draft.scrapContentLoading = false
-        draft.scrapContentSuccess = true
-
-        break
-      case SCRAP_CONTENT_FAILURE:
-        draft.scrapContentLoading = false
-        draft.scrapContentError = action.error
-
-        break
-      case UNSCRAP_CONTENT_REQUEST:
-        draft.unscrapContentLoading = true
-        draft.unscrapContentSuccess = false
-        draft.unscrapContentError = null
-
-        break
-      case UNSCRAP_CONTENT_SUCCESS:
-        draft.unscrapContentLoading = false
-        draft.unscrapContentSuccess = false
-
-        break
-      case UNSCRAP_CONTENT_FAILURE:
-        draft.unscrapContentLoading = false
-        draft.unscrapContentError = action.error
+      case TOGGLE_SCRAP_FAILURE:
+        draft.toggleScrapLoading = false
+        draft.toggleScrapError = action.error
 
         break
       default: 
