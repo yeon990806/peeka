@@ -3,13 +3,13 @@ import Button from '../Button'
 import UserProfile from '../UserProfile'
 import style from './style.module.scss'
 import MenuPopup from '../MenuPopup';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import Textarea from '../Textarea';
 import { useDispatch, useSelector } from 'react-redux';
 import Popup from '../Popup';
 import InputComment from '../InputComment';
 import { DELETE_REPLY_REQUEST, UPDATE_REPLY_REQUEST } from '@/store/reducer/reply';
-import { LIKE_CONTENT_REQUEST, UNLIKE_CONTENT_REQUEST } from '@/store/reducer/reaction';
+import { TOGGLE_LIKE_REQUEST } from '@/store/reducer/reaction';
 
 interface ReplyCardProps {
   data: ReplyType
@@ -91,16 +91,10 @@ const ReplyCard = (props: ReplyCardProps) => {
       postType: props.type,
     }
 
-    if (props.data.like_yn === 'Y')
-      dispatch({
-        type: UNLIKE_CONTENT_REQUEST,
-        data
-      })
-    else
-      dispatch({
-        type: LIKE_CONTENT_REQUEST,
-        data
-      }) 
+    dispatch({
+      type: TOGGLE_LIKE_REQUEST,
+      data
+    })
   }, [props.data.like_yn, props.data.like_count])
 
   return (
