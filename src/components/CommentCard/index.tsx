@@ -199,7 +199,7 @@ const CommentCard = (props: CommentCardProps) => {
           </Button>
           <Button type="text" theme="light-gray" onClick={ () => toggleReplyList() }>
             답글 { props.data.reply_count }개
-            <img src="/images/expand_more.svg" tabIndex={-1} />
+            <img className={ displayReplyList ? style.ActiveReply : '' } src="/images/expand_more.svg" tabIndex={-1} />
           </Button>
         </div>
         { activeReply && <div className={ style.InputReply }>
@@ -229,11 +229,14 @@ const CommentCard = (props: CommentCardProps) => {
             />
           )) }
           { props.data.reply_list
-            ? !(props.data.reply_list.length === 1 && props.data.reply_list[0].added) || (props.data.reply_list.length < 20 && !props.data.reply_done)
-            && <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
-              답글 더 불러오기
-            </Button>
-            : null
+            ? !(props.data.reply_list.length === 1 && props.data.reply_list[0].added)
+              ? <div className={ style.LastReply }>
+                마지막 답글입니다.
+              </div>
+              : props.data.reply_list.length >= 20 && !props.data.reply_done && <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
+                답글 더 불러오기
+              </Button>
+            : <></>
           }
         </div> }
       </div>

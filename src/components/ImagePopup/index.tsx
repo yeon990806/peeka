@@ -66,7 +66,7 @@ const ImagePopup = () => {
   if (!popupDisplay) return null
 
   return (
-    <div className={ style.ImagePopup }>
+    <div className={ style.ImagePopup } onClick={ toggleImagePopup }>
       <Button
         additionalClass={ style.ImagePopupClose }
         onClick={ () => toggleImagePopup() }

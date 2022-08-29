@@ -65,3 +65,13 @@
     }
   }
 }
+
+.LastReply {
+  margin-top: 16px;
+  font-size: 14px;
+  color: $semi-light;
+}
+
+.ActiveReply {
+  transform: rotate(180deg);
+}

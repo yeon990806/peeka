@@ -267,9 +267,13 @@ const PostCard = (props: PostProps) => {
                   type={ props.type }
                 />
               )) }
-              { props.post.comment_count >= 20 || !props.post.comment_done && <Button type="text" theme="light-gray" onClick={ () => fetchPostComment() }>
-                댓글 더 불러오기
-              </Button> }
+              { (props.post.comment_count >= 20 || !props.post.comment_done) 
+                ? <Button type="text" theme="light-gray" onClick={ () => fetchPostComment() }>
+                  댓글 더 불러오기
+                </Button>
+                : <div className={ style.LastComment }>
+                  마지막 댓글입니다.
+                </div> }
             </div> }
           </div>
         }
