@@ -192,6 +192,7 @@ export type PostType = {
   scrap_yn: "Y" | "N";
   like_count: number;
   comment_count: number;
+  comment_done: boolean;
   comment_list: CommentType[]
   display_comment: boolean
 }
@@ -206,6 +207,7 @@ export type CommentType = {
   contents: string;
   like_yn: "Y" | "N";
   reply_count: number;
+  reply_done: boolean;
   like_count: number;
   created_at: Date;
   updated_at: null | Date;

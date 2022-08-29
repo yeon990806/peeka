@@ -228,9 +228,13 @@ const CommentCard = (props: CommentCardProps) => {
               type={ props.type }
             />
           )) }
-          { props.data.reply_list && !(props.data.reply_list.length === 1 && props.data.reply_list[0].added) && <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
-            답글 더 불러오기
-          </Button> }
+          { props.data.reply_list
+            ? !(props.data.reply_list.length === 1 && props.data.reply_list[0].added) || (props.data.reply_list.length < 20 && !props.data.reply_done)
+            && <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
+              답글 더 불러오기
+            </Button>
+            : null
+          }
         </div> }
       </div>
     </div>

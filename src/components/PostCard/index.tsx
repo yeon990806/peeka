@@ -267,9 +267,9 @@ const PostCard = (props: PostProps) => {
                   type={ props.type }
                 />
               )) }
-              <Button type="text" theme="light-gray" onClick={ () => fetchPostComment() }>
+              { props.post.comment_count >= 20 || !props.post.comment_done && <Button type="text" theme="light-gray" onClick={ () => fetchPostComment() }>
                 댓글 더 불러오기
-              </Button>
+              </Button> }
             </div> }
           </div>
         }

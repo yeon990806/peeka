@@ -1,4 +1,5 @@
-import { RE_ISSUE_FAILURE, RE_ISSUE_REQUEST, RE_ISSUE_SUCCESS } from './../reducer/user';
+import { EMPTY_EXTRA_LIST } from '@/store/reducer/extra';
+import { RESET_USER_POST, RE_ISSUE_FAILURE, RE_ISSUE_REQUEST, RE_ISSUE_SUCCESS } from './../reducer/user';
 import { APIHost } from '@/common/api';
 import { PopupCode } from '@/common/defines/Popup';
 import { userType } from '@/common/defines/Signup';

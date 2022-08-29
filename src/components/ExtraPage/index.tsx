@@ -1,9 +1,11 @@
-import { memo, ReactNode, useMemo } from "react"
+import { memo, ReactNode, useEffect, useMemo } from "react"
 import { PostType, StorePostType } from "@/common/defines/Store"
 import PostContainer from "../PostContainer"
 import Loader from "../Loader"
 
 import style from './style.module.scss'
+import { useDispatch } from "react-redux"
+import { EMPTY_EXTRA_LIST } from "@/store/reducer/extra"
 
 interface ExtraPageProps {
   img: ReactNode
@@ -20,6 +22,7 @@ interface ExtraPageProps {
 }
 
 const ExtraPage = memo((props: ExtraPageProps) => {
+  const dispatch = useDispatch()
   const ImageStyle = useMemo(() => ({
     transform: 'rotate(8deg)'
   }), [])

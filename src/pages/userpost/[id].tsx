@@ -2,7 +2,7 @@ import { LayoutType } from "../_app"
 import { StateType, StorePostType } from '@/common/defines/Store';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { USER_POST_REQUEST } from "@/store/reducer/user";
+import { RESET_USER_POST, USER_POST_REQUEST } from "@/store/reducer/user";
 import ExtraPage from "@/components/ExtraPage";
 import UserProfile from "@/components/UserProfile";
 import { useRouter } from "next/router";
@@ -28,7 +28,14 @@ const userpost = () => {
   }
 
   useEffect(() => {
+
     if (id) fetchUserPost()
+
+    return () => {
+      dispatch({
+        type: RESET_USER_POST,
+      })
+    }
   }, [id])
   
   if (!userInfo) return null

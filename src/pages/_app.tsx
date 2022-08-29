@@ -26,6 +26,13 @@ const App = ({ Component, pageProps }) => {
 
   useEffect(() => {
     const userInfo = getCookie('userInfo')
+    const resizeEvent = () => {
+      document.documentElement.style.setProperty('--vh', `${ window.innerHeight * 0.01 }px`)
+    }
+
+    resizeEvent()
+
+    window.addEventListener('resize', resizeEvent)
     
     if (userInfo) {
       dispatch({
@@ -36,6 +43,8 @@ const App = ({ Component, pageProps }) => {
         type: FETCH_USERINFO_REQUEST
       })
     }
+
+    return window.removeEventListener('resize', resizeEvent)
   }, [])
 
   const applyLayout = () => {

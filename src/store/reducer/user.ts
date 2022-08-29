@@ -360,6 +360,9 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.userPost = arr
 
       break
+    case RESET_USER_POST:
+      draft.userPost = []
+      break
     case FETCH_USERPOST_COMMENT:
       fetchCommentAction({ ...action.data }, draft.userPost)
   

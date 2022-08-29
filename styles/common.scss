@@ -8,14 +8,18 @@
   font-weight: 500;
 }
 
-html, body {
+html {
   position: relative;
-  /* mobile viewport bug fix */
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
   touch-action: none;
 }
+
+html, body, #__next {
+  height: 100%;
+}
+
 #wrapper {
   min-width: 280px;
   height: 100%;
