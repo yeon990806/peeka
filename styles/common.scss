@@ -10,24 +10,17 @@
 
 html, body {
   position: relative;
-  height: 100vh;
-  height: stretch;
+  /* mobile viewport bug fix */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   overflow: hidden;
   touch-action: none;
 }
-
-#__next {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
 #wrapper {
   min-width: 280px;
   height: 100%;
   background-color: $background;
+  overflow: auto;
   
   &.sign {
     background-color: $dark-gray;
