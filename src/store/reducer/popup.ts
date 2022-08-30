@@ -33,11 +33,13 @@ export const closePopup = () => ({
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case UPDATE_POPUP:
-      draft.popupDisplay = action.data.display
-      draft.popupCode = action.data.code
+      const callback = action.data && "callback" in action.data ? action.data.callback : undefined
+      
+      draft.popupDisplay = action.data && "display" in action.data ? action.data.display : false
+      draft.popupCode = action.data && "code" in action.data ? action.data.code : null
 
-      if (action.data.display && action.data.callback) draft.callback = action.data.callback
-      else if (!action.data.display && action.data.callback) draft.callback()
+      if (draft.popupDisplay && callback) draft.callback = action.data.callback
+      else if (!draft.popupDisplay && callback) draft.callback()
 
 
       draft.callback = null

@@ -22,6 +22,7 @@ interface ReplyCardProps {
 const ReplyCard = (props: ReplyCardProps) => {
   const dispatch = useDispatch()
   const userId = useSelector((state: StateType) => state.user.userInfo.id)
+  const replyLoading = useSelector((state: StateType) => state.reply.updateReplyLoading)
   const [activeModify, setActiveModify] = useState<boolean>(false)
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
@@ -153,6 +154,7 @@ const ReplyCard = (props: ReplyCardProps) => {
                 size="sm"
                 theme="primary"
                 block
+                disabled={ replyLoading }
                 onClick={ () => onClickSubmit() }
               >
                 저장

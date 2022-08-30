@@ -9,4 +9,5 @@ export enum PopupCode {
   UNKNOWN = 7,
   REPORT_SUCCESS = 8, // 신고 완료.
   REQUEST_SIGN_IN = 9, // 로그인으로 유도함
+  SIGN_IN = 10,
 }

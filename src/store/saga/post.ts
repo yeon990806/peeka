@@ -111,7 +111,7 @@ function* FetchPost (action) {
   } catch (err) {
     yield put({
       type: FETCH_POST_FAILURE,
-      data: `${ err.response.status }: ${ err.response.statusText }`
+      data: err
     })
   }
 }
@@ -137,16 +137,15 @@ function* AddPost (action) {
       error: err,
     })
 
-    if (err.response) {
-      if (err.response.status === 401)
-        yield put({
-          type: RE_ISSUE_REQUEST,
-        })
-      else if (err.response.status === 401)
-        yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
-        })
-    }
+    if (err.response && err.response.status === 401)
+      yield put({
+        type: RE_ISSUE_REQUEST,
+      })
+    else
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
   }
 }
 
@@ -217,8 +216,18 @@ function* UpdatePost (action) {
         })
       else if (err.response.status === 401)
         yield put({
-          type: TOGGLE_SIGN_IN_POPUP,
+          type: RE_ISSUE_REQUEST,
         })
+      else
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.UNKNOWN
+        })
+    } else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
     }
   }
 }
@@ -282,6 +291,17 @@ function* DeletePost (action) {
         yield put({
           type: RE_ISSUE_REQUEST,
         })
+      else {
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.UNKNOWN
+        })
+      }
+    } else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
     }
   }
 }

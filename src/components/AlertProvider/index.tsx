@@ -4,8 +4,6 @@ import { closePopup, TOGGLE_SIGN_IN_POPUP } from '@/store/reducer/popup'
 import { useDispatch, useSelector } from 'react-redux'
 import Popup from '../Popup'
 
-import style from './style.module.scss'
-
 const AlertProvider = () => {
   const dispatch = useDispatch()
   const popupDisplay = useSelector((state: StateType) => state.popup.popupDisplay)
@@ -18,7 +16,7 @@ const AlertProvider = () => {
       case PopupCode.NOT_FOUND:
         return "일치하는 유저 정보가 없습니다."
       case PopupCode.FORBIDDEN_ACCESS:
-        return "권한이 없습니다."
+        return "입력하신 정보를 다시 확인해주시기를 바랍니다."
       case PopupCode.STATE_CONFLICT:
         return "이미 실행한 액션입니다."
       case PopupCode.CATEGORY_NULL:
@@ -28,11 +26,11 @@ const AlertProvider = () => {
       case PopupCode.SEND_TEMP_PW_SUCCESS:
         return "임시 비밀번호가 입력하신 이메일로 전송되었습니다."
       case PopupCode.UNKNOWN:
-        return "잠시 후에 다시 시도해주세요."
+        return "죄송해요.\n잠시 후 다시 이용 부탁드립니다.."
       case PopupCode.REPORT_SUCCESS:
         return "게시물을 신고했습니다."
       case PopupCode.REQUEST_SIGN_IN:
-        return "로그인 유효기간이 만료되었습니다. 다시 로그인해주세요."
+        return `로그인 유효기간이 만료되었습니다.\n다시 로그인해주세요.`
     }
   }
 

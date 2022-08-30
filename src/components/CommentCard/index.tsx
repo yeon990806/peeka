@@ -27,6 +27,7 @@ const CommentCard = (props: CommentCardProps) => {
   const userImage = useSelector((state: StateType) => state.user.userInfo.image)
   const addSuccess = useSelector((state: StateType) => state.comment.addCommentLoading)
   const modifySuccess = useSelector((state: StateType) => state.comment.updateCommentSuccess)
+  const modifyLoading = useSelector((state: StateType) => state.comment.updateCommentLoading)
   const [activeModify, setActiveModify] = useState<boolean>(false)
   const [activeReply, setActiveReply] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>(props.data.contents)
@@ -177,6 +178,7 @@ const CommentCard = (props: CommentCardProps) => {
                 size="sm"
                 theme="primary"
                 block
+                disabled={ modifyLoading }
                 onClick={ () => onClickSubmit() }
               >
                 저장
@@ -229,14 +231,12 @@ const CommentCard = (props: CommentCardProps) => {
             />
           )) }
           { props.data.reply_list
-            ? !(props.data.reply_list.length === 1 && props.data.reply_list[0].added)
-              ? <div className={ style.LastReply }>
-                마지막 답글입니다.
-              </div>
-              : props.data.reply_list.length >= 20 && !props.data.reply_done && <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
+            ? (props.data.reply_list.length === 1 && props.data.reply_list[0].added) 
+              ? null
+              : !props.data.reply_done && <Button type="text" theme="light-gray" onClick={ () => fetchCommentReply() }>
                 답글 더 불러오기
               </Button>
-            : <></>
+            : null
           }
         </div> }
       </div>

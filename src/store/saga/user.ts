@@ -1,11 +1,10 @@
-import { EMPTY_EXTRA_LIST } from '@/store/reducer/extra';
-import { RESET_USER_POST, RE_ISSUE_FAILURE, RE_ISSUE_REQUEST, RE_ISSUE_SUCCESS } from './../reducer/user';
+import { RE_ISSUE_FAILURE, RE_ISSUE_REQUEST, RE_ISSUE_SUCCESS } from './../reducer/user';
 import { APIHost } from '@/common/api';
 import { PopupCode } from '@/common/defines/Popup';
 import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
 import router from 'next/router';
-import { all, call, fork, put, select, takeLatest, throttle } from 'redux-saga/effects'
+import { all, call, debounce, fork, put, select, takeLatest, throttle } from 'redux-saga/effects'
 import { getCookie, setCookie } from '../../common/libs/Cookie';
 import { openPopup, TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
 import { 
@@ -66,9 +65,9 @@ function signUpAPI (param) {
   })
 }
 
-export async function onSilentRefresh (_access?: string, _refresh?: string) {
-  const access = _access || getCookie('accessToken')
-  const refresh = _refresh || getCookie('refreshToken')
+export async function onSilentRefresh () {
+  const access = getCookie('accessToken') || ""
+  const refresh = getCookie('refreshToken') || ""
 
   return axios.post(`${ APIHost }/public/auth/reissue`, {
     access_token: access,
@@ -122,6 +121,12 @@ function* FetchUserInfo () {
       yield put({
         type: RE_ISSUE_REQUEST,
       })
+    else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
+    }
   }
 }
 
@@ -129,6 +134,12 @@ function* ReIssueAction (action) {
   try {
     const loading = yield select(state => state.user.reIssueLoading)
     const error = yield select(state => state.user.reIssueError)
+
+    if (!getCookie('accessToken') || !getCookie('refreshToken')) {
+      return yield put({
+        type: TOGGLE_SIGN_IN_POPUP
+      })
+    }
 
     if (!loading || error) {
       yield put({
@@ -151,17 +162,28 @@ function* ReIssueAction (action) {
       }
     }
   } catch (err) {
+    if (err.response.data.code === 'UNABLE_REFRESH') {
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.REQUEST_SIGN_IN
+        }
+      })
+    } else {
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.SIGN_IN
+        }
+      })
+    }
+
+
     yield put({
       type: RE_ISSUE_FAILURE,
       error: err,
-    })
-    
-    yield put({
-      type: UPDATE_POPUP,
-      data: {
-        display: true,
-        code: PopupCode.REQUEST_SIGN_IN
-      }
     })
   }
 }
@@ -283,6 +305,12 @@ function* FetchUserPost (action) {
       yield put({
         type: RE_ISSUE_REQUEST,
       })
+    else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
+    }
   }
 }
 
@@ -303,10 +331,14 @@ function* FetchAlert (action) {
       data: err
     })
 
-    
     if (err.response && err.response.status === 401)
       yield put({
         type: RE_ISSUE_REQUEST,
+      })
+    else
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
       })
   }
 }
@@ -333,6 +365,11 @@ function* ReadAlert (action) {
       yield put({
         type: RE_ISSUE_REQUEST,
       })
+    else
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
   }
 }
 
@@ -341,7 +378,7 @@ function* watchFetchUserInfo () {
 }
 
 function* watchReIssue () {
-  yield throttle(3000, RE_ISSUE_REQUEST, ReIssueAction)
+  yield debounce(100, RE_ISSUE_REQUEST, ReIssueAction)
 }
 
 function* watchSignIn () {

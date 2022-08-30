@@ -83,16 +83,18 @@ const PostCard = (props: PostProps) => {
     },
   })
 
-  const fetchPostComment = () => dispatch({
-    type: FETCH_COMMENT_REQUEST,
-    data: {
-      postId: props.post.id,
-      id: props.post.comment_list && props.post.comment_list.length > 0
-        ? props.post.comment_list[props.post.comment_list.length - 1].id
-        : "",
-      postType: props.type,
-    }
-  })
+  const fetchPostComment = () => {
+    dispatch({
+      type: FETCH_COMMENT_REQUEST,
+      data: {
+        postId: props.post.id,
+        id: props.post.comment_list && props.post.comment_list.length > 0
+          ? props.post.comment_list[props.post.comment_list.length - 1].id
+          : "",
+        postType: props.type,
+      }
+    })
+  }
 
   const sharePost = () => {
     if (navigator.share) {
@@ -267,13 +269,11 @@ const PostCard = (props: PostProps) => {
                   type={ props.type }
                 />
               )) }
-              { (props.post.comment_count >= 20 || !props.post.comment_done) 
+              { !props.post.comment_done
                 ? <Button type="text" theme="light-gray" onClick={ () => fetchPostComment() }>
                   댓글 더 불러오기
                 </Button>
-                : <div className={ style.LastComment }>
-                  마지막 댓글입니다.
-                </div> }
+                : null }
             </div> }
           </div>
         }

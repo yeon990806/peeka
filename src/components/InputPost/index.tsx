@@ -39,6 +39,8 @@ const InputPost = (props: InputPostProps) => {
   const dispatch = useDispatch()
   const userImage = useSelector((state: StateType) => state.user.userInfo.image)
   const globalCategory = useSelector((state: StateType) => state.post.postCategory)
+  const addLoading = useSelector((state: StateType) => state.post.addPostLoading)
+  const modifyLoading = useSelector((state: StateType) => state.post.updatePostLoading)
   const [inputValue, setInputValue] = useState<string>('')
   const [fileList, setFileList] = useState<FileList>()
   const [uploadImage, setUploadImage] = useState<PostImageType[]>([])
@@ -244,7 +246,7 @@ const InputPost = (props: InputPostProps) => {
           <Button
             type="round"
             theme="primary"
-            disabled={ inputValue.length === 0 }
+            disabled={ inputValue.length === 0 || props.modify ? modifyLoading : addLoading }
             onClick={ () => onSubmitPost() }
             additionalClass={ style.PostSubmitButton }
           >

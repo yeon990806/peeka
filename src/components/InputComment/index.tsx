@@ -23,6 +23,8 @@ interface InputCommentProps {
 const InputComment = (props: InputCommentProps) => {
   const dispatch = useDispatch()
   const useImage = useSelector((state: StateType) => state.user.userInfo.image)
+  const addCommentLoading = useSelector((state: StateType) => state.comment.addCommentLoading)
+  const addReplyLoading = useSelector((state: StateType) => state.reply.addReplyLoading)
   const [inputValue, setInputValue] = useState<string>('')
 
   const onInputContent = useCallback((v: string) => setInputValue(v), [inputValue])
@@ -86,7 +88,12 @@ const InputComment = (props: InputCommentProps) => {
           / 2,000
         </div>
       </div>
-      <Button type="text" theme="light" onClick={ () => onSubmitComment() }>
+      <Button
+        type="text"
+        theme="light"
+        onClick={ () => onSubmitComment() }
+        disabled={ props.replyMode ? addReplyLoading : addCommentLoading }
+      >
         { props.commentId ? '답글' : '댓글' }
       </Button>
     </div>

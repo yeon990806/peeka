@@ -1,16 +1,19 @@
+import { PopupCode } from '@/common/defines/Popup';
 import { StateType } from '@/common/defines/Store';
 import List from '@/components/List';
 import Popup from '@/components/Popup';
 import UserProfile from '@/components/UserProfile';
+import { UPDATE_POPUP } from '@/store/reducer/popup';
 import Router from 'next/router';
 import { useEffect, useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ChangePasswordPopup from './components/ChangePasswordPopup';
 import WithDrawPopup from './components/WithdrawPopup';
 
 import style from "./style.module.scss"
 
 const profile = () => {
+  const dispatch = useDispatch()
   const userInfo = useSelector((state: StateType) => state.user.userInfo)
   const [userImage, setUserImage] = useState<string>('')
   const [displayWithdrawPopup, setDisplayWithdrawPopup] = useState<boolean>(false)
@@ -32,6 +35,13 @@ const profile = () => {
         setUserImage(userInfo.image.hasOwnProperty('uploadedFileURL') && userInfo.image.uploadedFileURL)
       }
     } catch (err) {
+      dispatch({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.UNKNOWN
+        }
+      })
       setUserImage('')
     }
   }, [userInfo])

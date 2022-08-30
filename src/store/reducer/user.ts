@@ -200,10 +200,6 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case RE_ISSUE_FAILURE:
       draft.reIssueLoading = false
       draft.reIssueError = action.error
-      
-      removeCookie('userInfo')
-      removeCookie('accessToken')
-      removeCookie('refreshToken')
 
       break
     case SIGN_IN_REQUEST:

@@ -14,11 +14,11 @@ export function deletePostAction (id, target, callback?) {
 
 export function fetchCommentAction ({ id, list }, target) {
   const post = target.find(v => v.id === id)
-
-  if (list.length < 20) post.comment_done = true
   
-  if (post.comment_list) [...post.comment_list, ...list]
+  if (post.comment_list) post.comment_list = [...post.comment_list, ...list]
   else post.comment_list = list
+
+  if (post.comment_count === post.comment_list.length) post.comment_done = true
 }
 
 export function addCommentAction ({ id, comment }, target, callback?) {
@@ -52,8 +52,6 @@ export function fetchReplyAction ({ id, commentId, postId, list }, target) {
   const post = target.find(v => v.id === postId)
   const comment = post.comment_list.find(v => v.id === commentId)
 
-  if (list.length < 20) comment.reply_done = false
-
   if ("reply_list" in comment) {
     if (comment.reply_list.length > 0) {
       const reply = comment.reply_list.findIndex(v => v.id === list[0].id)
@@ -66,6 +64,8 @@ export function fetchReplyAction ({ id, commentId, postId, list }, target) {
   } else {
     comment.reply_list = list
   }
+
+  if (comment.reply_count === comment.reply_list.length) comment.reply_done = true
 }
 
 export function addReplyAction ({ postId, commentId, reply }, target, callback?) {

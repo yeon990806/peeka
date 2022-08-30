@@ -7,6 +7,8 @@ import { StorePostType } from '@/common/defines/Store';
 import { getCookie } from '@/common/libs/Cookie';
 import { APIHost } from '@/common/api';
 import { TOGGLE_LIKE_EXTRAPOST, TOGGLE_SCRAP_EXTRAPOST } from "../reducer/extra";
+import { UPDATE_POPUP } from "../reducer/popup";
+import { PopupCode } from "@/common/defines/Popup";
 
 function toggleLikePostAPI (param) {
   const data = {
@@ -93,6 +95,11 @@ function* toggleLikePost (action) {
       yield put({
         type: RE_ISSUE_REQUEST,
       })
+    } else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
     }
   }
 }
@@ -153,6 +160,11 @@ function* toggleScrapPost (action) {
     if (err.response && err.response.status === 401) {
       yield put({
         type: RE_ISSUE_REQUEST,
+      })
+    } else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
       })
     }
   }

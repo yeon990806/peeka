@@ -116,6 +116,10 @@ function* FetchComment (action) {
       type: FETCH_COMMENT_FAILURE,
       data: err,
     })
+    yield put({
+      type: UPDATE_POPUP,
+      code: PopupCode.UNKNOWN
+    })
   }
 }
 
@@ -175,6 +179,11 @@ function* AddComment (action) {
     if (err.response && err.response.status === 401)
       yield put({
         type: RE_ISSUE_REQUEST,
+      })
+    else
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.FORBIDDEN_ACCESS
       })
   }
 }
@@ -245,6 +254,16 @@ function* UpdateComment (action) {
         yield put({
           type: RE_ISSUE_REQUEST,
         })
+      else
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.FORBIDDEN_ACCESS
+        })
+    } else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
     }
 
   }
@@ -311,6 +330,16 @@ function* DeleteComment (action) {
         yield put({
           type: RE_ISSUE_REQUEST,
         })
+      else
+        yield put({
+          type: UPDATE_POPUP,
+          code: PopupCode.UNKNOWN
+        })
+    } else {
+      yield put({
+        type: UPDATE_POPUP,
+        code: PopupCode.UNKNOWN
+      })
     }
   }
 }
