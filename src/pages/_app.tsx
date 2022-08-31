@@ -61,7 +61,7 @@ const App = ({ Component, pageProps }) => {
       const status = error.response?.status
 
       if (status === 401) {
-        if (error.response.data.code && error.response.data.code === "UNABLE_REFRESH") {
+        if (error.request.responseURL.indexOf('reissue') > -1) {
           return dispatch({
             type: UPDATE_POPUP,
             data: {
@@ -76,6 +76,8 @@ const App = ({ Component, pageProps }) => {
         })
       }
       else if (code === 'ECONNABORTED' || status === 500)
+        return dispatch(openPopup(PopupCode.UNKNOWN))
+      else 
         return dispatch(openPopup(PopupCode.UNKNOWN))
     })
 
