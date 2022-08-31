@@ -38,11 +38,10 @@ const WithDrawPopup = (props: WithDrawPopupProps) => {
 
       if (result.status === 200) {
         onChangeError('')
+        
         dispatch({
           type: SIGN_OUT_REQUEST,
         })
-        
-        Router.push('/community')
       }
 
     } catch (err) {

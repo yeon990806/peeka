@@ -258,7 +258,7 @@ function* SignUp (action) {
       yield put({
         type: FETCH_USERINFO_REQUEST,
       })
-  
+
       return router.push('/community')
     } else {
       openPopup(PopupCode.DUPLICATION_ERROR)
@@ -280,7 +280,13 @@ function* SignOut () {
     yield put({
       type: EMPTY_MAIN_POST,
     })
-    yield router.push('/community')
+
+    
+    if (window.location.pathname.indexOf('community') > -1) {
+      location.reload()
+    } else {
+      yield router.push('/community')
+    }
   } catch (err) {
     yield put({
       type: SIGN_OUT_FAILURE,

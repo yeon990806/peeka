@@ -3,6 +3,7 @@ import produce from "immer"
 import { UserType } from "@/common/defines/Store"
 import { setCookie, removeCookie } from "@/common/libs/Cookie"
 import { fetchCommentAction, addCommentAction, updateCommentAction, deleteCommentAction, fetchReplyAction, addReplyAction, updateReplyAction, deleteReplyAction, deletePostAction, updatePostAction, toggleLikeContentAction, toggleScrapContentAction } from "@/common/defines/Action"
+import Router from "next/router"
 
 export const initialState: UserType = {
   alwaysSignIn: false,

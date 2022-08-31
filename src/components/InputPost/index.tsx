@@ -246,11 +246,10 @@ const InputPost = (props: InputPostProps) => {
           <Button
             type="round"
             theme="primary"
-            disabled={ inputValue.length === 0 || props.modify ? modifyLoading : addLoading }
+            disabled={ inputValue.length === 0 || (props.modify ? modifyLoading : addLoading) }
             onClick={ () => onSubmitPost() }
             additionalClass={ style.PostSubmitButton }
           >
-            { inputValue.length === 0 || props.modify ? modifyLoading : addLoading ? "true" : "false" }
             { props.modify ? '수정' : '등록' }
           </Button>
         </div>

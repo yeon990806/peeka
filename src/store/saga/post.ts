@@ -8,7 +8,7 @@ import { PopupCode } from '@/common/defines/Popup';
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
+import { UPDATE_POPUP } from '../reducer/popup';
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
@@ -120,17 +120,23 @@ function* AddPost (action) {
   try {
     const result = yield call(addPostAPI, action.data)
 
-    yield put({
-      type: ADD_POST_SUCCESS,
-      data: result.data,
-    })
+    if (result.status === 200) {
+      yield put({
+        type: ADD_POST_SUCCESS,
+        data: result.data,
+      })
+  
+      yield put({
+        type: CHANGE_POST_CATEGORY,
+        data: CategoryType[action.data.category]
+      })
 
-    yield put({
-      type: CHANGE_POST_CATEGORY,
-      data: CategoryType[action.data.category]
-    })
-    
-    if (action.data.onSuccess) action.data.onSuccess()
+      if (action.data.onSuccess) action.data.onSuccess()
+    } else 
+      yield put({
+        type: ADD_POST_FAILURE,
+        error: result,
+      })
   } catch (err) {
     yield put({
       type: ADD_POST_FAILURE,
@@ -201,7 +207,11 @@ function* UpdatePost (action) {
         default:
           return
       }
-    }
+    } else
+      yield put({
+        type: UPDATE_POST_FAILURE,
+        data: result
+      })
   } catch (err) {
     yield put({
       type: UPDATE_POST_FAILURE,
@@ -273,8 +283,12 @@ function* DeletePost (action) {
         default:
           return
       }
+    } else {
+      yield put({
+        type: DELETE_POST_FAILURE,
+        error: result
+      })
     }
-
   } catch (err) {
     yield put({
       type: DELETE_POST_FAILURE,

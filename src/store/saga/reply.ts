@@ -144,49 +144,57 @@ function* FetchReply (action) {
 function* AddReply (action) {
   try {
     const result = yield call(addReplyAPI, action.data)
-    const data = {
-      reply: result.data,
-      toUserName: action.data.toUserName,
-      postId: action.data.postId,
-      commentId: action.data.commentId,
-      onSuccess: action.data.onSuccess,
-    }
 
-    yield put({
-      type: ADD_REPLY_SUCCESS,
-    })
-
-    switch (action.data.postType) {
-      case StorePostType.MainPost:
-        yield put({
-          type: ADD_POST_COMMENT_REPLY,
-          data,
-        })
-        
-        break
-      case StorePostType.UserPost:
-        yield put({
-          type: ADD_USERPOST_COMMENT_REPLY,
-          data,
-        })
-
-        break
-      case StorePostType.ExtraPost:
-        yield put({
-          type: ADD_EXTRAPOST_COMMENT_REPLY,
-          data,
-        })
-        
-        break
-      case StorePostType.Alert:
-        yield put({
-          type: ADD_ALERT_COMMENT_REPLY,
-          data,
-        })
-
-        break
-      default:
-        return
+    if (result.status === 200) {
+      const data = {
+        reply: result.data,
+        toUserName: action.data.toUserName,
+        postId: action.data.postId,
+        commentId: action.data.commentId,
+        onSuccess: action.data.onSuccess,
+      }
+  
+      yield put({
+        type: ADD_REPLY_SUCCESS,
+      })
+  
+      switch (action.data.postType) {
+        case StorePostType.MainPost:
+          yield put({
+            type: ADD_POST_COMMENT_REPLY,
+            data,
+          })
+          
+          break
+        case StorePostType.UserPost:
+          yield put({
+            type: ADD_USERPOST_COMMENT_REPLY,
+            data,
+          })
+  
+          break
+        case StorePostType.ExtraPost:
+          yield put({
+            type: ADD_EXTRAPOST_COMMENT_REPLY,
+            data,
+          })
+          
+          break
+        case StorePostType.Alert:
+          yield put({
+            type: ADD_ALERT_COMMENT_REPLY,
+            data,
+          })
+  
+          break
+        default:
+          return
+      }
+    } else {
+      yield put({
+        type: ADD_REPLY_FAILURE,
+        error: result
+      })  
     }
   } catch (err) {
     yield put({
@@ -209,50 +217,58 @@ function* AddReply (action) {
 function* UpdateReply (action) {
   try {
     const result = yield call(updateReplyAPI, action.data)
-    const data = {
-      list: result.data,
-      id: action.data.id,
-      commentId: action.data.commentId,
-      postId: action.data.postId,
-      contents: action.data.contents,
-      onSuccess: action.data.onSuccess,
-    }
 
-    yield put({
-      type: UPDATE_REPLY_SUCCESS,
-    })
-
-    switch (action.data.postType) {
-      case StorePostType.MainPost:
-        yield put({
-          type: UPDATE_POST_COMMENT_REPLY,
-          data,
-        })
-        
-        break
-      case StorePostType.UserPost:
-        yield put({
-          type: UPDATE_USERPOST_COMMENT_REPLY,
-          data,
-        })
-        
-        break
-      case StorePostType.ExtraPost:
-        yield put({
-          type: UPDATE_EXTRAPOST_COMMENT_REPLY,
-          data,
-        })
-        
-        break
-      case StorePostType.Alert:
-        yield put({
-          type: UPDATE_ALERT_COMMENT_REPLY,
-          data: data,
-        })
-
-        break
-      default:
-        return
+    if (result.status === 200) {
+      const data = {
+        list: result.data,
+        id: action.data.id,
+        commentId: action.data.commentId,
+        postId: action.data.postId,
+        contents: action.data.contents,
+        onSuccess: action.data.onSuccess,
+      }
+  
+      yield put({
+        type: UPDATE_REPLY_SUCCESS,
+      })
+  
+      switch (action.data.postType) {
+        case StorePostType.MainPost:
+          yield put({
+            type: UPDATE_POST_COMMENT_REPLY,
+            data,
+          })
+          
+          break
+        case StorePostType.UserPost:
+          yield put({
+            type: UPDATE_USERPOST_COMMENT_REPLY,
+            data,
+          })
+          
+          break
+        case StorePostType.ExtraPost:
+          yield put({
+            type: UPDATE_EXTRAPOST_COMMENT_REPLY,
+            data,
+          })
+          
+          break
+        case StorePostType.Alert:
+          yield put({
+            type: UPDATE_ALERT_COMMENT_REPLY,
+            data: data,
+          })
+  
+          break
+        default:
+          return
+      }
+    } else {
+      yield put({
+        type: UPDATE_REPLY_FAILURE,
+        error: result
+      })  
     }
   } catch (err) {
     yield put({
@@ -288,49 +304,57 @@ function* UpdateReply (action) {
 function* DeleteReply (action) {
   try {
     const result = yield call(deleteReplyAPI, action.data)
-    const data = {
-      list: result.data,
-      postId: action.data.postId,
-      commentId: action.data.commentId,
-      id: action.data.id,
-      onSuccess: action.data.onSuccess
-    }
 
-    yield put({
-      type: DELETE_REPLY_SUCCESS,
-    })
-
-    switch (action.data.postType) {
-      case StorePostType.MainPost:
-        yield put({
-          type: DELETE_POST_COMMENT_REPLY,
-          data,
-        })
-
-        break
-      case StorePostType.UserPost:
-        yield put({
-          type: DELETE_USERPOST_COMMENT_REPLY,
-          data,
-        })
-
-        break
-      case StorePostType.ExtraPost:
-        yield put({
-          type: DELETE_EXTRAPOST_COMMENT_REPLY,
-          data,
-        })
-
-        break
-      case StorePostType.Alert:
-        yield put({
-          type: DELETE_ALERT_COMMENT_REPLY,
-          data: data,
-        })
-
-        break
-      default:
-        return
+    if (result.status === 200) {
+      const data = {
+        list: result.data,
+        postId: action.data.postId,
+        commentId: action.data.commentId,
+        id: action.data.id,
+        onSuccess: action.data.onSuccess
+      }
+  
+      yield put({
+        type: DELETE_REPLY_SUCCESS,
+      })
+  
+      switch (action.data.postType) {
+        case StorePostType.MainPost:
+          yield put({
+            type: DELETE_POST_COMMENT_REPLY,
+            data,
+          })
+  
+          break
+        case StorePostType.UserPost:
+          yield put({
+            type: DELETE_USERPOST_COMMENT_REPLY,
+            data,
+          })
+  
+          break
+        case StorePostType.ExtraPost:
+          yield put({
+            type: DELETE_EXTRAPOST_COMMENT_REPLY,
+            data,
+          })
+  
+          break
+        case StorePostType.Alert:
+          yield put({
+            type: DELETE_ALERT_COMMENT_REPLY,
+            data: data,
+          })
+  
+          break
+        default:
+          return
+      }
+    } else {
+      yield put({
+        type: DELETE_REPLY_FAILURE,
+        error: result
+      })  
     }
   } catch (err) {
     yield put({
