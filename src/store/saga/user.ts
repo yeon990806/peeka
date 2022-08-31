@@ -5,7 +5,7 @@ import { userType } from '@/common/defines/Signup';
 import axios from 'axios';
 import router from 'next/router';
 import { all, call, debounce, fork, put, select, takeLatest, throttle } from 'redux-saga/effects'
-import { getCookie, setCookie } from '../../common/libs/Cookie';
+import { getCookie, removeCookie, setCookie } from '../../common/libs/Cookie';
 import { openPopup, TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '../reducer/popup';
 import { 
   FETCH_USERINFO_REQUEST,
@@ -30,6 +30,7 @@ import {
   READ_ALERT_SUCCESS,
   READ_ALERT_FAILURE
 } from '../reducer/user'
+import { EMPTY_MAIN_POST } from '../reducer/post';
 
 const JWT_EXPIRY_TIME = 6 * 3600 * 1000 // 6hours
 
@@ -132,37 +133,35 @@ function* FetchUserInfo () {
 
 function* ReIssueAction (action) {
   try {
-    const loading = yield select(state => state.user.reIssueLoading)
-    const error = yield select(state => state.user.reIssueError)
-
     if (!getCookie('accessToken') || !getCookie('refreshToken')) {
       return yield put({
         type: TOGGLE_SIGN_IN_POPUP
       })
     }
 
-    if (!loading || error) {
+    const result = yield call(onSilentRefresh)
+    
+    if (result && result.status === 200) {
       yield put({
-        type: RE_ISSUE_FAILURE,
-        error: 'Duplicated request'
+        type: RE_ISSUE_SUCCESS,
+        data: result.data
       })
     } else {
-      const result = yield call(onSilentRefresh)
-  
-      if (result.status === 200) {
-        yield put({
-          type: RE_ISSUE_SUCCESS,
-          data: result.data
-        })
-  
-        yield put({
-          type: FETCH_USERINFO_REQUEST,
-          daata: result.data
-        })
-      }
+      yield put({
+        type: UPDATE_POPUP,
+        data: {
+          display: true,
+          code: PopupCode.REQUEST_SIGN_IN
+        }
+      })
     }
   } catch (err) {
-    if (err.response.data.code === 'UNABLE_REFRESH') {
+    const _err = err
+    if (err.response && err.response.data.code === 'UNABLE_REFRESH') {
+      removeCookie('refreshToken')
+      removeCookie('accessToken')
+      removeCookie('userInfo')
+
       yield put({
         type: UPDATE_POPUP,
         data: {
@@ -277,6 +276,9 @@ function* SignOut () {
   try {
     yield put({
       type: SIGN_OUT_SUCCESS,
+    })
+    yield put({
+      type: EMPTY_MAIN_POST,
     })
     yield router.push('/community')
   } catch (err) {

@@ -171,15 +171,9 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       break
     case RE_ISSUE_REQUEST:
-      if (draft.reIssueLoading || draft.reIssueError === 'Already Requested' || draft.reIssueError === 'Duplicated request') {
-        draft.reIssueLoading = false
-        draft.reIssueSuccess = false
-        draft.reIssueError = 'Already Requested'
-      } else {
       draft.reIssueLoading = true
       draft.reIssueSuccess = false
       draft.reIssueError = null
-    }
 
       break
     case RE_ISSUE_SUCCESS:

@@ -11,8 +11,9 @@ import { FETCH_USERINFO_REQUEST, RE_ISSUE_REQUEST, UPDATE_USERINFO } from '@/sto
 
 import "@nextcss/reset"
 import "styles/common.scss"
-import { openPopup, UPDATE_POPUP } from '@/store/reducer/popup'
+import { openPopup, TOGGLE_SIGN_IN_POPUP, UPDATE_POPUP } from '@/store/reducer/popup'
 import { PopupCode } from '@/common/defines/Popup'
+import { APIHost } from '@/common/api'
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/' : 'https://www.peeka.ai';
@@ -58,13 +59,24 @@ const App = ({ Component, pageProps }) => {
     }, function (error) {
       const code = error.code;
       const status = error.response?.status
-    
-      if (code === 'ECONNABORTED')
-        dispatch(openPopup(PopupCode.UNKNOWN))
-      if (status === 401)
-        dispatch({
+
+      if (status === 401) {
+        if (error.response.data.code && error.response.data.code === "UNABLE_REFRESH") {
+          return dispatch({
+            type: UPDATE_POPUP,
+            data: {
+              display: true,
+              code: PopupCode.REQUEST_SIGN_IN
+            }
+          })
+        }
+
+        return dispatch({
           type: RE_ISSUE_REQUEST
         })
+      }
+      else if (code === 'ECONNABORTED' || status === 500)
+        return dispatch(openPopup(PopupCode.UNKNOWN))
     })
 
     return window.removeEventListener('resize', resizeEvent)

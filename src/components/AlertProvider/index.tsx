@@ -26,7 +26,7 @@ const AlertProvider = () => {
       case PopupCode.SEND_TEMP_PW_SUCCESS:
         return "임시 비밀번호가 입력하신 이메일로 전송되었습니다."
       case PopupCode.UNKNOWN:
-        return "죄송해요.\n잠시 후 다시 이용 부탁드립니다.."
+        return "죄송해요.\n잠시 후 다시 이용 부탁드립니다..."
       case PopupCode.REPORT_SUCCESS:
         return "게시물을 신고했습니다."
       case PopupCode.REQUEST_SIGN_IN:

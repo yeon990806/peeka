@@ -15,7 +15,7 @@ function toggleLikePostAPI (param) {
     contents_type: param.type,
     post_id: param.postId,
     comment_id: param.commentId || null,
-    reply_id: param.replyId || null,
+    reply_id: parseInt(param.replyId) || null,
   }
 
   return axios.post(`${ APIHost }/board/contents/like`, data , {
@@ -90,6 +90,7 @@ function* toggleLikePost (action) {
       type: TOGGLE_LIKE_FAILURE,
       error: err,
     })
+    const _err = err
 
     if (err.response && err.response.status === 401) {
       yield put({
