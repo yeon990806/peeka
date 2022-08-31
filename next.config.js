@@ -48,6 +48,18 @@ const nextConfig = {
     //   }
     // ]
   },
+  async headers() {
+    return [
+      {
+        header: [
+          {
+            key: 'Cache-Control',
+            value: 'Cache-Control: no-cache, no-store, must-revalidate'
+          }
+        ]
+      }
+    ]
+  }
 };
 
 module.exports = nextConfig;
