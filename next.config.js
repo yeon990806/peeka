@@ -51,10 +51,12 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/:all*(svg|jpg|png)',
+        locale: false,
         header: [
           {
             key: 'Cache-Control',
-            value: 'Cache-Control: no-cache, no-store, must-revalidate'
+            value: 'no-cache, no-store, must-revalidate'
           }
         ]
       }
