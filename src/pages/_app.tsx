@@ -16,10 +16,9 @@ import { PopupCode } from '@/common/defines/Popup'
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/' : 'https://www.peeka.ai';
-axios.defaults.headers['Authorization'] = `Bearer ${ getCookie('accessToken') || "" }`
 axios.interceptors.request.use(
   (config) => {
-    config.timeout = 2000
+    config.timeout = 5000
 
     return config
   }
