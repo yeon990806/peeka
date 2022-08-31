@@ -127,7 +127,7 @@ function* AddComment (action) {
   try {
     const result = yield call(addCommentAPI, action.data)
 
-    if (result.response.status === 200) {
+    if (result.status === 200) {
       const data = {
         comment: result.data,
         id: action.data.postId,
