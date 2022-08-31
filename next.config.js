@@ -53,7 +53,7 @@ const nextConfig = {
       {
         source: '/:all*(svg|jpg|png)',
         locale: false,
-        header: [
+        headers: [
           {
             key: 'Cache-Control',
             value: 'no-cache, no-store, must-revalidate'
