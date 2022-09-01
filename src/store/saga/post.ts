@@ -244,7 +244,7 @@ function* UpdatePost (action) {
 
 function* DeletePost (action) {
   try {
-    const result = yield call(deletePostAPI, { id: parseInt(action.data.postId) })
+    const result = yield call(deletePostAPI, { id: typeof action.data.postId === 'string' ? Number(action.data.postId.replace('_', '')) : action.data.postId })
 
     if (result.status === 200) {
       yield put({

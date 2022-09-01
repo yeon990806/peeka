@@ -77,8 +77,6 @@ const App = ({ Component, pageProps }) => {
       }
       else if (code === 'ECONNABORTED' || status === 500)
         return dispatch(openPopup(PopupCode.UNKNOWN))
-      else 
-        return dispatch(openPopup(PopupCode.UNKNOWN))
     })
 
     return window.removeEventListener('resize', resizeEvent)

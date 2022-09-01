@@ -51,7 +51,7 @@ function addReplyAPI (param) {
 
 function updateReplyAPI (param) {
   const paramData = {
-    id: typeof param.id === 'string' ? parseInt(param.id) : param.id,
+    id: typeof param.id === 'string' ? Number(param.id.replace('_', '')) : param.id,
     member_image: param.memberImage,
     contents: param.contents,
   }
@@ -66,7 +66,8 @@ function updateReplyAPI (param) {
 function deleteReplyAPI (param) {
   const paramData = {
     data: {
-      id: typeof param.id === 'string' ? parseInt(param.id) : param.id,
+      id: typeof param.id === 'string' ? Number(param.id.replace('_', '')) : param.id,
+      comment_id: param.commentId,
       contents: param.contents
     },
     headers: {

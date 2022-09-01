@@ -11,11 +11,12 @@ import { UPDATE_POPUP } from "../reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
 
 function toggleLikePostAPI (param) {
+  debugger
   const data = {
     contents_type: param.type,
     post_id: param.postId,
     comment_id: param.commentId || null,
-    reply_id: parseInt(param.replyId) || null,
+    reply_id: (typeof param.replyId === "string" ? Number(param.replyId.replace('_', '')) : param.replyId) || null,
   }
 
   return axios.post(`${ APIHost }/board/contents/like`, data , {

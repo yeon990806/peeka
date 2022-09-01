@@ -282,7 +282,10 @@ function* UpdateComment (action) {
 
 function* DeleteComment (action) {
   try {
-    const result = yield call(deleteCommentAPI, { id: action.data.id })
+    const result = yield call(deleteCommentAPI, { 
+      id: action.data.id,
+      post_id: action.data.postId,
+    })
 
     if (result.status === 200) {
       const data = {
