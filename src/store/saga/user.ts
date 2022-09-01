@@ -209,6 +209,11 @@ function* SignIn (action) {
       } else {
         return router.push('/community')
       }
+    } else {
+      yield put({
+        type: SIGN_IN_FAILURE,
+        error: result
+      })
     }
 
   } catch (err) {
