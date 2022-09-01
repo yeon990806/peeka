@@ -23,7 +23,7 @@ const alert = () => {
       postType={ StorePostType.Alert }
       nullText={
         <div>
-          <h1>상세 알림이 없어요.</h1>
+          <h1>컨텐츠가 삭제되었어요...</h1>
         </div>
       }
     />

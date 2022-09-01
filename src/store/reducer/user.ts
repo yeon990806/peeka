@@ -484,6 +484,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
 
       draft.userInfo.alertDetail = []
 
+      if (action.data.onSuccess) action.data.onSuccess()
+
       break
     case READ_ALERT_SUCCESS: {
       const post = action.data.post.post
@@ -508,8 +510,6 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       
       alert.check_yn = 'Y'
       draft.userInfo.alertDetail.push(post)
-      
-      if (action.data.onSuccess) action.data.onSuccess()
       
       break
     }
