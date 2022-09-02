@@ -1,4 +1,3 @@
-import { number, string } from "prop-types";
 import { CategoryType } from "./Category";
 import { PopupCode } from "./Popup";
 
