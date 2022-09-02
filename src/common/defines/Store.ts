@@ -73,13 +73,13 @@ export type PostStateType = {
 }
 
 export type ContentStateType = {
-  fetchCuratorLoading: boolean
-  fetchCuratorSuccess: boolean
-  fetchCuratorError: any
+  fetchCreatorLoading: boolean
+  fetchCreatorSuccess: boolean
+  fetchCreatorError: any
   fetchVideoLoading: boolean
   fetchVideoSuccess: boolean
   fetchVideoError: any
-  curatorList: CuratorType[],
+  creatorList: CreatorList[],
   videoList: VideoType[],
 }
 
@@ -237,7 +237,7 @@ export type ReplyType = {
   added?: boolean
 }
 
-export type CuratorType = {
+export type CreatorList = {
   id: number
   member_id: number
   nickname: string

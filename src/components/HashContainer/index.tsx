@@ -1,7 +1,6 @@
-import { CategoryType, CodeCategoryType } from "@/common/defines/Category";
-import { getTimeFromNow } from "@/common/defines/Format";
+import { CategoryType } from "@/common/defines/Category";
 import { StateType } from "@/common/defines/Store";
-import { FETCH_CURATOR_REQUEST } from "@/store/reducer/content";
+import { FETCH_CREATOR_REQUEST } from "@/store/reducer/content";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,13 +11,13 @@ import style from "./style.module.scss"
 const HashContainer = () => {
   const dispatch = useDispatch()
   const router = useRouter()
-  const curatorList = useSelector((state: StateType) => state.content.curatorList)
+  const creatorList = useSelector((state: StateType) => state.content.creatorList)
   const category = useSelector((state: StateType) => state.post.postCategory)
 
   useEffect(() => {
     if (category)
       dispatch({
-        type: FETCH_CURATOR_REQUEST,
+        type: FETCH_CREATOR_REQUEST,
         data: {
           category: category === CategoryType.전체 ? '' : category,
           id: ''
@@ -29,7 +28,7 @@ const HashContainer = () => {
   return (
     <div className={ style.HashContainer }>
       <div className={ style.Hash }>
-        { curatorList.map((v, i) => (
+        { creatorList.map((v, i) => (
           <div
             key={ v.id }
             className={ style.HashContent }

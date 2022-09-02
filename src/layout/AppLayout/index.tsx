@@ -7,7 +7,7 @@ import { StateType } from "@/common/defines/Store";
 import TopButton from "@/components/TopButton";
 import PrimaryHeader from "@/components/PrimaryHeader";
 import VideoList from "@/components/VideoList";
-import CuratorList from "@/components/CuratorList";
+import CreatorList from "@/components/CreatorList";
 import SignInPopup from "@/components/SignInPopup";
 
 import style from "./style.module.scss"
@@ -89,7 +89,7 @@ const AppLayout = (props: AppLayoutProps) => {
         <PostCategory />
       </div> }
       { wideScreen && <VideoList /> }
-      { wideScreen && <CuratorList /> }
+      { wideScreen && <CreatorList /> }
       <SignInPopup
         display={ signInPopupDisplay }
         onClose={ toggleSignInPopup }

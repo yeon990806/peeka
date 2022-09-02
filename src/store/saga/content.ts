@@ -1,12 +1,11 @@
-import { FETCH_CURATOR_FAILURE, FETCH_CURATOR_REQUEST, FETCH_VIDEO_FAILURE, FETCH_VIDEO_REQUEST, FETCH_VIDEO_SUCCESS } from './../reducer/content';
+import { FETCH_CREATOR_REQUEST, FETCH_CREATOR_FAILURE, FETCH_CREATOR_SUCCESS, FETCH_VIDEO_FAILURE, FETCH_VIDEO_REQUEST, FETCH_VIDEO_SUCCESS } from './../reducer/content';
 import { getCookie } from "@/common/libs/Cookie";
 import axios from "axios";
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { FETCH_CURATOR_SUCCESS } from "../reducer/content";
 import { APIHost } from '@/common/api';
 
-function fetchCuratorAPI (param) {
-  return axios.get(`${ APIHost }/public/curator/news?category_code=${ param.category || '' }&id=${ param.id }&paging_number=0&paging_size=10`, {
+function fetchCreatorAPI (param) {
+  return axios.get(`${ APIHost }/public/creator/news?category_code=${ param.category || '' }&id=${ param.id }&paging_number=0&paging_size=10`, {
     headers: {
       Authorization: `Bearer ${ getCookie('accessToken') }`
     }
@@ -21,12 +20,12 @@ function fetchVideoAPI (param) {
   })
 }
 
-function* FetchCurator (action) {
+function* FetchCreator (action) {
   try {
-    const result = yield call(fetchCuratorAPI, action.data)
+    const result = yield call(fetchCreatorAPI, action.data)
 
     yield put({
-      type: FETCH_CURATOR_SUCCESS,
+      type: FETCH_CREATOR_SUCCESS,
       data: {
         list: result.data,
         id: action.data.id
@@ -34,7 +33,7 @@ function* FetchCurator (action) {
     })
   } catch (err) {
     yield put({
-      type: FETCH_CURATOR_FAILURE,
+      type: FETCH_CREATOR_FAILURE,
       error: err
     })
   }
@@ -60,8 +59,8 @@ function* FetchVideo (action) {
   }
 }
 
-function* watchFetchCurator () {
-  yield takeLatest(FETCH_CURATOR_REQUEST, FetchCurator)
+function* watchFetchCreator () {
+  yield takeLatest(FETCH_CREATOR_REQUEST, FetchCreator)
 }
 
 function* watchFetchVideo () {
@@ -70,7 +69,7 @@ function* watchFetchVideo () {
 
 export default function* contentSaga () {
   yield all([
-    fork(watchFetchCurator),
+    fork(watchFetchCreator),
     fork(watchFetchVideo)
   ])
 }

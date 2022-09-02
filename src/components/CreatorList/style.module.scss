@@ -1,16 +1,16 @@
-.CuratorListContainer {
+.CreatorListContainer {
   position: fixed;
   top: 68.5px;
   right: calc(50% - 720px);
 }
 
-.CuratorList {
+.CreatorList {
   width: 320px;
   padding: 16px;
   border-radius: 10px;
   background-color: $content-background;
 
-  .CuratorHeader {
+  .CreatorHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -47,10 +47,10 @@
     }
   }
 
-  .CuratorListContent {
+  .CreatorListContent {
     margin-top: 30px;
 
-    .Curator {
+    .Creator {
       display: grid;
       grid-template-columns: auto 1fr;
       grid-gap: 8px;
@@ -60,17 +60,17 @@
       color: $light;
       cursor: pointer;
 
-      .CuratorInfo {
+      .CreatorInfo {
         display: grid;
         grid-template-rows: 1fr auto;
         grid-gap: 2px;
 
-        .CuratorName {
+        .CreatorName {
           font-size: 16px;
           align-items: center;
         }
 
-        .CuratorUpdated {
+        .CreatorUpdated {
           font-size: 14px;
           color: $light-gray;
 

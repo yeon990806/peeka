@@ -3,19 +3,19 @@ import produce from 'immer';
 import { ContentStateType } from '@/common/defines/Store';
 
 export const initialState: ContentStateType = {
-  fetchCuratorLoading: false,
-  fetchCuratorSuccess: false,
-  fetchCuratorError: false,
+  fetchCreatorLoading: false,
+  fetchCreatorSuccess: false,
+  fetchCreatorError: false,
   fetchVideoLoading: false,
   fetchVideoSuccess: false,
   fetchVideoError: false,
-  curatorList: [],
+  creatorList: [],
   videoList: [],
 }
 
-export const FETCH_CURATOR_REQUEST = 'FETCH_CURATOR_REQUEST'
-export const FETCH_CURATOR_SUCCESS = 'FETCH_CURATOR_SUCCESS'
-export const FETCH_CURATOR_FAILURE = 'FETCH_CURATOR_FAILURE'
+export const FETCH_CREATOR_REQUEST = 'FETCH_CREATOR_REQUEST'
+export const FETCH_CREATOR_SUCCESS = 'FETCH_CREATOR_SUCCESS'
+export const FETCH_CREATOR_FAILURE = 'FETCH_CREATOR_FAILURE'
 
 export const FETCH_VIDEO_REQUEST = 'FETCH_VIDEO_REQUEST'
 export const FETCH_VIDEO_SUCCESS = 'FETCH_VIDEO_SUCCESS'
@@ -23,25 +23,25 @@ export const FETCH_VIDEO_FAILURE = 'FETCH_VIDEO_FAILURE'
 
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
-    case FETCH_CURATOR_REQUEST:
-      draft.fetchCuratorLoading = true
-      draft.fetchCuratorSuccess = false
-      draft.fetchCuratorError = null
+    case FETCH_CREATOR_REQUEST:
+      draft.fetchCreatorLoading = true
+      draft.fetchCreatorSuccess = false
+      draft.fetchCreatorError = null
 
       break
-    case FETCH_CURATOR_SUCCESS:
-      draft.fetchCuratorLoading = false
-      draft.fetchCuratorSuccess = true
+    case FETCH_CREATOR_SUCCESS:
+      draft.fetchCreatorLoading = false
+      draft.fetchCreatorSuccess = true
 
       if (action.data.id)
-        draft.curatorList.push(...action.data.list)
+        draft.creatorList.push(...action.data.list)
       else
-        draft.curatorList = action.data.list
+        draft.creatorList = action.data.list
 
       break
-    case FETCH_CURATOR_FAILURE:
-      draft.fetchCuratorLoading = false
-      draft.fetchCuratorError = action.error
+    case FETCH_CREATOR_FAILURE:
+      draft.fetchCreatorLoading = false
+      draft.fetchCreatorError = action.error
 
       break
     case FETCH_VIDEO_REQUEST:
