@@ -21,6 +21,10 @@ function FetchExtraPostAPI (param) {
       api = api + `/search?search_contents=${ param.text }&` + option
 
       break
+    case 'tag':
+      api = api + `/search/tag?category_code=&search_tag=%23${ param.tag }&` + option
+
+      break
     default:
       return
   }

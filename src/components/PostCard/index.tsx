@@ -217,7 +217,7 @@ const PostCard = (props: PostProps) => {
         </div>
         { props.post.tags && <div className={ style.HashContainer }>
           { props.post.tags.map((v, i) => (
-            <div className={ style.Hash } key={ i } onClick={ () => router.push(`/search/${ v.replaceAll('#', '') }`) }>
+            <div className={ style.Hash } key={ i } onClick={ () => router.push(`/search/tag/${ v.replaceAll('#', '') }`) }>
               { v }
             </div>
           )) }
