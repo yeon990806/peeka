@@ -11,7 +11,6 @@ import { UPDATE_POPUP } from "../reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
 
 function toggleLikePostAPI (param) {
-  debugger
   const data = {
     contents_type: param.type,
     post_id: param.postId,

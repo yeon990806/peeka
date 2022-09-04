@@ -194,6 +194,7 @@ export type PostType = {
   comment_done: boolean;
   comment_list: CommentType[]
   display_comment: boolean
+  tags: string[]
 }
 
 export type CommentType = {

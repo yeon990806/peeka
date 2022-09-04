@@ -37,6 +37,10 @@
       border-color: $primary;
     }
 
+    &.Borderless {
+      border: 0;   
+    }
+
     > .InputPrefix {
       grid-column: 1;
       
@@ -80,6 +84,14 @@
       flex-direction: column;
       padding: 16px;
       overflow: hidden;
+
+      &.Small {
+        padding: 8px 12px;
+
+        > input {
+          font-size: 14px;
+        }
+      }
   
       > input {
         font-size: 16px;

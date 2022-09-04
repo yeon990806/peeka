@@ -25,7 +25,9 @@ const ImagePopup = () => {
     nextArrow: <SlickNextArrow />,
   }), [])
 
-  const toggleImagePopup = () => {
+  const toggleImagePopup = (e) => {
+    e.stopPropagation()
+
     dispatch({
       type: TOGGLE_POPUP_DISPLAY
     })
@@ -69,7 +71,7 @@ const ImagePopup = () => {
     <div className={ style.ImagePopup } onClick={ toggleImagePopup }>
       <Button
         additionalClass={ style.ImagePopupClose }
-        onClick={ () => toggleImagePopup() }
+        onClick={ (e) => toggleImagePopup(e) }
         type="text"
       >
         &times;

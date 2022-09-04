@@ -24,6 +24,9 @@ interface InputProps extends DefaultProps {
   togglePassword?: boolean;
   pattern?: string;
 
+  small?: boolean;
+  borderless?: boolean;
+
   renderFocus?: boolean
   existedValue?: boolean
   errorMessage?: string
@@ -34,6 +37,7 @@ interface InputProps extends DefaultProps {
   onInput?: (value: InputProps['value']) => void;
   onChange?: (value: InputProps['value']) => void;
   onEnter?: (value: InputProps['value']) => void;
+  onSpace?: (value: InputProps['value']) => void;
   onError?: (v: boolean) => void
 }
 
@@ -113,11 +117,11 @@ const Input = React.memo((props: InputProps) => {
 
   return (
     <div className={ classNames(style.Input, disabledState && style.ReadOnly, !disabledState && focus && style.Focus, inputError && style.InputError) }>
-      <div className={ classNames(style.InputLine, props.searchInput && style.SearchInput) }>
+      <div className={ classNames(style.InputLine, props.searchInput && style.SearchInput, props.borderless && style.Borderless) }>
         { props.prefix && <div className={ style.InputPrefix }>
           { props.prefix }
         </div> }
-        <div className={ style.InputContainer }>
+        <div className={ classNames(style.InputContainer, props.small && style.Small) }>
           <input
             id={ props.id && `Input-${props.id}` }
             type={ inputType }
@@ -152,6 +156,12 @@ const Input = React.memo((props: InputProps) => {
             onKeyDown={ (e) => {
               if (e.key === 'Enter' && props.onEnter)
                 props.onEnter(inputValue)
+              if (e.code === 'Space' && props.onSpace) {
+                e.preventDefault()
+
+                props.onSpace(inputValue)
+                setInputValue('')
+              }
             } }
           />
         </div>

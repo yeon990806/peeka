@@ -41,7 +41,8 @@ function addPostAPI (param) {
     category_code: param.category_code,
     category: param.category,
     member_image: param.memberImage,
-    contents: param.contents
+    contents: param.contents,
+    tags: param.tags,
   }
 
   for (let key in param.images) {
@@ -70,6 +71,7 @@ function updatePostAPI (param) {
     member_image: param.memberImage,
     contents: param.contents,
     deleted_images: param.deleted_images,
+    tags: param.tags,
   }
 
   for (let key in param.images) {

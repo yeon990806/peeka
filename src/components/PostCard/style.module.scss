@@ -133,6 +133,25 @@
   }
 }
 
+.HashContainer {
+  margin: 16px 0 8px;
+  display: flex;
+  grid-gap: 8px;
+
+  .Hash {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 8px;
+    font-size: 12px;
+    border-radius: 25px;
+    border: 1px solid $primary;
+    color: $primary;
+    cursor: pointer;
+  }
+}
+
 .LastComment {
   margin-top: 16px;
   font-size: 14px;

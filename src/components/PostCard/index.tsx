@@ -215,6 +215,13 @@ const PostCard = (props: PostProps) => {
             </article>
           }
         </div>
+        { props.post.tags && <div className={ style.HashContainer }>
+          { props.post.tags.map((v, i) => (
+            <div className={ style.Hash } key={ i } onClick={ () => router.push(`/search/${ v.replaceAll('#', '') }`) }>
+              { v }
+            </div>
+          )) }
+        </div> }
         { !activeModify && <div className={ style.ImageContainer }>
           <ImageSlide
             slideHeight={ 300 }

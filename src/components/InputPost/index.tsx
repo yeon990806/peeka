@@ -14,6 +14,7 @@ import { openPopup } from "@/store/reducer/popup";
 import { PopupCode } from "@/common/defines/Popup";
 import { DefaultProps } from "@/common/defines/Props";
 import { FormatNumber } from "@/common/libs/Format";
+import InputHashTag from "../InputHashTag";
 
 interface InputPostProps extends DefaultProps {
   placeholder?: string;
@@ -47,6 +48,7 @@ const InputPost = (props: InputPostProps) => {
   const [postCategory, setPostCategory] = useState<{ display: string; value: string; } | null>()
   const [postImage, setPostImage] = useState<PostImageType[]>([])
   const [deletedImage, setDeletedImage] = useState<ImageType[]>([])
+  const [postHash, setPostHash] = useState<string[]>([])
   const imageInput = useRef<HTMLInputElement>(null)
 
   const selectArray = [
@@ -94,10 +96,12 @@ const InputPost = (props: InputPostProps) => {
           category: postCategory.display,
           images: fileList,
           memberImage: (userImage && userImage.uploadedFileURL) || '',
+          tags: postHash,
           onSuccess: () => {
             setInputValue('')
             setUploadImage([])
             setFileList(null)
+            setPostHash([])
             if (props.onSubmit) props.onSubmit()
           }
         }
@@ -114,8 +118,12 @@ const InputPost = (props: InputPostProps) => {
           images: fileList,
           memberImage: (userImage && userImage.uploadedFileURL) || '',
           deleted_images: deletedImage,
+          tags: postHash,
           onSuccess: () => {
             setInputValue('')
+            setUploadImage([])
+            setFileList(null)
+            setPostHash([])
             setPostCategory(undefined)
             if (props.onSubmit) props.onSubmit()
           }
@@ -220,8 +228,11 @@ const InputPost = (props: InputPostProps) => {
           </div>
         </div>
       </div>
+      <div className={ style.PostHashTag }>
+        <InputHashTag setList={ (v) => setPostHash(v) } />
+      </div>
       <div className={ style.InputPostAction }>
-        <div className={ mobile && style.MobileCategory }>
+        <div className={ mobile ? style.MobileCategory : '' }>
           { !props.modify && <SelectBox
             width={ 96 }
             placeholder="카테고리"
