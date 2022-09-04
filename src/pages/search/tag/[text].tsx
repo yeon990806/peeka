@@ -52,7 +52,7 @@ const search = () => {
           <path d="M20 20L16 16" stroke="#FFF200" strokeWidth="1.7" strokeLinecap="round"/>
         </>
       }
-      title="검색 결과"
+      title={`#${ text } 검색 결과`}
       postList={ searchContent }
       fetchDone={ searchDone }
       fetchLoading={ searchLoading }
