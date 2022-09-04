@@ -1,4 +1,6 @@
 .InputHashTag {
+  border-top: 1px solid $border-gray;
+  
   .InputHash {
     padding: 0;
   }
@@ -6,10 +8,11 @@
   .HashContainer {
     margin-top: 8px;
     display: flex;
+    flex-wrap: wrap;
     grid-gap: 8px;
 
     .HashTag {
-      padding: 8px;
+      padding: 4px 8px;
       font-size: 12px;
       border-radius: 25px;
       border: 1px solid $primary;

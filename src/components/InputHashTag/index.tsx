@@ -4,38 +4,38 @@ import Input from "../Input"
 import style from './style.module.scss'
 
 interface InputHashTagProps {
+  hashList: string[]
   setList: (v: string[]) => void
 }
 
 const InputHashTag = (props: InputHashTagProps) => {
-  const [hashList, setHashList] = useState<string[]>([])
   const [inputHash, setInputHash] = useState<string>('')
 
   const addHashTag = useCallback(() => {
-    if (hashList.length < 25) {
+    if (props.hashList.length < 25) {
       const addingHash = '#' + inputHash.replace(/(\s*)/g, '')
 
-      if (hashList.findIndex(v => v === addingHash) < 0) {
-        setHashList([...hashList, addingHash])
+      if (props.hashList.findIndex(v => v === addingHash) < 0) {
+        props.setList([...props.hashList, addingHash])
       }
       setInputHash('')
     }
   }, [inputHash])
 
   const onClickRemoveHash = (value: string) => {
-    let list = hashList.filter((v) => v !== value)
+    let list = props.hashList.filter((v) => v !== value)
 
-    setHashList(list)
+    props.setList(list)
     setInputHash('')
   }
 
-  useEffect(() => props.setList(hashList), [hashList])
+  useEffect(() => props.setList(props.hashList), [props.hashList])
 
   return (
     <div className={ style.InputHashTag }>
       <Input
         type="text"
-        placeholder="해시태그 입력, 최대 25개까지 등록 가능"
+        placeholder="해시태그 입력, 최대 25개까지 등록이 가능해요"
         value={ inputHash }
         onInput={ setInputHash }
         onSpace={ addHashTag }
@@ -44,7 +44,7 @@ const InputHashTag = (props: InputHashTagProps) => {
         additionalClass={ style.InputHash }
       />
       <div className={ style.HashContainer }>
-        { hashList.map((v, i) => (
+        { props.hashList.map((v, i) => (
           <div
             className={ style.HashTag }
             key={ i }

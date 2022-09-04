@@ -134,8 +134,9 @@
 }
 
 .HashContainer {
-  margin: 16px 0 8px;
+  margin: 20px 0 8px;
   display: flex;
+  flex-wrap: wrap;
   grid-gap: 8px;
 
   .Hash {
@@ -143,7 +144,7 @@
     align-items: center;
     justify-content: center;
     min-width: 50px;
-    padding: 8px;
+    padding: 4px 8px;
     font-size: 12px;
     border-radius: 25px;
     border: 1px solid $primary;

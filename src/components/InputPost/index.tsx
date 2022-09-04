@@ -229,7 +229,10 @@ const InputPost = (props: InputPostProps) => {
         </div>
       </div>
       <div className={ style.PostHashTag }>
-        <InputHashTag setList={ (v) => setPostHash(v) } />
+        <InputHashTag
+          hashList={ postHash }
+          setList={ (v) => setPostHash(v) } 
+        />
       </div>
       <div className={ style.InputPostAction }>
         <div className={ mobile ? style.MobileCategory : '' }>
