@@ -48,6 +48,7 @@ const InputPost = (props: InputPostProps) => {
   const [postCategory, setPostCategory] = useState<{ display: string; value: string; } | null>()
   const [postImage, setPostImage] = useState<PostImageType[]>([])
   const [deletedImage, setDeletedImage] = useState<ImageType[]>([])
+  const [inputHash, setInputHash] = useState<string>('')
   const [postHash, setPostHash] = useState<string[]>([])
   const imageInput = useRef<HTMLInputElement>(null)
 
@@ -192,6 +193,10 @@ const InputPost = (props: InputPostProps) => {
     }
   }, [globalCategory])
 
+  useEffect(() => {
+    console.log(postHash)
+  }, [postHash])
+
   return (
     <form
       className={ classNames(style.InputPost,
@@ -230,8 +235,10 @@ const InputPost = (props: InputPostProps) => {
       </div>
       <div className={ style.PostHashTag }>
         <InputHashTag
+          inputHash={ inputHash }
           hashList={ postHash }
           setList={ (v) => setPostHash(v) } 
+          setInput={ (v) => setInputHash(v) }
         />
       </div>
       <div className={ style.InputPostAction }>
