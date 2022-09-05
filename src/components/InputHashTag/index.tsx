@@ -14,10 +14,13 @@ const InputHashTag = (props: InputHashTagProps) => {
 
   const addHashTag = useCallback(() => {
     if (props.hashList.length < 25) {
-      const addingHash = '#' + props.inputHash.replace(/(\s*)/g, '')
+      let txt = props.inputHash.replace(/(\s*)/g, '').replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi, '')
 
-      if (props.hashList.findIndex(v => v === addingHash) < 0) {
-        props.setList([...props.hashList, addingHash])
+      if (txt.length < 1) return props.setInput('')
+      else txt = '#' + txt
+
+      if (props.hashList.findIndex(v => v === txt) < 0) {
+        props.setList([...props.hashList, txt])
       }
       props.setInput('')
     }

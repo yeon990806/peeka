@@ -153,12 +153,12 @@ const Input = React.memo((props: InputProps) => {
 
               if (props.onInput) props.onInput(inputValue)
             } }
-            onKeyDown={ (e) => {
+            onKeyUp={ (e) => {
               if (e.key === 'Enter' && props.onEnter)
                 props.onEnter(inputValue)
               if (e.code === 'Space' && props.onSpace) {
                 e.preventDefault()
-
+                e.stopPropagation()
                 props.onSpace(inputValue)
                 setInputValue('')
               }
