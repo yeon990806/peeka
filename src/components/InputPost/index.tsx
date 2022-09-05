@@ -195,10 +195,6 @@ const InputPost = (props: InputPostProps) => {
     }
   }, [globalCategory])
 
-  useEffect(() => {
-    console.log(postHash)
-  }, [postHash])
-
   return (
     <form
       className={ classNames(style.InputPost,

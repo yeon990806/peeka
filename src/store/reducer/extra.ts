@@ -74,6 +74,12 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.fetchExtraListRequest = false
       draft.fetchExtraListSuccess = true
 
+      if (action.data.init) {
+        draft.extraList = list
+
+        return
+      }
+
       if (action.data.length > 0) {
         const _post = draft.extraList.findIndex(v => v.id === list[0].id)
 

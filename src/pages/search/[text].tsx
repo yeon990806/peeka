@@ -39,10 +39,6 @@ const search = () => {
     }
   }, [])
 
-  useEffect(() => {
-    fetchSearchContent()
-  }, [text])
-  
   return (
     <ExtraPage
       img={

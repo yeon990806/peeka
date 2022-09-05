@@ -16,23 +16,22 @@ const search = () => {
   const searchDone = useSelector((state: StateType) => state.extra.fetchDone)
   const searchError = useSelector((state: StateType) => state.extra.fetchExtraListError)
 
-  const fetchSearchContent = () => {
+  const fetchSearchContent = (init?: boolean) => {
     if (!text) return
 
     dispatch({
       type: FETCH_EXTRAPOST_REQUEST,
       data: {
         type: 'tag',
-        id: searchContent.length > 0 ? searchContent[searchContent.length - 1].id : '',
+        id: init ? "" : searchContent.length > 0 ? searchContent[searchContent.length - 1].id : '',
         public: true,
         tag: text,
+        init,
       }
     })
   }
 
   useEffect(() => {
-    fetchSearchContent()
-
     return () => {
       dispatch({
         type: EMPTY_EXTRA_LIST
@@ -41,7 +40,7 @@ const search = () => {
   }, [])
 
   useEffect(() => {
-    fetchSearchContent()
+    fetchSearchContent(true)
   }, [text])
   
   return (
