@@ -73,7 +73,7 @@ function updatePostAPI (param) {
     deleted_images: param.deleted_images,
     tags: param.tags,
   }
-
+  
   for (let key in param.images) {
     if (param.images[key])
     f.append('images', param.images[key])

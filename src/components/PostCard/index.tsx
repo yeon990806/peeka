@@ -19,6 +19,7 @@ import ReportPopup from "./components/ReportPopup";
 import InputPost from '../InputPost';
 
 import style from "./style.module.scss"
+import InputHashTag from "../InputHashTag";
 interface PostProps {
   post: PostType,
   type: StorePostType,
@@ -202,6 +203,7 @@ const PostCard = (props: PostProps) => {
           { activeModify
             ? <InputPost
               modify
+              modifyHash={ props.post.tags }
               post={ props.post }
               postType={ props.type }
               onSubmit={ toggleModify }
@@ -215,7 +217,7 @@ const PostCard = (props: PostProps) => {
             </article>
           }
         </div>
-        { props.post.tags && <div className={ style.HashContainer }>
+        { !activeModify && props.post.tags && <div className={ style.HashContainer }>
           { props.post.tags.map((v, i) => (
             <div className={ style.Hash } key={ i } onClick={ () => router.push(`/search/tag/${ v.replaceAll('#', '') }`) }>
               { v }

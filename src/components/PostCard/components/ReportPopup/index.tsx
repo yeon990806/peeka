@@ -30,7 +30,7 @@ const ReportPopup = (props: ReportPopupProps) => {
         value={ reportText }
         placeholder="게시물 신고 사유를 적어주세요."
         onInput={ (v: string) => onChangeReportText(v) }
-        onEnter={ () => onSubmitReport() }
+        onEnter={ onSubmitReport }
         fixedHeight
         row={5}
       />
@@ -40,7 +40,7 @@ const ReportPopup = (props: ReportPopupProps) => {
         theme="primary"
         size="xl"
         additionalClass={ style.ReportButton }
-        onClick={ () => onSubmitReport() }
+        onClick={ onSubmitReport }
       >
         신고하기
       </Button> }

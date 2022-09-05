@@ -3,7 +3,6 @@ import classNames from "classnames"
 
 import style from "./style.module.scss"
 import { DefaultProps } from "@/common/defines/Props";
-import { type } from "os";
 import Button from '@/components/Button';
 
 interface InputProps extends DefaultProps {
@@ -153,9 +152,20 @@ const Input = React.memo((props: InputProps) => {
 
               if (props.onInput) props.onInput(inputValue)
             } }
+            onKeyDown={ (e) => {
+              if (e.key === 'Enter') e.preventDefault()
+            } }
             onKeyUp={ (e) => {
-              if (e.key === 'Enter' && props.onEnter)
-                props.onEnter(inputValue)
+              if (e.key === 'Enter') {
+                e.stopPropagation()
+                e.preventDefault()
+
+                if (props.onEnter) props.onEnter(inputValue)
+                else if (props.onSpace) {
+                  props.onSpace(inputValue)
+                  setInputValue('')
+                }
+              }
               if (e.code === 'Space' && props.onSpace) {
                 e.preventDefault()
                 e.stopPropagation()

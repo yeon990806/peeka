@@ -24,6 +24,7 @@ interface InputPostProps extends DefaultProps {
   postIdx?: number;
   row?: number;
   postType?: StorePostType;
+  modifyHash?: string[];
 
   onSubmit?: () => void;
 }
@@ -130,7 +131,7 @@ const InputPost = (props: InputPostProps) => {
           }
         }
       })
-  }, [uploadImage, inputValue, postCategory])
+  }, [uploadImage, inputValue, postCategory, postHash])
     
 
   const removeImage = (clickedImage: PostImageType, idx?: number) => {
@@ -158,6 +159,7 @@ const InputPost = (props: InputPostProps) => {
       const category = selectArray.find(v => v.value === props.post.category_code)
 
       onInputContent(props.post.contents)
+      if (props.post.tags && props.post.tags.length > 0) setPostHash(props.post.tags)
       setPostCategory(category)
 
       if (props.post.images) {
