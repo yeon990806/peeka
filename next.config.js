@@ -39,6 +39,10 @@ const nextConfig = {
         source: process.env.SOURCE_PATH,
         destination: process.env.DESTINATION_URL,
       },
+      {
+        source: '/robots.txt',
+        destination: '/api/robots'
+      }
     ];
     // if (process.env.NODE_ENV !== 'production')
     // else return [
