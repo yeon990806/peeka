@@ -43,10 +43,6 @@ const nextConfig = {
         source: '/robots.txt',
         destination: '/api/robots'
       },
-      // {
-      //   source: '/naverf335ec117f99b96a4081f7fe74674ac6.html',
-      //   destination: '/api/naver'
-      // }
     ];
     // if (process.env.NODE_ENV !== 'production')
     // else return [
